@@ -146,6 +146,8 @@ function drawBoard() {
   }
 }
 
+// TODO: draw shadows
+// TODO: track placements for later board draws
 function placeWhiteStone(canvas, x, y, markerSpacing) {
   let whiteStone = whiteStones[Math.floor(Math.random() * whiteStones.length)];
   let stoneWidth = markerSpacing;
