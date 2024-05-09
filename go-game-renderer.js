@@ -1,7 +1,7 @@
 const validGridSizes = [9, 13, 19];
 const gridSize =
   validGridSizes[Math.floor(Math.random() * validGridSizes.length)];
-const edgePadding = 30;
+const edgePadding = 80;
 const markerSize = 3;
 const blackStone = new Image();
 blackStone.src = "assets/b.png";
@@ -44,11 +44,11 @@ function drawBoard() {
   board.height = boardPixels;
 
   // Draw the go board
-  let canvas = board.getContext("2d");
-  canvas.fillStyle = "#DCB069";
-  canvas.fillRect(0, 0, board.width, board.height);
+  let ctx = board.getContext("2d");
+  ctx.fillStyle = "#DCB069";
+  ctx.fillRect(0, 0, board.width, board.height);
   const boardBG = document.getElementById("boardBG");
-  canvas.drawImage(boardBG, 0, 0);
+  ctx.drawImage(boardBG, 0, 0);
 
   // draw markers
   const innerBoardSize = board.width - edgePadding * 2;
@@ -56,25 +56,25 @@ function drawBoard() {
   switch (gridSize) {
     case 9:
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(2, markerSpacing, edgePadding),
         pieceIndexToCanvas(2, markerSpacing, edgePadding),
         markerSize,
       );
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(2, markerSpacing, edgePadding),
         pieceIndexToCanvas(6, markerSpacing, edgePadding),
         markerSize,
       );
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(6, markerSpacing, edgePadding),
         pieceIndexToCanvas(2, markerSpacing, edgePadding),
         markerSize,
       );
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(6, markerSpacing, edgePadding),
         pieceIndexToCanvas(6, markerSpacing, edgePadding),
         markerSize,
@@ -82,31 +82,31 @@ function drawBoard() {
       break;
     case 13:
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(3, markerSpacing, edgePadding),
         pieceIndexToCanvas(3, markerSpacing, edgePadding),
         markerSize,
       );
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(3, markerSpacing, edgePadding),
         pieceIndexToCanvas(9, markerSpacing, edgePadding),
         markerSize,
       );
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(9, markerSpacing, edgePadding),
         pieceIndexToCanvas(3, markerSpacing, edgePadding),
         markerSize,
       );
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(9, markerSpacing, edgePadding),
         pieceIndexToCanvas(9, markerSpacing, edgePadding),
         markerSize,
       );
       drawMarker(
-        canvas,
+        ctx,
         pieceIndexToCanvas(6, markerSpacing, edgePadding),
         pieceIndexToCanvas(6, markerSpacing, edgePadding),
         markerSize,
@@ -116,7 +116,7 @@ function drawBoard() {
       for (let i = 3; i < 19; i += 6) {
         for (let j = 3; j < 19; j += 6) {
           drawMarker(
-            canvas,
+            ctx,
             pieceIndexToCanvas(i, markerSpacing, edgePadding),
             pieceIndexToCanvas(j, markerSpacing, edgePadding),
             markerSize,
@@ -125,12 +125,12 @@ function drawBoard() {
       }
       break;
   }
-  drawBoardLines(canvas, innerBoardSize, edgePadding, gridSize, markerSpacing);
+  drawBoardLines(ctx, innerBoardSize, edgePadding, gridSize, markerSpacing);
 
   for (let i = 0; i < gridSize * 3; i++) {
     if (i % 2 == 0) {
       placeBlackStone(
-        canvas,
+        ctx,
         Math.floor(Math.random() * gridSize),
         Math.floor(Math.random() * gridSize),
         markerSpacing,
@@ -138,7 +138,7 @@ function drawBoard() {
       continue;
     }
     placeWhiteStone(
-      canvas,
+      ctx,
       Math.floor(Math.random() * gridSize),
       Math.floor(Math.random() * gridSize),
       markerSpacing,
@@ -148,10 +148,10 @@ function drawBoard() {
 
 // TODO: draw shadows
 // TODO: track placements for later board draws
-function placeWhiteStone(canvas, x, y, markerSpacing) {
+function placeWhiteStone(ctx, x, y, markerSpacing) {
   let whiteStone = whiteStones[Math.floor(Math.random() * whiteStones.length)];
   let stoneWidth = markerSpacing;
-  canvas.drawImage(
+  ctx.drawImage(
     whiteStone,
     pieceIndexToCanvas(x, markerSpacing, edgePadding) - stoneWidth / 2,
     pieceIndexToCanvas(y, markerSpacing, edgePadding) - stoneWidth / 2,
@@ -160,9 +160,9 @@ function placeWhiteStone(canvas, x, y, markerSpacing) {
   );
 }
 
-function placeBlackStone(canvas, x, y, markerSpacing) {
+function placeBlackStone(ctx, x, y, markerSpacing) {
   let stoneWidth = markerSpacing;
-  canvas.drawImage(
+  ctx.drawImage(
     blackStone,
     pieceIndexToCanvas(x, markerSpacing, edgePadding) - stoneWidth / 2,
     pieceIndexToCanvas(y, markerSpacing, edgePadding) - stoneWidth / 2,
@@ -173,31 +173,31 @@ function placeBlackStone(canvas, x, y, markerSpacing) {
 
 // grid draw
 function drawBoardLines(
-  canvas,
+  ctx,
   innerBoardSize,
   edgePadding,
   gridSize,
   markerSpacing,
 ) {
-  canvas.strokeStyle = "#000000";
-  canvas.strokeRect(edgePadding, edgePadding, innerBoardSize, innerBoardSize);
+  ctx.strokeStyle = "#000000";
+  ctx.strokeRect(edgePadding, edgePadding, innerBoardSize, innerBoardSize);
   for (let i = 1; i < gridSize - 1; i++) {
     let x = pieceIndexToCanvas(i, markerSpacing, edgePadding);
-    drawLine(canvas, x, edgePadding, x, edgePadding + innerBoardSize);
-    drawLine(canvas, edgePadding, x, edgePadding + innerBoardSize, x);
+    drawLine(ctx, x, edgePadding, x, edgePadding + innerBoardSize);
+    drawLine(ctx, edgePadding, x, edgePadding + innerBoardSize, x);
   }
 }
 
-function drawLine(canvas, x, y, x2, y2) {
-  canvas.beginPath();
-  canvas.moveTo(x, y);
-  canvas.lineTo(x2, y2);
-  canvas.stroke();
+function drawLine(ctx, x, y, x2, y2) {
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
 }
 
-function drawMarker(canvas, x, y, w) {
-  canvas.fillStyle = "#000000";
-  canvas.beginPath();
-  canvas.arc(x, y, w, 0, 2 * Math.PI);
-  canvas.fill();
+function drawMarker(ctx, x, y, w) {
+  ctx.fillStyle = "#000000";
+  ctx.beginPath();
+  ctx.arc(x, y, w, 0, 2 * Math.PI);
+  ctx.fill();
 }
