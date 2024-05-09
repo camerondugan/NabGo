@@ -127,8 +127,23 @@ function drawBoard() {
   }
   drawBoardLines(canvas, innerBoardSize, edgePadding, gridSize, markerSpacing);
 
-  placeBlackStone(canvas, 3, 3, markerSpacing);
-  placeWhiteStone(canvas, 3, 4, markerSpacing);
+  for (let i = 0; i < gridSize * 3; i++) {
+    if (i % 2 == 0) {
+      placeBlackStone(
+        canvas,
+        Math.floor(Math.random() * gridSize),
+        Math.floor(Math.random() * gridSize),
+        markerSpacing,
+      );
+      continue;
+    }
+    placeWhiteStone(
+      canvas,
+      Math.floor(Math.random() * gridSize),
+      Math.floor(Math.random() * gridSize),
+      markerSpacing,
+    );
+  }
 }
 
 function placeWhiteStone(canvas, x, y, markerSpacing) {
