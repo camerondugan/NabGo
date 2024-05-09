@@ -1,3 +1,28 @@
+const validGridSizes = [9, 13, 19];
+const gridSize =
+  validGridSizes[Math.floor(Math.random() * validGridSizes.length)];
+const edgePadding = 30;
+const markerSize = 3;
+const blackStone = new Image();
+blackStone.src = "assets/b.png";
+const whiteStones = [
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image(),
+];
+whiteStones[0].src = "assets/w.png";
+for (let i = 1; i < whiteStones.length; i++) {
+  whiteStones[i].src = "assets/w" + i + ".png";
+}
+
 function init() {
   drawBoard();
 }
@@ -13,10 +38,6 @@ function drawBoard() {
     return;
   }
 
-  const validGridSizes = [9, 13, 19];
-  const gridSize =
-    validGridSizes[Math.floor(Math.random() * validGridSizes.length)];
-
   // Become square ;)
   const boardPixels = Math.max(board.width, board.height);
   board.width = boardPixels;
@@ -30,8 +51,6 @@ function drawBoard() {
   canvas.drawImage(boardBG, 0, 0);
 
   // draw markers
-  const edgePadding = 30;
-  const markerSize = 3;
   const innerBoardSize = board.width - edgePadding * 2;
   const markerSpacing = innerBoardSize / (gridSize - 1);
   switch (gridSize) {
@@ -107,6 +126,32 @@ function drawBoard() {
       break;
   }
   drawBoardLines(canvas, innerBoardSize, edgePadding, gridSize, markerSpacing);
+
+  placeBlackStone(canvas, 3, 3, markerSpacing);
+  placeWhiteStone(canvas, 3, 4, markerSpacing);
+}
+
+function placeWhiteStone(canvas, x, y, markerSpacing) {
+  let whiteStone = whiteStones[Math.floor(Math.random() * whiteStones.length)];
+  let stoneWidth = markerSpacing;
+  canvas.drawImage(
+    whiteStone,
+    pieceIndexToCanvas(x, markerSpacing, edgePadding) - stoneWidth / 2,
+    pieceIndexToCanvas(y, markerSpacing, edgePadding) - stoneWidth / 2,
+    stoneWidth,
+    stoneWidth,
+  );
+}
+
+function placeBlackStone(canvas, x, y, markerSpacing) {
+  let stoneWidth = markerSpacing;
+  canvas.drawImage(
+    blackStone,
+    pieceIndexToCanvas(x, markerSpacing, edgePadding) - stoneWidth / 2,
+    pieceIndexToCanvas(y, markerSpacing, edgePadding) - stoneWidth / 2,
+    stoneWidth,
+    stoneWidth,
+  );
 }
 
 // grid draw
@@ -123,7 +168,6 @@ function drawBoardLines(
     let x = pieceIndexToCanvas(i, markerSpacing, edgePadding);
     drawLine(canvas, x, edgePadding, x, edgePadding + innerBoardSize);
     drawLine(canvas, edgePadding, x, edgePadding + innerBoardSize, x);
-    console.log(i, x, edgePadding, edgePadding + innerBoardSize);
   }
 }
 
