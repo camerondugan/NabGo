@@ -34,12 +34,12 @@ function pieceIndexToCanvas(i, markerSpacing, edgePadding) {
 function drawBoard() {
   const board = document.getElementById("GoGame");
   if (board == null || !board.getContext) {
-    // avoid crash if method not exist
+    // avoid crash
     return;
   }
 
   // Become square ;)
-  const boardPixels = Math.max(board.width, board.height);
+  const boardPixels = 1000;
   board.width = boardPixels;
   board.height = boardPixels;
 
@@ -48,7 +48,7 @@ function drawBoard() {
   ctx.fillStyle = "#DCB069";
   ctx.fillRect(0, 0, board.width, board.height);
   const boardBG = document.getElementById("boardBG");
-  ctx.drawImage(boardBG, 0, 0);
+  ctx.drawImage(boardBG, 0, 0, boardPixels * 1.1, boardPixels * 1.1);
 
   // draw markers
   const innerBoardSize = board.width - edgePadding * 2;
