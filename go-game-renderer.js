@@ -6,20 +6,9 @@ const edgePadding = 80;
 const starSize = 4;
 const blackStone = new Image();
 blackStone.src = "assets/b.png";
-const whiteStones = [
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-  new Image(),
-];
+const whiteStones = [];
 let board = null;
+let placedStones = [];
 
 function init() {
   board = document.getElementById("GoGame");
@@ -29,9 +18,13 @@ function init() {
 }
 
 function initWhiteStones() {
-  whiteStones[0].src = "assets/w.png";
-  for (let i = 1; i < whiteStones.length; i++) {
-    whiteStones[i].src = "assets/w" + i + ".png";
+  let whiteStone = new Image();
+  whiteStone.src = "assets/w.png";
+  whiteStones.push(whiteStone);
+  for (let i = 1; i < 15; i++) {
+    let whiteStone = new Image();
+    whiteStone.src = "assets/w" + i + ".png";
+    whiteStones.push(whiteStone);
   }
 }
 
@@ -43,28 +36,44 @@ function trackTheMouse() {
     return;
   }
   document.addEventListener("mousemove", (e) => {
-    let x = e.clientX;
-    let y = e.clientY;
     let boardBoundingBox = board.getBoundingClientRect();
-    // transpose to where element is
-    x -= boardBoundingBox.left;
-    y -= boardBoundingBox.top;
-    // detect bounds
-    let inBoundX = x >= 0 && x < boardBoundingBox.width;
-    let inBoundY = y >= 0 && y < boardBoundingBox.height;
-    if (inBoundX && inBoundY) {
-      // scale properly:
-      x *= boardPixels / boardBoundingBox.width;
-      y *= boardPixels / boardBoundingBox.height;
-      // redraw board
-      drawBoard();
+    let x = e.clientX - boardBoundingBox.left;
+    let y = e.clientY - boardBoundingBox.top;
+    // scale properly:
+    x *= boardPixels / boardBoundingBox.width;
+    y *= boardPixels / boardBoundingBox.height;
+    // redraw board
+    drawBoard();
+    // place transparent stone at mouse spot
+    let mi = canvasToPieceIndex(x, board);
+    let mj = canvasToPieceIndex(y, board);
+    if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
       let ctx = board.getContext("2d");
-      // place stone example at current mouse spot
-      let mi = canvasToPieceIndex(x, board);
-      let mj = canvasToPieceIndex(y, board);
-      if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+      if (placedStones.length % 2 == 0) {
         placeBlackStone(ctx, mi, mj, board, 0.5);
+      } else {
+        placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
       }
+    }
+  });
+  document.addEventListener("mouseup", (e) => {
+    let boardBoundingBox = board.getBoundingClientRect();
+    let x = e.clientX - boardBoundingBox.left;
+    let y = e.clientY - boardBoundingBox.top;
+    // scale properly:
+    x *= boardPixels / boardBoundingBox.width;
+    y *= boardPixels / boardBoundingBox.height;
+    // place transparent stone at mouse spot
+    let mi = canvasToPieceIndex(x, board);
+    let mj = canvasToPieceIndex(y, board);
+    if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+      let randStone = Math.floor(Math.random() * whiteStones.length);
+      let newStone = {
+        x: mi,
+        y: mj,
+        colorId: (placedStones.length % 2) * randStone,
+      };
+      placedStones.push(newStone);
     }
   });
 }
@@ -144,13 +153,32 @@ function drawBoard() {
       break;
   }
 
+  // draw placed pieces
+  for (let i = 0; i < placedStones.length; i++) {
+    if (placedStones[i].colorId == 0) {
+      placeBlackStone(ctx, placedStones[i].x, placedStones[i].y, board);
+    } else {
+      placeWhiteStone(
+        ctx,
+        placedStones[i].x,
+        placedStones[i].y,
+        board,
+        placedStones[i].colorId,
+      );
+    }
+  }
   // placeExampleStones(ctx, stoneSpacing);
 }
 
 // TODO: track placements for later board draws
-function placeWhiteStone(ctx, x, y, board) {
-  let whiteStone = whiteStones[Math.floor(Math.random() * whiteStones.length)];
+function placeWhiteStone(ctx, x, y, board, variant = null, alpha = 1) {
+  let randStone = Math.floor(Math.random() * whiteStones.length);
+  if (variant == null || variant >= whiteStones.length) {
+    variant = randStone;
+  }
+  let whiteStone = whiteStones[variant];
   let stoneWidth = boardStoneSpacing(board);
+  ctx.globalAlpha = alpha;
   ctx.drawImage(
     whiteStone,
     pieceIndexToCanvas(x, stoneWidth) - stoneWidth / 2,
@@ -158,6 +186,7 @@ function placeWhiteStone(ctx, x, y, board) {
     stoneWidth,
     stoneWidth,
   );
+  ctx.globalAlpha = 1;
 }
 
 function placeBlackStone(ctx, x, y, board, alpha = 1) {
