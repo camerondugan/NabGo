@@ -49,6 +49,9 @@ function trackTheMouse() {
     let mj = canvasToPieceIndex(y, board);
     if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
       let ctx = board.getContext("2d");
+      if (occupied(mi, mj)) {
+        return;
+      }
       if (placedStones.length % 2 == 0) {
         placeBlackStone(ctx, mi, mj, board, 0.5);
       } else {
@@ -67,6 +70,9 @@ function trackTheMouse() {
     let mi = canvasToPieceIndex(x, board);
     let mj = canvasToPieceIndex(y, board);
     if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+      if (occupied(mi, mj)) {
+        return;
+      }
       let randStone = Math.floor(Math.random() * whiteStones.length);
       let newStone = {
         x: mi,
@@ -286,6 +292,15 @@ function draw13x13Stars(ctx, stoneSpacing) {
     pieceIndexToCanvas(6, stoneSpacing),
     starSize,
   );
+}
+
+function occupied(x, y) {
+  for (let i = 0; i < placedStones.length; i++) {
+    if (placedStones[i].x == x && placedStones[i].y == y) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function canvasToPieceIndex(x, board) {
