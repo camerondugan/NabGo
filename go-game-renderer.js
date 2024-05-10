@@ -2,7 +2,7 @@ const validGridSizes = [9, 13, 19];
 const gridSize =
   validGridSizes[Math.floor(Math.random() * validGridSizes.length)];
 const edgePadding = 80;
-const markerSize = 3;
+const starSize = 3;
 const blackStone = new Image();
 blackStone.src = "assets/b.png";
 const whiteStones = [
@@ -18,17 +18,17 @@ const whiteStones = [
   new Image(),
   new Image(),
 ];
-whiteStones[0].src = "assets/w.png";
-for (let i = 1; i < whiteStones.length; i++) {
-  whiteStones[i].src = "assets/w" + i + ".png";
-}
 
 function init() {
+  initWhiteStones();
   drawBoard();
 }
 
-function pieceIndexToCanvas(i, markerSpacing, edgePadding) {
-  return i * markerSpacing + edgePadding;
+function initWhiteStones() {
+  whiteStones[0].src = "assets/w.png";
+  for (let i = 1; i < whiteStones.length; i++) {
+    whiteStones[i].src = "assets/w" + i + ".png";
+  }
 }
 
 function drawBoard() {
@@ -48,92 +48,45 @@ function drawBoard() {
   ctx.fillStyle = "#DCB069";
   ctx.fillRect(0, 0, board.width, board.height);
   const boardBG = document.getElementById("boardBG");
+  const innerBoardSize = board.width - edgePadding * 2;
+  const stoneSpacing = innerBoardSize / (gridSize - 1);
+
+  // draw background
   ctx.drawImage(boardBG, 0, 0, boardPixels * 1.1, boardPixels * 1.1);
 
-  // draw markers
-  const innerBoardSize = board.width - edgePadding * 2;
-  const markerSpacing = innerBoardSize / (gridSize - 1);
+  // draws lines for the game
+  drawBoardLines(ctx, innerBoardSize, edgePadding, gridSize, stoneSpacing);
+
+  // draw star point
   switch (gridSize) {
     case 9:
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(2, markerSpacing, edgePadding),
-        pieceIndexToCanvas(2, markerSpacing, edgePadding),
-        markerSize,
-      );
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(2, markerSpacing, edgePadding),
-        pieceIndexToCanvas(6, markerSpacing, edgePadding),
-        markerSize,
-      );
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(6, markerSpacing, edgePadding),
-        pieceIndexToCanvas(2, markerSpacing, edgePadding),
-        markerSize,
-      );
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(6, markerSpacing, edgePadding),
-        pieceIndexToCanvas(6, markerSpacing, edgePadding),
-        markerSize,
-      );
+      draw9x9Stars(ctx, stoneSpacing);
       break;
     case 13:
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(3, markerSpacing, edgePadding),
-        pieceIndexToCanvas(3, markerSpacing, edgePadding),
-        markerSize,
-      );
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(3, markerSpacing, edgePadding),
-        pieceIndexToCanvas(9, markerSpacing, edgePadding),
-        markerSize,
-      );
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(9, markerSpacing, edgePadding),
-        pieceIndexToCanvas(3, markerSpacing, edgePadding),
-        markerSize,
-      );
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(9, markerSpacing, edgePadding),
-        pieceIndexToCanvas(9, markerSpacing, edgePadding),
-        markerSize,
-      );
-      drawMarker(
-        ctx,
-        pieceIndexToCanvas(6, markerSpacing, edgePadding),
-        pieceIndexToCanvas(6, markerSpacing, edgePadding),
-        markerSize,
-      );
+      draw13x13Stars(ctx, stoneSpacing);
       break;
     case 19:
       for (let i = 3; i < 19; i += 6) {
         for (let j = 3; j < 19; j += 6) {
-          drawMarker(
+          drawStar(
             ctx,
-            pieceIndexToCanvas(i, markerSpacing, edgePadding),
-            pieceIndexToCanvas(j, markerSpacing, edgePadding),
-            markerSize,
+            pieceIndexToCanvas(i, stoneSpacing, edgePadding),
+            pieceIndexToCanvas(j, stoneSpacing, edgePadding),
+            starSize,
           );
         }
       }
       break;
   }
-  drawBoardLines(ctx, innerBoardSize, edgePadding, gridSize, markerSpacing);
 
+  // Place example stones
   for (let i = 0; i < gridSize * 3; i++) {
     if (i % 2 == 0) {
       placeBlackStone(
         ctx,
         Math.floor(Math.random() * gridSize),
         Math.floor(Math.random() * gridSize),
-        markerSpacing,
+        stoneSpacing,
       );
       continue;
     }
@@ -141,31 +94,30 @@ function drawBoard() {
       ctx,
       Math.floor(Math.random() * gridSize),
       Math.floor(Math.random() * gridSize),
-      markerSpacing,
+      stoneSpacing,
     );
   }
 }
 
-// TODO: draw shadows
 // TODO: track placements for later board draws
-function placeWhiteStone(ctx, x, y, markerSpacing) {
+function placeWhiteStone(ctx, x, y, stoneSpacing) {
   let whiteStone = whiteStones[Math.floor(Math.random() * whiteStones.length)];
-  let stoneWidth = markerSpacing;
+  let stoneWidth = stoneSpacing;
   ctx.drawImage(
     whiteStone,
-    pieceIndexToCanvas(x, markerSpacing, edgePadding) - stoneWidth / 2,
-    pieceIndexToCanvas(y, markerSpacing, edgePadding) - stoneWidth / 2,
+    pieceIndexToCanvas(x, stoneSpacing, edgePadding) - stoneWidth / 2,
+    pieceIndexToCanvas(y, stoneSpacing, edgePadding) - stoneWidth / 2,
     stoneWidth,
     stoneWidth,
   );
 }
 
-function placeBlackStone(ctx, x, y, markerSpacing) {
-  let stoneWidth = markerSpacing;
+function placeBlackStone(ctx, x, y, stoneSpacing) {
+  let stoneWidth = stoneSpacing;
   ctx.drawImage(
     blackStone,
-    pieceIndexToCanvas(x, markerSpacing, edgePadding) - stoneWidth / 2,
-    pieceIndexToCanvas(y, markerSpacing, edgePadding) - stoneWidth / 2,
+    pieceIndexToCanvas(x, stoneSpacing, edgePadding) - stoneWidth / 2,
+    pieceIndexToCanvas(y, stoneSpacing, edgePadding) - stoneWidth / 2,
     stoneWidth,
     stoneWidth,
   );
@@ -177,12 +129,12 @@ function drawBoardLines(
   innerBoardSize,
   edgePadding,
   gridSize,
-  markerSpacing,
+  stoneSpacing,
 ) {
   ctx.strokeStyle = "#000000";
   ctx.strokeRect(edgePadding, edgePadding, innerBoardSize, innerBoardSize);
   for (let i = 1; i < gridSize - 1; i++) {
-    let x = pieceIndexToCanvas(i, markerSpacing, edgePadding);
+    let x = pieceIndexToCanvas(i, stoneSpacing, edgePadding);
     drawLine(ctx, x, edgePadding, x, edgePadding + innerBoardSize);
     drawLine(ctx, edgePadding, x, edgePadding + innerBoardSize, x);
   }
@@ -195,9 +147,72 @@ function drawLine(ctx, x, y, x2, y2) {
   ctx.stroke();
 }
 
-function drawMarker(ctx, x, y, w) {
+function drawStar(ctx, x, y, w) {
   ctx.fillStyle = "#000000";
   ctx.beginPath();
   ctx.arc(x, y, w, 0, 2 * Math.PI);
   ctx.fill();
+}
+
+function draw9x9Stars(ctx, stoneSpacing) {
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(2, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(2, stoneSpacing, edgePadding),
+    starSize,
+  );
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(2, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(6, stoneSpacing, edgePadding),
+    starSize,
+  );
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(6, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(2, stoneSpacing, edgePadding),
+    starSize,
+  );
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(6, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(6, stoneSpacing, edgePadding),
+    starSize,
+  );
+}
+function draw13x13Stars(ctx, stoneSpacing) {
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(3, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(3, stoneSpacing, edgePadding),
+    starSize,
+  );
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(3, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(9, stoneSpacing, edgePadding),
+    starSize,
+  );
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(9, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(3, stoneSpacing, edgePadding),
+    starSize,
+  );
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(9, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(9, stoneSpacing, edgePadding),
+    starSize,
+  );
+  drawStar(
+    ctx,
+    pieceIndexToCanvas(6, stoneSpacing, edgePadding),
+    pieceIndexToCanvas(6, stoneSpacing, edgePadding),
+    starSize,
+  );
+}
+
+function pieceIndexToCanvas(i, stoneSpacing, edgePadding) {
+  return i * stoneSpacing + edgePadding;
 }
