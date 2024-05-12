@@ -8,13 +8,18 @@ const blackStone = new Image();
 blackStone.src = "assets/b.png";
 const whiteStones = [];
 let board = null;
+let numStonesPlaced = 0;
 let placedStones = [];
 
 function init() {
   board = document.getElementById("GoGame");
+  for (let i = 0; i < gridSize; i++) {
+    placedStones[i] = new Array(gridSize);
+  }
   initWhiteStones();
   trackTheMouse();
   drawBoard();
+  placeExampleStones();
 }
 
 function initWhiteStones() {
@@ -52,7 +57,7 @@ function trackTheMouse() {
       if (occupied(mi, mj)) {
         return;
       }
-      if (placedStones.length % 2 == 0) {
+      if (numStonesPlaced % 2 == 0) {
         placeBlackStone(ctx, mi, mj, board, 0.5);
       } else {
         placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
@@ -74,34 +79,33 @@ function trackTheMouse() {
         return;
       }
       let randStone = Math.floor(Math.random() * whiteStones.length);
-      let newStone = {
-        x: mi,
-        y: mj,
-        colorId: (placedStones.length % 2) * randStone,
-      };
-      placedStones.push(newStone);
+      let newStone = (numStonesPlaced % 2) * randStone;
+      placedStones[mi][mj] = newStone;
+      numStonesPlaced++;
     }
   });
 }
 
-function placeExampleStones(ctx, board) {
+function placeExampleStones() {
+  const board = document.getElementById("GoGame");
+  if (board == null || !board.getContext) {
+    // avoid crash
+    return;
+  }
+  let ctx = board.getContext("2d");
+
   // Place example stones
   for (let i = 0; i < gridSize * 3; i++) {
+    let x = Math.floor(Math.random() * gridSize);
+    let y = Math.floor(Math.random() * gridSize);
     if (i % 2 == 0) {
-      placeBlackStone(
-        ctx,
-        Math.floor(Math.random() * gridSize),
-        Math.floor(Math.random() * gridSize),
-        board,
-      );
+      placeBlackStone(ctx, x, y, board);
+      placedStones[x][y] = 0;
       continue;
     }
-    placeWhiteStone(
-      ctx,
-      Math.floor(Math.random() * gridSize),
-      Math.floor(Math.random() * gridSize),
-      board,
-    );
+    let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
+    placeWhiteStone(ctx, x, y, board, randStone);
+    placedStones[x][y] = randStone;
   }
 }
 
@@ -160,20 +164,20 @@ function drawBoard() {
   }
 
   // draw placed pieces
+  // row
   for (let i = 0; i < placedStones.length; i++) {
-    if (placedStones[i].colorId == 0) {
-      placeBlackStone(ctx, placedStones[i].x, placedStones[i].y, board);
-    } else {
-      placeWhiteStone(
-        ctx,
-        placedStones[i].x,
-        placedStones[i].y,
-        board,
-        placedStones[i].colorId,
-      );
+    // col
+    for (let j = 0; j < placedStones[i].length; j++) {
+      if (placedStones[i][j] == null) {
+        continue;
+      }
+      if (placedStones[i][j] == 0) {
+        placeBlackStone(ctx, i, j, board);
+      } else {
+        placeWhiteStone(ctx, i, j, board, placedStones[i][j]);
+      }
     }
   }
-  // placeExampleStones(ctx, stoneSpacing);
 }
 
 // TODO: track placements for later board draws
@@ -295,12 +299,7 @@ function draw13x13Stars(ctx, stoneSpacing) {
 }
 
 function occupied(x, y) {
-  for (let i = 0; i < placedStones.length; i++) {
-    if (placedStones[i].x == x && placedStones[i].y == y) {
-      return true;
-    }
-  }
-  return false;
+  return placedStones[x][y] != null;
 }
 
 function canvasToPieceIndex(x, board) {
