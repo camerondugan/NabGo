@@ -1,3 +1,4 @@
+// constants
 const validGridSizes = [9, 13, 19];
 const gridSize =
   validGridSizes[Math.floor(Math.random() * validGridSizes.length)];
@@ -7,9 +8,12 @@ const starSize = 4;
 const blackStone = new Image();
 blackStone.src = "assets/b.png";
 const whiteStones = [];
+// globals
 let board = null;
 let numStonesPlaced = 0;
 let placedStones = [];
+let lastMousePosX = null;
+let lastMousePosY = null;
 
 function init() {
   board = document.getElementById("GoGame");
@@ -40,18 +44,36 @@ function trackTheMouse() {
     // avoid crash
     return;
   }
+  // TODO: only redraw if transparent stone needs to move
   document.addEventListener("mousemove", (e) => {
     let boardBoundingBox = board.getBoundingClientRect();
+    // if mouse not on board, skip math
+    if (
+      e.clientX > boardBoundingBox.right ||
+      e.clientY > boardBoundingBox.bottom ||
+      e.clientY < boardBoundingBox.top ||
+      e.clientX < boardBoundingBox.left
+    ) {
+      return;
+    }
+    // find mouse pos as canvas coordinates
+    // translate
     let x = e.clientX - boardBoundingBox.left;
     let y = e.clientY - boardBoundingBox.top;
     // scale properly:
     x *= boardPixels / boardBoundingBox.width;
     y *= boardPixels / boardBoundingBox.height;
-    // redraw board
-    drawBoard();
     // place transparent stone at mouse spot
     let mi = canvasToPieceIndex(x, board);
     let mj = canvasToPieceIndex(y, board);
+    // don't redraw if not needed
+    if (mi == lastMousePosX && mj == lastMousePosY) {
+      lastMousePosX = mi;
+      lastMousePosY = mj;
+      return;
+    }
+    // redraw board
+    drawBoard();
     if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
       let ctx = board.getContext("2d");
       if (occupied(mi, mj)) {
@@ -63,6 +85,8 @@ function trackTheMouse() {
         placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
       }
     }
+    lastMousePosX = mi;
+    lastMousePosY = mj;
   });
   document.addEventListener("mouseup", (e) => {
     let boardBoundingBox = board.getBoundingClientRect();
@@ -109,14 +133,17 @@ function placeExampleStones() {
   }
 }
 
+// finds inner size of board without padding
 function InnerSize(board) {
   return board.width - edgePadding * 2;
 }
 
+// finds distance from stone to stone
 function boardStoneSpacing(board) {
   return InnerSize(board) / (gridSize - 1);
 }
 
+// draws the whole bloody board from start to finish
 function drawBoard() {
   if (board == null || !board.getContext) {
     // avoid crash
