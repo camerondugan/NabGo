@@ -207,7 +207,6 @@ function drawBoard() {
   }
 }
 
-// TODO: track placements for later board draws
 function placeWhiteStone(ctx, x, y, board, variant = null, alpha = 1) {
   let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
   if (variant == null || variant >= whiteStones.length) {
