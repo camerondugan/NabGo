@@ -1,2 +1,3 @@
+[![Lint badge](https://github.com/camerondugan/NabGo/actions/workflows/super-linter.yml/badge.svg?branch=main)](https://github.com/camerondugan/NabGo/actions/workflows/super-linter.yml)
 # NabGo
-NabGo is a tool for the game of go
+A helper for beginners in the game of go
