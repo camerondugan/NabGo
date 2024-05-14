@@ -57,8 +57,10 @@ function trackTheMouse() {
       return;
     }
     // find mouse position as canvas coordinates
-    let mi,
-      mj = mouseToCanvas(e.clientX, e.clientY, board, boardBoundingBox);
+    let m = mouseToCanvas(e.clientX, e.clientY, board, boardBoundingBox);
+    let mi = m[0];
+    let mj = m[1];
+    console.log(mi, mj);
     // don't redraw if not needed
     if (mi == lastMousePosX && mj == lastMousePosY) {
       lastMousePosX = mi;
@@ -82,8 +84,9 @@ function trackTheMouse() {
     lastMousePosY = mj;
   });
   document.addEventListener("mouseup", (e) => {
-    let mi,
-      mj = mouseToCanvas(e.clientX, e.clientY, board);
+    let m = mouseToCanvas(e.clientX, e.clientY, board);
+    let mi = m[0];
+    let mj = m[1];
     if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
       if (occupied(mi, mj)) {
         return;
@@ -97,6 +100,7 @@ function trackTheMouse() {
 }
 
 function mouseToCanvas(x, y, board, boardBoundingBox = null) {
+  console.log(boardBoundingBox);
   if (boardBoundingBox == null) {
     boardBoundingBox = board.getBoundingClientRect();
   }
@@ -106,8 +110,9 @@ function mouseToCanvas(x, y, board, boardBoundingBox = null) {
   // scale properly:
   x *= boardPixels / boardBoundingBox.width;
   y *= boardPixels / boardBoundingBox.height;
+  console.log(canvasToPieceIndex(x, board), canvasToPieceIndex(y, board));
   // place transparent stone at mouse spot
-  return canvasToPieceIndex(x, board), canvasToPieceIndex(y, board);
+  return [canvasToPieceIndex(x, board), canvasToPieceIndex(y, board)];
 }
 
 function placeExampleStones() {
