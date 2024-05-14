@@ -1,6 +1,5 @@
 ---
 name: Lint
-
 on:  # yamllint disable-line rule:truthy
   push: null
   pull_request: null
@@ -11,6 +10,7 @@ jobs:
   build:
     name: Lint
     runs-on: ubuntu-latest
+    # runs-on: self-hosted
 
     permissions:
       contents: read

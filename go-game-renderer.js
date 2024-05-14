@@ -58,15 +58,9 @@ function trackTheMouse() {
       return;
     }
     // find mouse position as canvas coordinates
-    // translate
-    let x = e.clientX - boardBoundingBox.left;
-    let y = e.clientY - boardBoundingBox.top;
-    // scale properly:
-    x *= boardPixels / boardBoundingBox.width;
-    y *= boardPixels / boardBoundingBox.height;
-    // place transparent stone at mouse spot
-    let mi = canvasToPieceIndex(x, board);
-    let mj = canvasToPieceIndex(y, board);
+    let m = mouseToCanvas(e.clientX, e.clientY, board, boardBoundingBox);
+    let mi = m[0];
+    let mj = m[1];
     // don't redraw if not needed
     if (mi == lastMousePosX && mj == lastMousePosY) {
       lastMousePosX = mi;
@@ -90,15 +84,9 @@ function trackTheMouse() {
     lastMousePosY = mj;
   });
   document.addEventListener("mouseup", (e) => {
-    let boardBoundingBox = board.getBoundingClientRect();
-    let x = e.clientX - boardBoundingBox.left;
-    let y = e.clientY - boardBoundingBox.top;
-    // scale properly:
-    x *= boardPixels / boardBoundingBox.width;
-    y *= boardPixels / boardBoundingBox.height;
-    // place transparent stone at mouse spot
-    let mi = canvasToPieceIndex(x, board);
-    let mj = canvasToPieceIndex(y, board);
+    let m = mouseToCanvas(e.clientX, e.clientY, board);
+    let mi = m[0];
+    let mj = m[1];
     if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
       if (occupied(mi, mj)) {
         return;
@@ -109,6 +97,20 @@ function trackTheMouse() {
       numStonesPlaced++;
     }
   });
+}
+
+function mouseToCanvas(x, y, board, boardBoundingBox = null) {
+  if (boardBoundingBox == null) {
+    boardBoundingBox = board.getBoundingClientRect();
+  }
+  // translate
+  x -= boardBoundingBox.left;
+  y -= boardBoundingBox.top;
+  // scale properly:
+  x *= boardPixels / boardBoundingBox.width;
+  y *= boardPixels / boardBoundingBox.height;
+  // place transparent stone at mouse spot
+  return [canvasToPieceIndex(x, board), canvasToPieceIndex(y, board)];
 }
 
 function placeExampleStones() {
