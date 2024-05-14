@@ -9,7 +9,7 @@ permissions: { }
 jobs:
   build:
     name: Lint
-    runs-on: self-hosted
+    runs-on: 23f85c1f78bd
 
     permissions:
       contents: read
