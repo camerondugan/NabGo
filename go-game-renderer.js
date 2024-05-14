@@ -16,7 +16,7 @@ let lastMousePosX = null;
 let lastMousePosY = null;
 
 function init() {
-  board = document.getElementById("GoGame");
+  board = document.getElementById("go-game");
   for (let i = 0; i < gridSize; i++) {
     placedStones[i] = new Array(gridSize);
   }
@@ -39,7 +39,7 @@ function initWhiteStones() {
 
 // relative to canvas
 function trackTheMouse() {
-  const board = document.getElementById("GoGame");
+  const board = document.getElementById("go-game");
   if (board == null || !board.getContext) {
     // avoid crash
     return;
@@ -111,7 +111,7 @@ function mouseToCanvas(x, y, board, boardBoundingBox = null) {
 }
 
 function placeExampleStones() {
-  const board = document.getElementById("GoGame");
+  const board = document.getElementById("go-game");
   if (board == null || !board.getContext) {
     // avoid crash
     return;
@@ -162,7 +162,7 @@ function drawBoard() {
   const stoneSpacing = boardStoneSpacing(board);
 
   // draw background
-  const boardBG = document.getElementById("boardBG");
+  const boardBG = document.getElementById("board-bg");
   ctx.drawImage(boardBG, 0, 0, boardPixels * 1.1, boardPixels * 1.1);
 
   // draws lines for the game
