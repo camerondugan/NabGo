@@ -67,12 +67,13 @@ function trackTheMouse() {
       lastMousePosY = mj;
       return;
     }
+    lastMousePosX = mi;
+    lastMousePosY = mj;
+
     drawBoard();
     if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
       let ctx = board.getContext("2d");
       if (occupied(mi, mj)) {
-        lastMousePosX = mi;
-        lastMousePosY = mj;
         return;
       }
       // transparent stone
@@ -82,8 +83,6 @@ function trackTheMouse() {
         placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
       }
     }
-    lastMousePosX = mi;
-    lastMousePosY = mj;
   });
   document.addEventListener("mouseup", (e) => {
     let m = mouseToCanvas(e.clientX, e.clientY, board);
