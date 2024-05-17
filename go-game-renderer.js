@@ -66,13 +66,15 @@ function trackTheMouse() {
       lastMousePosY = mj;
       return;
     }
-    // redraw board
     drawBoard();
     if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
       let ctx = board.getContext("2d");
       if (occupied(mi, mj)) {
+        lastMousePosX = mi;
+        lastMousePosY = mj;
         return;
       }
+      // transparent stone
       if (numStonesPlaced % 2 == 0) {
         placeBlackStone(ctx, mi, mj, board, 0.5);
       } else {
@@ -94,6 +96,7 @@ function trackTheMouse() {
       let newStone = (numStonesPlaced % 2) * randStone;
       placedStones[mi][mj] = newStone;
       numStonesPlaced++;
+      drawBoard();
     }
   });
 }
