@@ -3,11 +3,12 @@ const validGridSizes = [9, 13, 19];
 const gridSize =
   validGridSizes[Math.floor(Math.random() * validGridSizes.length)];
 const boardPixels = 1000;
-const edgePadding = 80;
+const edgePadding = 100;
 const starSize = 4;
 const blackStone = new Image();
 blackStone.src = "assets/b.png";
 const whiteStones = [];
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 // globals
 let board = null;
 let numStonesPlaced = 0;
@@ -193,6 +194,44 @@ function drawBoard() {
         }
       }
       break;
+  }
+
+  // draw bottom coordinate
+  let edgeRatio = 2 / 3;
+  let innerBoardSize = InnerSize(board);
+  let offsetx = -12;
+  let offsety = 12 - edgePadding * edgeRatio;
+  let offsety2 = 12 + edgePadding * edgeRatio;
+  ctx.font = "32px serif";
+  ctx.textAligh = "center";
+  //letters
+  for (let i = 0; i < gridSize; i++) {
+    ctx.fillText(
+      alphabet[i],
+      edgePadding + stoneSpacing * i + offsetx,
+      edgePadding + offsety,
+    );
+    ctx.fillText(
+      alphabet[i],
+      edgePadding + stoneSpacing * i + offsetx,
+      edgePadding + innerBoardSize + offsety2,
+    );
+  }
+  offsetx = -13 + edgePadding * edgeRatio;
+  let offsetx2 = -12 - edgePadding * edgeRatio;
+  offsety = 12;
+  // vert numbers
+  for (let i = 0; i < gridSize; i++) {
+    ctx.fillText(
+      String(i + 1),
+      edgePadding + innerBoardSize + offsetx,
+      edgePadding + innerBoardSize - stoneSpacing * i + offsety,
+    );
+    ctx.fillText(
+      String(i + 1),
+      edgePadding + offsetx2,
+      edgePadding + innerBoardSize - stoneSpacing * i + offsety,
+    );
   }
 
   // draw placed pieces
