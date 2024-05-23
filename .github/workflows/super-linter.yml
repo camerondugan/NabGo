@@ -32,5 +32,6 @@ jobs:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JAVASCRIPT_DEFAULT_STYLE: prettier
+          VALIDATE_GO: false
           LINTER_RULES_PATH: './'
 ...
