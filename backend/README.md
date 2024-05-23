@@ -8,4 +8,4 @@
 
 - Connected to local EdgeDB instance (could change this later to be another computer)
 - To help development: see [this link](https://docs.edgedb.com/libraries/go)
-- Goal: to have Golang back-end run on my server accessible to the Go front-end
+- Goal: to have Golang backend run on my server accessible to the Go frontend
