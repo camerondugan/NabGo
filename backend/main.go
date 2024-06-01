@@ -21,5 +21,5 @@ func main() {
 	// success!! we connected to edgedb!!
 	// let's test login the user
 	auth()
-	listenAndServe()
+	runServer()
 }
