@@ -25,6 +25,7 @@ function init() {
   trackTheMouse();
   drawBoard();
   placeExampleStones();
+  setupLoginButton();
 }
 
 function initWhiteStones() {
@@ -388,4 +389,9 @@ function loadImage(event) {
   image.onload = function () {
     drawImage(this);
   };
+}
+
+function setupLoginButton()
+{
+  
 }

@@ -10,6 +10,7 @@
   <title>NabGo.us</title>
   <!-- for speed? -->
   <link rel="preload" href="go-game-renderer.js" as="script" />
+  <link rel="stylesheet" type = "text/css" href="sidePanelPopup.css"/>
   <link rel="preload" href="assets/boardBG.jpg" as="image" />
   <link rel="preload" href="assets/b.png" as="image" />
   <link rel="preload" href="assets/w.png" as="image" />
@@ -51,24 +52,52 @@
       <img id="white-stone14" alt="white-stone14" src="assets/w14.png" />
       <img id="white-stone15" alt="white-stone15" src="assets/w15.png" />
     </div>
-    <div style="text-align: center">
-      <h1>NabGo.us</h1>
-      <h3>Click button below to upload board image</h3>
-      <input
-        type="file"
-        id="file"
-        accept="image/*"
-        onchange="loadImage(event)"
-        style="display: none"
-      />
-      <label for="file" style="cursor: pointer; text-decoration: underline"
-        >Upload</label
-      >
-      <img id="output" alt="Uploaded Game Board" width="100%" />
+
+    <div style="text-align: left">
+      <button
+            onclick = "window.location.href = 'https://ide.geeksforgeeks.org';" <!--stand in page-->
+            Log in or sign up
+        </button>
     </div>
-    <canvas
-      id="go-game"
-      style="max-width: 100%; max-height: 100%; object-fit: contain"
-    ></canvas>
+
+    <div class = "wrapper side-panel-open">
+      <div class = "main">
+        <div style= "text-align: center">
+          <h1>NabGo.us</h1>
+          <h3>Click button below to upload board image</h3>
+          <input
+            type="file"
+            id="file"
+            accept="image/*"
+            onchange="loadImage(event)"
+            style="display: none"
+          />
+          <label for="file" style="cursor: pointer; text-decoration: underline"
+            >Upload</label
+          >
+          <img id="output" alt="Uploaded Game Board" width="100%" />
+        </div>
+        <canvas
+          id="go-game"
+          style="max-width: 100%; max-height: 100%; object-fit: contain"
+        ></canvas>
+      </div>
+
+    <div>
+      <button class = "side-panel-toggle" type = "button">
+        <span class = "material-icons sp-icon-open">Settings</span>
+        <span class = "material-icons sp-icon-close">Close</span>
+      </button>
+      <div class = "side-panel">
+        Settings go here!!
+      </div>
+    </div>
+    <script>
+      document.querySelector(".side-panel-toggle").addEventListener("click", () =>
+      {
+        document.querySelector(".wrapper").classList.toggle("side-panel-open");
+      });
+    </script>
+  </div>
   </body>
 </html>
