@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 7
+names: ['black_stone', 'board', 'board_corner', 'empty', 'empty_corner', 'empty_edge', 'white_stone']
+
+roboflow:
+  workspace: test-yyxee
+  project: go-game-detection-mfkll
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/test-yyxee/go-game-detection-mfkll/dataset/1

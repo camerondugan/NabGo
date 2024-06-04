@@ -6,11 +6,11 @@
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="stylesheet" type="text/css" href="minimal.css" />
 <script src="go-game-renderer.js"></script>
+<script src="front-end.js"></script>
 
 <head>
 	<title>NabGo.us</title>
-	<!-- for speed? -->
-	<link rel="preload" href="go-game-renderer.js" as="script" />
+	<!-- for speed when loaded soon after start? -->
 	<link rel="preload" href="assets/boardBG.jpg" as="image" />
 	<link rel="preload" href="assets/b.png" as="image" />
 	<link rel="preload" href="assets/w.png" as="image" />
@@ -53,17 +53,19 @@
 			<img id="white-stone15" alt="white-stone15" src="assets/w15.png" />
 		</div>
 
+		<div style="position: absolute; top: 10px; right: 10px">
+			<!-- dist to edge will be fixed with CSS variable -->
+			<details>
+				<summary style="cursor: pointer; display: block">Settings</summary>
+				<p>Settings go here!!</p>
+			</details>
+		</div>
+
 		<div style="text-align: left">
 			<button onclick="window.location.href = 'https://camerondugan.com'">
 				<!--stand in page-->
 				Log in or sign up
 			</button>
-			<div style="float: right">
-				<details>
-					<summary type="button">Settings</summary>
-					<p>Settings go here!!</p>
-				</details>
-			</div>
 		</div>
 
 		<div class="main">

@@ -1,3 +1,5 @@
+machine-learning/.devenv
+machine-learning/.direnv
 # avoid large files
 machine-learning/data/*
 

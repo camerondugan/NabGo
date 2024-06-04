@@ -1,8 +1,3 @@
-summary {
-	display: list-item;
-	counter-increment: list-item 0;
-	list-style: disclosure-closed inside;
-}
-:host([open]) summary {
-	list-style-type: disclosure-open;
+body {
+	caret-color: transparent; /* remove text cursor */
 }
