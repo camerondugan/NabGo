@@ -4,6 +4,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="manifest" href="/site.webmanifest" />
+<link rel="stylesheet" type="text/css" href="minimal.css" />
 <script src="go-game-renderer.js"></script>
 <script src="front-end.js"></script>
 
@@ -51,25 +52,42 @@
 			<img id="white-stone14" alt="white-stone14" src="assets/w14.png" />
 			<img id="white-stone15" alt="white-stone15" src="assets/w15.png" />
 		</div>
-		<div style="text-align: center">
-			<h1>NabGo.us</h1>
-			<h3>Click button below to upload board image</h3>
-			<input
-				type="file"
-				id="file"
-				accept="image/*"
-				onchange="loadImage(event)"
-				style="display: none"
-			/>
-			<label for="file" style="cursor: pointer; text-decoration: underline">
-				Upload
-			</label>
-			<img id="output" alt="Uploaded Game Board" width="100%" />
+
+		<div style="position: absolute; top: 10px; right: 10px">
+			<!-- dist to edge will be fixed with CSS variable -->
+			<details>
+				<summary style="cursor: pointer; display: block">Settings</summary>
+				<p>Settings go here!!</p>
+			</details>
 		</div>
-		<canvas
-			id="go-game"
-			style="max-width: 100%; max-height: 100%; object-fit: contain"
-		>
-		</canvas>
+
+		<div style="text-align: left">
+			<button onclick="window.location.href = 'https://camerondugan.com'">
+				<!--stand in page-->
+				Log in or sign up
+			</button>
+		</div>
+
+		<div class="main">
+			<div style="text-align: center">
+				<h1>NabGo.us</h1>
+				<h3>Click button below to upload board image</h3>
+				<input
+					type="file"
+					id="file"
+					accept="image/*"
+					onchange="loadImage(event)"
+					style="display: none"
+				/>
+				<label for="file" style="cursor: pointer; text-decoration: underline"
+					>Upload</label
+				>
+				<img id="output" alt="Uploaded Game Board" width="100%" />
+			</div>
+			<canvas
+				id="go-game"
+				style="max-width: 100%; max-height: 100%; object-fit: contain"
+			></canvas>
+		</div>
 	</body>
 </html>
