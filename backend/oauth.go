@@ -7,14 +7,6 @@ import (
 	"fmt"
 )
 
-const ServerPort = 3000
-
-// Our main function
-func auth() {
-	// EDGEDB_AUTH_BASE_URL := os.Getenv("EDGEDB_AUTH_BASE_URL")
-	generatePKCE()
-}
-
 func generatePKCE() (string, string) {
 	// create verifier
 	token := make([]byte, 32)
