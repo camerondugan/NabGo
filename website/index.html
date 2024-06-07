@@ -68,11 +68,13 @@
 			</button>
 		</div>
 
-		<div class="main">
-			<div style="text-align: center">
-				<h1>NabGo.us</h1>
-				<h3>Click button below to upload board image</h3>
-				<input
+    <div style="text-align: center;">
+      <h1>NabGo.us</h1>
+			<h3>Click button below to upload board image</h3>
+    </div>
+		<div class="main" style="width: 100%; overflow: hidden;">
+      <div style="width: 500px; float: left;">
+        <input
 					type="file"
 					id="file"
 					accept="image/*"
@@ -83,11 +85,13 @@
 					>Upload</label
 				>
 				<img id="output" alt="Uploaded Game Board" width="100%" />
-			</div>
-			<canvas
+      </div>
+			<div style="margin-left: 620px;">
+        <canvas
 				id="go-game"
 				style="max-width: 100%; max-height: 100%; object-fit: contain"
 			></canvas>
+      </div>	
 		</div>
 	</body>
 </html>
