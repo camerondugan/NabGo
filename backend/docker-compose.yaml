@@ -1,0 +1,15 @@
+---
+version: "3"
+services:
+  edgedb:
+    image: edgedb/edgedb
+    environment:
+      EDGEDB_SERVER_PASSWORD: edgedb_password
+      EDGEDB_SERVER_TLS_CERT_MODE: generate_self_signed
+    volumes:
+      - "./dbschema:/dbschema"
+    ports:
+      - "5656"
+secrets:
+  edgedb_password:
+    environment: "EDGEDB_PASSWORD"
