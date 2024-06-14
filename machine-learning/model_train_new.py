@@ -13,7 +13,7 @@ print("using:", device)
 
 results = model.train(
     data="./data/data.yaml",
-    epochs=250,
+    epochs=200,
     device=device,
 )
 
