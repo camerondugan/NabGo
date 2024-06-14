@@ -25,7 +25,6 @@ function init() {
   trackTheMouse();
   drawBoard();
   placeExampleStones();
-  setupLoginButton();
 }
 
 function initWhiteStones() {

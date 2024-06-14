@@ -72,16 +72,17 @@
 			<div style="text-align: center">
 				<h1>NabGo.us</h1>
 				<h3>Click button below to upload board image</h3>
-				<input
+        <form method="post" enctype="multipart/form-data">
+          <input
 					type="file"
 					id="file"
+          name="file"
 					accept="image/*"
 					onchange="loadImage(event)"
 					style="display: none"
-				/>
-				<label for="file" style="cursor: pointer; text-decoration: underline"
-					>Upload</label
-				>
+				  />
+				  <label for="file" style="cursor: pointer; text-decoration: underline">Upload</label>
+        </form>
 				<img id="output" alt="Uploaded Game Board" width="100%" />
 			</div>
 			<canvas
