@@ -17,5 +17,6 @@ func main() {
 	//fatalErrCheck(err)
 	//defer client.Close()
 	fmt.Println("main")
-	runServer()
+	go runServer()
+	runPredictionServer()
 }
