@@ -6,7 +6,7 @@ const boardPixels = 1000;
 const edgePadding = 100;
 const starSize = 4;
 const blackStone = new Image();
-blackStone.src = "assets/b.png";
+blackStone.src = "/assets/b.png";
 const whiteStones = [];
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 // globals
@@ -29,11 +29,11 @@ function init() {
 
 function initWhiteStones() {
   let whiteStone = new Image();
-  whiteStone.src = "assets/w.png";
+  whiteStone.src = "/assets/w.png";
   whiteStones.push(whiteStone);
   for (let i = 1; i < 15; i++) {
     let whiteStone = new Image();
-    whiteStone.src = "assets/w" + i + ".png";
+    whiteStone.src = "/assets/w" + i + ".png";
     whiteStones.push(whiteStone);
   }
 }
