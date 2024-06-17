@@ -1,11 +1,8 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"log"
-
-	"github.com/edgedb/edgedb-go"
 )
 
 func fatalErrCheck(err error) {
@@ -15,10 +12,11 @@ func fatalErrCheck(err error) {
 }
 
 func main() {
-	ctx := context.Background()
-	client, err := edgedb.CreateClient(ctx, edgedb.Options{})
-	fatalErrCheck(err)
-	defer client.Close()
+	//ctx := context.Background()
+	//client, err := edgedb.CreateClient(ctx, edgedb.Options{})
+	//fatalErrCheck(err)
+	//defer client.Close()
 	fmt.Println("main")
-	runServer()
+	go runServer()
+	runPredictionServer()
 }
