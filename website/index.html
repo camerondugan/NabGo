@@ -29,6 +29,11 @@
 	<link rel="preload" href="assets/w13.png" as="image" />
 	<link rel="preload" href="assets/w14.png" as="image" />
 	<link rel="preload" href="assets/w15.png" as="image" />
+
+	<script type = "text/javascript">
+			var JSmove = "7";
+			document.getElementById("HTMLmove").innerHTML = JSmove;
+	</script>
 </head>
 <html>
 	<body onload="init()">
@@ -91,12 +96,27 @@
 
 					<h2>Analysis</h2>
 					Move History <br>
-					PREVIOUS MOVES NUMBERS SCROLL BAR <br>
+					
+					<button onclick="window.location.href = 'https://camerondugan.com'">
+						<!--stand in page-->
+						Back
+					</button>
+
+					<!--<label for="HTMLmove"></label>-->
+					<input type="text" id="HTMLmove" value = "">
+
+					<button onclick="window.location.href = 'https://camerondugan.com'">
+						<!--stand in page-->
+						Forward
+					</button>
+
+					<br><br>
 
 					<button onclick="window.location.href = 'https://camerondugan.com'">
 						<!--stand in page-->
 						Predict Previous Moves 
 					</button>
+
 					<br><br>
 					<img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
 				</div>
