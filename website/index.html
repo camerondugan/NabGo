@@ -76,7 +76,7 @@
           <input
 					type="file"
 					id="file"
-          name="file"
+          			name="file"
 					accept="image/*"
 					onchange="loadImage(event)"
 					style="display: none"
@@ -85,6 +85,23 @@
         </form>
 				<img id="output" alt="Uploaded Game Board" width="100%" />
 			</div>
+
+			<div style= "float: right ; margin-right: 50px ; font-size: 20px">
+				<div style= "text-align: center">
+
+					<h2>Analysis</h2>
+					Move History <br>
+					PREVIOUS MOVES NUMBERS SCROLL BAR <br>
+
+					<button onclick="window.location.href = 'https://camerondugan.com'">
+						<!--stand in page-->
+						Predict Previous Moves 
+					</button>
+					<br><br>
+					<img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
+				</div>
+			</div>
+
 			<canvas
 				id="go-game"
 				style="max-width: 100%; max-height: 100%; object-fit: contain"
