@@ -1,14 +1,19 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
+	"os"
+	"strings"
 	"time"
 )
 
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "https://nabgo.us")
+	//(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
@@ -58,36 +63,48 @@ func headers(w http.ResponseWriter, req *http.Request) {
 
 func handlePredict(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
-	http.Redirect(
-		w,
-		r,
-		"http://localhost:8890/NewJob",
-		http.StatusSeeOther,
-	)
-	// r.ParseMultipartForm(32 << 20) // limit your max input length!
-	// var buf bytes.Buffer
-	// // in your case file would be fileupload
-	// file, header, err := r.FormFile("file")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer file.Close()
-	// name := strings.Split(header.Filename, ".")
-	// fmt.Printf("File name %s\n", name[0])
-	// // Copy the file data to my buffer
-	// io.Copy(&buf, file)
-	// // do something with the contents...
-	// // I normally have a struct defined and unmarshal into a struct, but this will
-	// // work as an example
-	// contents := buf.String()
-	// fmt.Println(contents)
-	// // I reset the buffer in case I want to use it again
-	// // reduces memory allocations in more intense projects
-	// buf.Reset()
-	// // do something else
-	// // etc write header
-	// predict(file, header)
-	// w.Write([]byte("done"))
+	tempFile, err := os.CreateTemp("", "predictionImage-*.jpg")
+	fatalErrCheck(err)
+	defer tempFile.Close()
+	defer os.Remove(tempFile.Name())
+	fmt.Println(tempFile.Name())
+	//fill jpg file with image converted to jpg
+
+	r.ParseMultipartForm(32 << 20) // limit your max input length!
+	var buf bytes.Buffer
+	// in your case file would be fileupload
+	file, header, err := r.FormFile("file")
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	name := strings.Split(header.Filename, ".")
+	fmt.Printf("File name %s\n", name[0])
+	// Copy the file data to my buffer
+	_, err = io.Copy(&buf, file)
+	fatalErrCheck(err)
+	// do something with the contents...
+	// I normally have a struct defined and unmarshal into a struct, but this will
+	// work as an example
+	contents := buf.String()
+	fmt.Println(contents)
+
+	_, err = tempFile.Write(buf.Bytes())
+	fatalErrCheck(err)
+	// Our main piece of code:
+	predict(tempFile.Name())
+	// etc write header
+	json, err := os.Open(tempFile.Name() + ".json")
+	if err == nil {
+		buf.Reset()
+		_, err := io.Copy(&buf, json)
+		fatalErrCheck(err)
+		_, err = w.Write(buf.Bytes())
+		fatalErrCheck(err)
+	} else {
+		_, err = w.Write([]byte("python json error"))
+		fatalErrCheck(err)
+	}
 }
 
 func runServer() {

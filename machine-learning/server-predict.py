@@ -21,7 +21,7 @@ def predict(target) -> List:
 
 
 def main():
-    target = "/home/cam/Pictures/VJUGcgNe.jpg"
+    # target = "/home/cam/Pictures/VJUGcgNe.jpg"
     target = sys.argv[1]
     output = predict(target)
     with open(target + ".json", "w") as f:
