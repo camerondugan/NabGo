@@ -1,38 +1,31 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
+	"bytes"
+	"log"
 	"os/exec"
 )
 
-func predictResults(w http.ResponseWriter, _ *http.Request) {
-	fmt.Fprintf(w, "hello what do you have for me?\n")
-	// create two pipes: one for image (go to python)
-	// code here
-	// One for results (python to go)
-	// code there
+func getPredictResults(data string) {
+	// call's python and reads the json file it creates when it finishes running
 
 	// Call the Python script that uses these pipes
-	cmd := exec.Command("python", "../machine-learning/server-predict.py")
-	stdout, err := cmd.Output()
+	// f, err := os.CreateTemp("", "predictionImage-*.jpg")
+	// fatalErrCheck(err)
+	// defer f.Close()
+	// defer os.Remove(f.Name())
+	// fmt.Println(f.Name())
+	// fill jpg file with image converted to jpg
+
+	cmd := exec.Command(
+		"../machine-learning/env/bin/python3", "../machine-learning/server-predict.py",
+		"/home/cam/Pictures/xPQ_Sx2E.jpg",
+	)
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+	err := cmd.Run()
 	if err != nil {
-		fmt.Println("Python command had err: \n" + err.Error())
-		panic("Python failed in some way")
+		log.Println(stderr.String())
+		fatalErrCheck(err)
 	}
-	fmt.Println(stdout)
-}
-
-func runPredictionServer() {
-	// set things to respond to
-	http.HandleFunc("/results", predictResults)
-	// define a server and what address it listens to
-	server := &http.Server{
-		Addr:    ":8889",
-		Handler: nil,
-	}
-
-	fmt.Println("starting server")
-	err := server.ListenAndServe()
-	fatalErrCheck(err)
 }
