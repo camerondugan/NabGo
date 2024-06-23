@@ -8,12 +8,12 @@ function loadImage(event) {
   const formData = new FormData(form);
 
   image.onload = function () {
-	const fetchOptions = {
-		method: 'post',
-		body: formData
-	};
+    const fetchOptions = {
+      method: "post",
+      body: formData,
+    };
 
-	fetch('https://b.nabgo.us/predict', fetchOptions)
+    fetch("https://b.nabgo.us/predict", fetchOptions)
       .then((response) => console.log(response.json()))
       .then((data) => {
         console.log(data);
