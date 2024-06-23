@@ -95,6 +95,9 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	predict(tempFile.Name())
 	// etc write header
 	json, err := os.Open(tempFile.Name() + ".json")
+	fatalErrCheck(err)
+	defer tempFile.Close()
+	defer os.Remove(tempFile.Name())
 	if err == nil {
 		buf.Reset()
 		_, err := io.Copy(&buf, json)
