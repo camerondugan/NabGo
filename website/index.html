@@ -30,10 +30,6 @@
 	<link rel="preload" href="assets/w14.png" as="image" />
 	<link rel="preload" href="assets/w15.png" as="image" />
 
-	<script type = "text/javascript">
-			var JSmove = "7";
-			document.getElementById("HTMLmove").innerHTML = JSmove;
-	</script>
 </head>
 <html>
 	<body onload="init()">
@@ -97,15 +93,26 @@
 					<h2>Analysis</h2>
 					Move History <br>
 					
-					<button onclick="window.location.href = 'https://camerondugan.com'">
+					<button onclick= "updateMove(-1)">
 						<!--stand in page-->
 						Back
 					</button>
 
 					<!--<label for="HTMLmove"></label>-->
-					<input type="text" id="HTMLmove" value = "">
+					<input type="text" id="HTMLmove" value = "0" onchange= "updateMove(0)"/>
 
-					<button onclick="window.location.href = 'https://camerondugan.com'">
+					<script type = "text/javascript">
+						function updateMove(increment)
+						{
+							var input = document.getElementById("HTMLmove");
+							var inputValue = input.value;
+							inputValue = parseInt(inputValue);
+							inputValue += increment;
+							document.getElementById("HTMLmove").value = inputValue;
+						}
+					</script>
+
+					<button onclick= "updateMove(1)">
 						<!--stand in page-->
 						Forward
 					</button>
