@@ -6,7 +6,7 @@ import (
 	"os/exec"
 )
 
-func predict(fName string) ([]float32, []float32) {
+func predict(fName string) {
 	cmd := exec.Command(
 		"../machine-learning/env/bin/python3", "../machine-learning/server-predict.py",
 		fName,
@@ -19,6 +19,4 @@ func predict(fName string) ([]float32, []float32) {
 		fatalErrCheck(err)
 	}
 	// read the json file it creates when it finishes running
-
-	return []float32{}, []float32{}
 }

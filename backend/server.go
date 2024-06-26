@@ -7,13 +7,12 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strings"
 	"time"
 )
 
 func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "https://nabgo.us")
-	//(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	//(*w).Header().Set("Access-Control-Allow-Origin", "https://b.nabgo.us/predict")
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
@@ -73,21 +72,19 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(32 << 20) // limit your max input length!
 	var buf bytes.Buffer
 	// in your case file would be fileupload
-	file, header, err := r.FormFile("file")
+	file, _, err := r.FormFile("file")
 	if err != nil {
 		panic(err)
 	}
 	defer file.Close()
-	name := strings.Split(header.Filename, ".")
-	fmt.Printf("File name %s\n", name[0])
 	// Copy the file data to my buffer
 	_, err = io.Copy(&buf, file)
 	fatalErrCheck(err)
 	// do something with the contents...
 	// I normally have a struct defined and unmarshal into a struct, but this will
 	// work as an example
-	contents := buf.String()
-	fmt.Println(contents)
+	// contents := buf.String()
+	// fmt.Println(contents)
 
 	_, err = tempFile.Write(buf.Bytes())
 	fatalErrCheck(err)
@@ -102,6 +99,7 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 		buf.Reset()
 		_, err := io.Copy(&buf, json)
 		fatalErrCheck(err)
+		fmt.Println(json.Name())
 		_, err = w.Write(buf.Bytes())
 		fatalErrCheck(err)
 	} else {
