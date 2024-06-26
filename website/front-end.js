@@ -17,7 +17,7 @@ function loadImage(event) {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
-        drawPredictions(json);
+        // drawPredictions(json);
       })
       .catch((err) => {
         return err;
