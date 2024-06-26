@@ -14,18 +14,19 @@ function loadImage(event) {
     };
 
     fetch("https://b.nabgo.us/predict", fetchOptions)
-      .then((response) => {
-        drawPredictions(response.json());
-        console.log(response.json().value);
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        drawPredictions(json);
       })
-      .then((data) => {
-        console.log(data);
+      .catch((err) => {
+        return err;
       });
   };
 }
 
 function drawPredictions(json) {
-  const data = json.value;
+  const data = JSON.parse(json);
   const classes = data.classes;
   const boxes = data.boxes;
   // "classes": output[0].boxes.cls.tolist(),
