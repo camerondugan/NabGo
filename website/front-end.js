@@ -16,7 +16,16 @@ function loadImage(event) {
     fetch("https://b.nabgo.us/predict", fetchOptions)
       .then((response) => console.log(response.json()))
       .then((data) => {
+        drawPredictions(data);
         console.log(data);
       });
   };
+}
+
+function drawPredictions(json) {
+  const data = JSON.parse(json);
+  const classes = data.classes;
+  const boxes = data.boxes;
+  // "classes": output[0].boxes.cls.tolist(),
+  // "boxes": output[0].boxes.xywh.tolist(),
 }
