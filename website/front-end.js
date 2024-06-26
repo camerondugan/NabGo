@@ -16,7 +16,7 @@ function loadImage(event) {
     fetch("https://b.nabgo.us/predict", fetchOptions)
       .then((response) => {
         drawPredictions(response.json());
-        console.log(response.json());
+        console.log(response.json().value);
       })
       .then((data) => {
         console.log(data);
@@ -25,7 +25,7 @@ function loadImage(event) {
 }
 
 function drawPredictions(json) {
-  const data = JSON.parse(json);
+  const data = json.value;
   const classes = data.classes;
   const boxes = data.boxes;
   // "classes": output[0].boxes.cls.tolist(),
