@@ -59,5 +59,18 @@ function drawPredictions(json) {
   }
   const board = document.getElementById("go-game");
   // estimate board skew
+  var destCorners = [0,0,1,0,0,1,1,1];
+  var perspT = PerspT(corners, destCorners);
+  
+  for(let b = 0; b < boxes.length; b++) {
+    let box = boxes[b];
+    box[0] += 0.5 * box[2];
+    box[1] += 0.5 * box[3];
+    let point = perspT.transform(box[0], box[1]);
+    box[0] = point[0];
+    box[1] = point[1];
+    console.log("Box 0" + box[0]);
+    console.log("Box 1" + box[1]);
+  }
   // find
 }
