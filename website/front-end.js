@@ -24,7 +24,7 @@ function loadImage(event) {
       });
   };
 }
-const Classes = {
+const ModelClasses = {
   blackStone: 0,
   board: 1,
   boardCorner: 2,
@@ -35,11 +35,29 @@ const Classes = {
 };
 
 function drawPredictions(json) {
-  init_board();
-  const board = document.getElementById("go-game");
+  init_board(); // ignore undeclared error
   const classes = json.classes;
   const boxes = json.boxes;
+  if (!classes.includes(ModelClasses.board)) {
+    console.log("No board, you are bad at the game");
+    return;
+  }
+  // find corners
   let corners = [];
-  // "classes": output[0].boxes.cls.tolist(),
-  // "boxes": output[0].boxes.xywh.tolist(),
+  let i = 0;
+  for (let cls in classes) {
+    if (cls == ModelClasses.boardCorner) {
+      corners.push(boxes[i]);
+      console.log(corners[i]);
+    }
+    i += 1;
+  }
+  // return if too few corners
+  if (corners.length != 3 && corners.length != 4) {
+    console.log("Too few board corners");
+    return;
+  }
+  const board = document.getElementById("go-game");
+  // estimate board skew
+  // find
 }
