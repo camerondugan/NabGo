@@ -17,18 +17,30 @@ function loadImage(event) {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
-        json.then((json) => drawPredictions(json));
-        //drawPredictions(json);
+        drawPredictions(json);
       })
       .catch((err) => {
         return err;
       });
   };
 }
+const Classes = {
+  blackStone: 0,
+  board: 1,
+  boardCorner: 2,
+  empty: 3,
+  emptyCorner: 4,
+  emptyEdge: 5,
+  whiteStone: 6,
+}
 
 function drawPredictions(json) {
+  init_board();
+  const board = document.getElementById("go-game");
   const classes = json.classes;
   const boxes = json.boxes;
+  let corners = [];
+  : ['black_stone', 'board', 'board_corner', 'empty', 'empty_corner', 'empty_edge', 'white_stone']
   // "classes": output[0].boxes.cls.tolist(),
   // "boxes": output[0].boxes.xywh.tolist(),
 }

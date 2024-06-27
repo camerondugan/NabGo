@@ -16,18 +16,21 @@ let placedStones = [];
 let lastMousePosX = null;
 let lastMousePosY = null;
 
-function init() {
+function init_board() {
+  let firstTime = board == null;
   board = document.getElementById("go-game");
   for (let i = 0; i < gridSize; i++) {
     placedStones[i] = new Array(gridSize);
   }
-  initWhiteStones();
+  initWhiteStoneImages();
   trackTheMouse();
   drawBoard();
-  placeExampleStones();
+  if (firstTime) {
+    placeExampleStones();
+  }
 }
 
-function initWhiteStones() {
+function initWhiteStoneImages() {
   let whiteStone = new Image();
   whiteStone.src = "/assets/w.png";
   whiteStones.push(whiteStone);
