@@ -7,7 +7,7 @@ import (
 
 func fatalErrCheck(err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(err.Error())
 	}
 }
 
@@ -17,6 +17,7 @@ func main() {
 	//fatalErrCheck(err)
 	//defer client.Close()
 	fmt.Println("main")
-	go runServer()
-	runPredictionServer()
+	//getPredictResults("")
+	runServer()
+	// runPredictionServer()
 }

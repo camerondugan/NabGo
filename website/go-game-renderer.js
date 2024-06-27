@@ -6,7 +6,7 @@ const boardPixels = 1000;
 const edgePadding = 100;
 const starSize = 4;
 const blackStone = new Image();
-blackStone.src = "assets/b.png";
+blackStone.src = "/assets/b.png";
 const whiteStones = [];
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 // globals
@@ -16,24 +16,27 @@ let placedStones = [];
 let lastMousePosX = null;
 let lastMousePosY = null;
 
-function init() {
+function init_board() {
+  let firstTime = board == null;
   board = document.getElementById("go-game");
   for (let i = 0; i < gridSize; i++) {
     placedStones[i] = new Array(gridSize);
   }
-  initWhiteStones();
+  initWhiteStoneImages();
   trackTheMouse();
   drawBoard();
-  placeExampleStones();
+  if (firstTime) {
+    placeExampleStones();
+  }
 }
 
-function initWhiteStones() {
+function initWhiteStoneImages() {
   let whiteStone = new Image();
-  whiteStone.src = "assets/w.png";
+  whiteStone.src = "/assets/w.png";
   whiteStones.push(whiteStone);
   for (let i = 1; i < 15; i++) {
     let whiteStone = new Image();
-    whiteStone.src = "assets/w" + i + ".png";
+    whiteStone.src = "/assets/w" + i + ".png";
     whiteStones.push(whiteStone);
   }
 }

@@ -8,15 +8,56 @@ function loadImage(event) {
   const formData = new FormData(form);
 
   image.onload = function () {
-	const fetchOptions = {
-		method: 'post',
-		body: formData
-	};
+    const fetchOptions = {
+      method: "post",
+      body: formData,
+    };
 
-	fetch('https://b.nabgo.us/predict', fetchOptions)
-      .then((response) => console.log(response.json()))
-      .then((data) => {
-        console.log(data);
+    fetch("https://b.nabgo.us/predict", fetchOptions)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        drawPredictions(json);
+      })
+      .catch((err) => {
+        return err;
       });
   };
+}
+const ModelClasses = {
+  blackStone: 0,
+  board: 1,
+  boardCorner: 2,
+  empty: 3,
+  emptyCorner: 4,
+  emptyEdge: 5,
+  whiteStone: 6,
+};
+
+function drawPredictions(json) {
+  init_board(); // ignore undeclared error
+  const classes = json.classes;
+  const boxes = json.boxes;
+  if (!classes.includes(ModelClasses.board)) {
+    console.log("No board, you are bad at the game");
+    return;
+  }
+  // find corners
+  let corners = [];
+  let i = 0;
+  for (let cls in classes) {
+    if (cls == ModelClasses.boardCorner) {
+      corners.push(boxes[i]);
+      console.log(corners[i]);
+    }
+    i += 1;
+  }
+  // return if too few corners
+  if (corners.length != 3 && corners.length != 4) {
+    console.log("Too few board corners");
+    return;
+  }
+  const board = document.getElementById("go-game");
+  // estimate board skew
+  // find
 }

@@ -1,8 +1,9 @@
 import torch
 from ultralytics import YOLO
 
-folder = input("what name is the train folder?: ")
-model = YOLO("../runs/detect/" + folder + "/weights/best.onnx")
+# FOLDER = input("what name is the train folder?: ")
+FOLDER = "train2"
+model = YOLO("../runs/detect/" + FOLDER + "/weights/best.onnx")
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 if device != "cpu":
@@ -11,6 +12,6 @@ if device != "cpu":
         device = "cpu"
 
 print("using:", device)
-target = input("paste the path of file: ")
+target = input("paste the path to the file: ")
 
 model.predict(target)
