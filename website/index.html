@@ -1,13 +1,5 @@
 <!doctype html>
 <!-- <meta http-equiv="refresh" content="0; url=https://camerondugan.com/"/> -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-<link rel="manifest" href="/site.webmanifest" />
-<link rel="stylesheet" type="text/css" href="minimal.css" />
-<script src="go-game-renderer.js"></script>
-<script src="front-end.js"></script>
-
 <head>
 	<title>NabGo.us</title>
 	<!-- for speed when loaded soon after start? -->
@@ -29,66 +21,71 @@
 	<link rel="preload" href="assets/w13.png" as="image" />
 	<link rel="preload" href="assets/w14.png" as="image" />
 	<link rel="preload" href="assets/w15.png" as="image" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+	<link rel="manifest" href="/site.webmanifest" />
+	<link rel="stylesheet" type="text/css" href="minimal.css" />
+	<script src="go-game-renderer.js"></script>
+	<script src="front-end.js"></script>
 </head>
-<html>
-	<body onload="init()">
-		<div style="display: none">
-			<img id="board-bg" alt="board-bg" src="assets/boardBG.jpg" />
-			<img id="black-stone" alt="black-stone" src="assets/b.png" />
-			<img id="white-stone0" alt="white-stone0" src="assets/w.png" />
-			<img id="white-stone1" alt="white-stone1" src="assets/w1.png" />
-			<img id="white-stone2" alt="white-stone2" src="assets/w2.png" />
-			<img id="white-stone3" alt="white-stone3" src="assets/w3.png" />
-			<img id="white-stone4" alt="white-stone4" src="assets/w4.png" />
-			<img id="white-stone5" alt="white-stone5" src="assets/w5.png" />
-			<img id="white-stone6" alt="white-stone6" src="assets/w6.png" />
-			<img id="white-stone7" alt="white-stone7" src="assets/w7.png" />
-			<img id="white-stone8" alt="white-stone8" src="assets/w8.png" />
-			<img id="white-stone9" alt="white-stone9" src="assets/w9.png" />
-			<img id="white-stone10" alt="white-stone10" src="assets/w10.png" />
-			<img id="white-stone11" alt="white-stone11" src="assets/w11.png" />
-			<img id="white-stone12" alt="white-stone12" src="assets/w12.png" />
-			<img id="white-stone13" alt="white-stone13" src="assets/w13.png" />
-			<img id="white-stone14" alt="white-stone14" src="assets/w14.png" />
-			<img id="white-stone15" alt="white-stone15" src="assets/w15.png" />
-		</div>
+<body onload="init_board()">
+	<div style="display: none">
+		<img id="board-bg" alt="board-bg" src="assets/boardBG.jpg" />
+		<img id="black-stone" alt="black-stone" src="assets/b.png" />
+		<img id="white-stone0" alt="white-stone0" src="assets/w.png" />
+		<img id="white-stone1" alt="white-stone1" src="assets/w1.png" />
+		<img id="white-stone2" alt="white-stone2" src="assets/w2.png" />
+		<img id="white-stone3" alt="white-stone3" src="assets/w3.png" />
+		<img id="white-stone4" alt="white-stone4" src="assets/w4.png" />
+		<img id="white-stone5" alt="white-stone5" src="assets/w5.png" />
+		<img id="white-stone6" alt="white-stone6" src="assets/w6.png" />
+		<img id="white-stone7" alt="white-stone7" src="assets/w7.png" />
+		<img id="white-stone8" alt="white-stone8" src="assets/w8.png" />
+		<img id="white-stone9" alt="white-stone9" src="assets/w9.png" />
+		<img id="white-stone10" alt="white-stone10" src="assets/w10.png" />
+		<img id="white-stone11" alt="white-stone11" src="assets/w11.png" />
+		<img id="white-stone12" alt="white-stone12" src="assets/w12.png" />
+		<img id="white-stone13" alt="white-stone13" src="assets/w13.png" />
+		<img id="white-stone14" alt="white-stone14" src="assets/w14.png" />
+		<img id="white-stone15" alt="white-stone15" src="assets/w15.png" />
+	</div>
 
-		<div style="position: absolute; top: 10px; right: 10px">
-			<!-- dist to edge will be fixed with CSS variable -->
-			<details>
-				<summary style="cursor: pointer; display: block">Settings</summary>
-				<p>Settings go here!!</p>
-			</details>
-		</div>
+	<div style="position: absolute; top: 10px; right: 10px">
+		<!-- dist to edge will be fixed with CSS variable -->
+		<details>
+			<summary style="cursor: pointer; display: block">Settings</summary>
+			<p>Settings go here!!</p>
+		</details>
+	</div>
 
-		<div style="text-align: left">
-			<button onclick="window.location.href = 'https://camerondugan.com'">
-				<!--stand in page-->
-				Log in or sign up
-			</button>
-		</div>
+	<div style="text-align: left">
+		<button onclick="window.location.href = 'https://camerondugan.com'">
+			<!--stand in page-->
+			Log in or sign up
+		</button>
+	</div>
 
-		<div class="main">
-			<div style="text-align: center">
-				<h1>NabGo.us</h1>
-				<h3>Click button below to upload board image</h3>
-        <form method="post" enctype="multipart/form-data">
-          <input
-					type="file"
-					id="file"
-          name="file"
-					accept="image/*"
-					onchange="loadImage(event)"
-					style="display: none"
-				  />
-				  <label for="file" style="cursor: pointer; text-decoration: underline">Upload</label>
-        </form>
-				<img id="output" alt="Uploaded Game Board" width="100%" />
-			</div>
-			<canvas
-				id="go-game"
-				style="max-width: 100%; max-height: 100%; object-fit: contain"
-			></canvas>
+	<div class="main">
+		<div style="text-align: center">
+			<h1>NabGo.us</h1>
+			<h3>Click button below to upload board image</h3>
+<form method="post" enctype="multipart/form-data">
+<input
+				type="file"
+				id="file"
+  name="file"
+				accept="image/*"
+				onchange="loadImage(event)"
+				style="display: none"
+			  />
+			  <label for="file" style="cursor: pointer; text-decoration: underline">Upload</label>
+</form>
+			<img src="#" id="output" alt="Uploaded Game Board" width="100%" />
 		</div>
-	</body>
-</html>
+		<canvas
+			id="go-game"
+			style="max-width: 100%; max-height: 100%; object-fit: contain"
+		></canvas>
+	</div>
+</body>

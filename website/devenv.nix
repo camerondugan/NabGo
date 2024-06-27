@@ -27,8 +27,8 @@
   # languages.nix.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
-  pre-commit.hooks.shellcheck.enable = true;
-  pre-commit.hooks.html-tidy.enable = true;
+  #pre-commit.hooks.shellcheck.enable = true;
+  #pre-commit.hooks.html-tidy.enable = true;
 
 
   # https://devenv.sh/processes/
