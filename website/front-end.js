@@ -53,14 +53,14 @@ function drawPredictions(json) {
     i += 1;
   }
   // return if too few corners
-  if (corners.length != 3 && corners.length != 4) {
-    console.log("Too few board corners");
-    return;
-  }
+  // if (corners.length != 3 && corners.length != 4) {
+  //   console.log("Too few board corners");
+  //   return;
+  // }
   const board = document.getElementById("go-game");
   // estimate board skew
   var destCorners = [0, 0, 1, 0, 0, 1, 1, 1];
-  var perspT = PerspT(corners, destCorners);
+  var perspT = PerspT(corners.flat(), destCorners);
 
   for (let b = 0; b < boxes.length; b++) {
     let box = boxes[b];
