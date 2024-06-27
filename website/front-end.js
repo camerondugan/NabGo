@@ -32,7 +32,7 @@ const Classes = {
   emptyCorner: 4,
   emptyEdge: 5,
   whiteStone: 6,
-}
+};
 
 function drawPredictions(json) {
   init_board();
@@ -40,7 +40,6 @@ function drawPredictions(json) {
   const classes = json.classes;
   const boxes = json.boxes;
   let corners = [];
-  : ['black_stone', 'board', 'board_corner', 'empty', 'empty_corner', 'empty_edge', 'white_stone']
   // "classes": output[0].boxes.cls.tolist(),
   // "boxes": output[0].boxes.xywh.tolist(),
 }
