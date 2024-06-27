@@ -17,7 +17,8 @@ function loadImage(event) {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
-        // drawPredictions(json);
+        json.then((json) => drawPredictions(json));
+        //drawPredictions(json);
       })
       .catch((err) => {
         return err;
@@ -26,9 +27,8 @@ function loadImage(event) {
 }
 
 function drawPredictions(json) {
-  const data = JSON.parse(json);
-  const classes = data.classes;
-  const boxes = data.boxes;
+  const classes = json.classes;
+  const boxes = json.boxes;
   // "classes": output[0].boxes.cls.tolist(),
   // "boxes": output[0].boxes.xywh.tolist(),
 }
