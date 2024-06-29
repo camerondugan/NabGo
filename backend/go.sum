@@ -6,6 +6,8 @@ github.com/edgedb/edgedb-go v0.17.1 h1:nWVNWq61X1KyJziy5Zm+NfUwr7nXiCW7/qmH1zMSO
 github.com/edgedb/edgedb-go v0.17.1/go.mod h1:J+llluepGAi/rIPNcUgIFEedCCISLKFG+VUEWnBhIqE=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/rooklift/sgf v0.0.0-20230511200928-fc09b7bd0bfe h1:d9oKy6cd0TK4pmkkd0roK9latPGsPJVDiT7wi/oTyk8=
+github.com/rooklift/sgf v0.0.0-20230511200928-fc09b7bd0bfe/go.mod h1:NxkdyQii9LvyameqofPnGDNj/BNvaMUUCoxvreS1YKc=
 github.com/sigurn/crc16 v0.0.0-20211026045750-20ab5afb07e3 h1:aQKxg3+2p+IFXXg97McgDGT5zcMrQoi0EICZs8Pgchs=
 github.com/sigurn/crc16 v0.0.0-20211026045750-20ab5afb07e3/go.mod h1:9/etS5gpQq9BJsJMWg1wpLbfuSnkm8dPF6FdW2JXVhA=
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
