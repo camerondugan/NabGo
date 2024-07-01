@@ -1,3 +1,6 @@
+import { init_board } from "./go-game-renderer.js";
+import { PerspT } from "./perspective-transform.min.js";
+
 // Load given image and display it
 function loadImage(event) {
   let form = document.querySelector("form");
@@ -34,6 +37,35 @@ const ModelClasses = {
   whiteStone: 6,
 };
 
+function estimateCorners(boxes, classes) {
+  console.log("Estimating Corners, model found too few.");
+  let bottomLeft = boxes[0];
+  let bottomRight = boxes[0];
+  let topLeft = boxes[0];
+  let topRight = boxes[0];
+  for (let b = 0; b < boxes.length; b++) {
+    if (classes[b] == ModelClasses.board) {
+      continue;
+    }
+    let box = boxes[b];
+    box[0] += 0.5 * box[2];
+    box[1] += 0.5 * box[3];
+    if (box[0] <= bottomLeft[0] && box[1] <= bottomLeft[1]) {
+      bottomLeft = box;
+    }
+    if (box[0] >= bottomRight[0] && box[1] <= bottomRight[1]) {
+      bottomRight = box;
+    }
+    if (box[0] <= topLeft[0] && box[1] >= topLeft[1]) {
+      topLeft = box;
+    }
+    if (box[0] >= topRight[0] && box[1] >= topRight[1]) {
+      topRight = box;
+    }
+  }
+  return [bottomLeft, bottomRight, topLeft, topRight];
+}
+
 function drawPredictions(json) {
   init_board(); // ignore undeclared error
   const classes = json.classes;
@@ -52,15 +84,15 @@ function drawPredictions(json) {
     }
     i += 1;
   }
-  // return if too few corners
-  // if (corners.length != 3 && corners.length != 4) {
-  //   console.log("Too few board corners");
-  //   return;
-  // }
+  // approximate if too few corners
+  if (corners.length != 3 && corners.length != 4) {
+    corners = estimateCorners(boxes, classes);
+  }
   const board = document.getElementById("go-game");
   // estimate board skew
+  var origCorners = corners.flat();
   var destCorners = [0, 0, 1, 0, 0, 1, 1, 1];
-  var perspT = PerspT(corners.flat(), destCorners);
+  var perspT = PerspT(origCorners, destCorners);
 
   for (let b = 0; b < boxes.length; b++) {
     let box = boxes[b];
