@@ -1,6 +1,3 @@
-import { init_board } from "./go-game-renderer.js";
-import { PerspT } from "./perspective-transform.min.js";
-
 // Load given image and display it
 function loadImage(event) {
   let form = document.querySelector("form");
