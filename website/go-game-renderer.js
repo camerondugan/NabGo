@@ -254,9 +254,8 @@ function drawBoard() {
 }
 
 function placeWhiteStone(ctx, x, y, board, variant = null, alpha = 1) {
-  let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
   if (variant == null || variant >= whiteStones.length) {
-    variant = randStone;
+    variant = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
   }
   let whiteStone = whiteStones[variant];
   let stoneWidth = boardStoneSpacing(board);

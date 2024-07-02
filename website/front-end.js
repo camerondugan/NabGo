@@ -40,6 +40,7 @@ function estimateCorners(boxes, classes) {
   let bottomRight = boxes[0];
   let topLeft = boxes[0];
   let topRight = boxes[0];
+
   for (let b = 0; b < boxes.length; b++) {
     if (classes[b] == ModelClasses.board) {
       continue;
@@ -60,8 +61,25 @@ function estimateCorners(boxes, classes) {
       topRight = box;
     }
   }
-  return [bottomLeft, bottomRight, topLeft, topRight];
+  return [
+    bottomLeft.slice(0, 2),
+    bottomRight.slice(0, 2),
+    topLeft.slice(0, 2),
+    topRight.slice(0, 2),
+  ];
 }
+
+// function estimateBoardSize(midpoints) {
+//   let unique = [[], []]; // first array is x, second is y
+//   // for every midpoint
+//   for (let i = 0; i < midpoints.length; i++) {
+//     // for x and y
+//     for (let k = 0; k < 2; k++) {
+//       unique[k].push(midpoints[i][k]);
+//     }
+//   }
+//   return [unique[0].length, unique[1].length];
+// }
 
 function drawPredictions(json) {
   init_board(); // ignore undeclared error
@@ -74,32 +92,62 @@ function drawPredictions(json) {
   // find corners
   let corners = [];
   let i = 0;
-  for (let cls in classes) {
+  for (const cls in classes) {
     if (cls == ModelClasses.boardCorner) {
-      corners.push(boxes[i]);
+      corners.push(boxes[i][0]);
+      corners.push(boxes[i][1]);
       console.log(corners[i]);
     }
     i += 1;
   }
+  console.log("corners", corners);
   // approximate if too few corners
-  if (corners.length != 3 && corners.length != 4) {
+  if (corners.length != 6 && corners.length != 8) {
     corners = estimateCorners(boxes, classes);
+    console.log("estimatedCorners", corners);
+  } else {
+    // TODO: sort corners to match destination corners (minTotal, smaller y, smaller x, maxTotal)
   }
-  const board = document.getElementById("go-game");
   // estimate board skew
   var origCorners = corners.flat();
   var destCorners = [0, 0, 1, 0, 0, 1, 1, 1];
   var perspT = PerspT(origCorners, destCorners);
+  for (let i = 0; i < corners.length; i++) {
+    const corner = corners[i];
+    console.log("original " + corner[0] + ", " + corner[1]);
+    console.log("transformed " + perspT.transform(corner[0], corner[1]));
+  }
 
   for (let b = 0; b < boxes.length; b++) {
     let box = boxes[b];
     box[0] += 0.5 * box[2];
     box[1] += 0.5 * box[3];
     let point = perspT.transform(box[0], box[1]);
-    box[0] = point[0];
-    box[1] = point[1];
-    console.log("Box 0" + box[0]);
-    console.log("Box 1" + box[1]);
+    boxes[b] = point;
+    // console.log("Box 0" + box[0]);
+    // console.log("Box 1" + box[1]);
   }
-  // find
+  //estimateBoardSize(boxes);
+  const boardSize = 19;
+
+  const board = document.getElementById("go-game");
+  let ctx = board.getContext("2d");
+
+  for (let b = 0; b < boxes.length; b++) {
+    const box = boxes[b];
+    let x = parseInt(box[0] * boardSize, 10);
+    let y = parseInt(box[1] * boardSize, 10);
+    //console.log(x, y);
+    if (x < 0 || y < 0 || x >= boardSize || y >= boardSize) {
+      continue;
+    }
+    if (classes[b] == ModelClasses.blackStone) {
+      placeBlackStone(ctx, x, y, board);
+      placedStones[x][y] = 0;
+    } else if (classes[b] == ModelClasses.whiteStone) {
+      let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
+      placeWhiteStone(ctx, x, y, board, randStone);
+      placedStones[x][y] = randStone;
+    }
+  }
 }
