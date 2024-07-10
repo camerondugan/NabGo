@@ -1,4 +1,23 @@
-// Load given image and display it
+// Request
+function getSGF() {
+  assert(placedStones);
+  console.log(placedStones);
+  const fetchOptions = {
+    method: "post",
+    body: JSON.stringify(placedStones),
+  };
+  fetch("https://b.nabgo.us/sgf", fetchOptions)
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+      drawPredictions(json);
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+// Load given image, display, and ask for prediction
 function loadImage(event) {
   let form = document.querySelector("form");
   let image = document.getElementById("output");
@@ -24,6 +43,8 @@ function loadImage(event) {
       });
   };
 }
+
+// PREDICTION ONLY PAST THIS COMMENT
 const ModelClasses = {
   blackStone: 0,
   board: 1,

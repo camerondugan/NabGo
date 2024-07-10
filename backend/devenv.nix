@@ -9,7 +9,7 @@
     pkgs.edgedb
   ];
 
-  processes.edgedb-server.exec = "edgedb instance start nabgo-backend --foreground";
+  #processes.edgedb-server.exec = "edgedb instance start nabgo-backend --foreground";
 
   # https://devenv.sh/tests/
   enterTest = ''

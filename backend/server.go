@@ -48,17 +48,13 @@ func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "http://localhost:10701/db/main/ext/auth/ui/signup")
 }
 
-func hello(w http.ResponseWriter, _ *http.Request) {
-	fmt.Fprintf(w, "hello\n")
-}
-
-func headers(w http.ResponseWriter, req *http.Request) {
-	for name, headers := range req.Header {
-		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
-		}
-	}
-}
+// func headers(w http.ResponseWriter, req *http.Request) {
+// 	for name, headers := range req.Header {
+// 		for _, h := range headers {
+// 			fmt.Fprintf(w, "%v: %v\n", name, h)
+// 		}
+// 	}
+// }
 
 func handlePredict(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
@@ -108,13 +104,19 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func handleSgf(w http.ResponseWriter, req *http.Request) {
+	enableCors(&w)
+	w.Write([]byte("hi"))
+}
+
 func runServer() {
 	// set things to respond to
-	http.HandleFunc("/hello", hello)
-	http.HandleFunc("/headers", headers)
+	//http.HandleFunc("/headers", headers)
 	http.HandleFunc("/ui/signin", handleUiSignIn)
 	http.HandleFunc("/ui/signup", handleUiSignUp)
 	http.HandleFunc("/predict", handlePredict)
+	http.HandleFunc("/sgf", handleSgf)
+
 	// define a server and what address it listens to
 	server := &http.Server{
 		Addr:        ":8888",

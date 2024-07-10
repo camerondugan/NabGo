@@ -1,5 +1,5 @@
 // constants
-const validGridSizes = [9, 13, 19];
+const validGridSizes = [19]; //[9, 13, 19];
 const gridSize =
   validGridSizes[Math.floor(Math.random() * validGridSizes.length)];
 const boardPixels = 1000;
