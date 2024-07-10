@@ -106,7 +106,12 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 
 func handleSgf(w http.ResponseWriter, req *http.Request) {
 	enableCors(&w)
-	w.Write([]byte("hi"))
+	_, err := w.Write([]byte("hi"))
+	fatalErrCheck(err)
+	var buf bytes.Buffer
+	_, err = buf.ReadFrom(req.Body)
+	fatalErrCheck(err)
+	fmt.Printf("buf: %v\n", buf)
 }
 
 func runServer() {
