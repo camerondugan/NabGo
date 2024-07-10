@@ -6,6 +6,7 @@ require github.com/edgedb/edgedb-go v0.17.1
 
 require (
 	github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d // indirect
+	github.com/rooklift/sgf v0.0.0-20230511200928-fc09b7bd0bfe // indirect
 	github.com/sigurn/crc16 v0.0.0-20211026045750-20ab5afb07e3 // indirect
 	github.com/xdg/scram v1.0.5 // indirect
 	github.com/xdg/stringprep v1.0.3 // indirect
