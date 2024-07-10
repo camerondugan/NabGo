@@ -21,6 +21,9 @@ function init_board() {
   board = document.getElementById("go-game");
   for (let i = 0; i < gridSize; i++) {
     placedStones[i] = new Array(gridSize);
+    for (let j = 0; j < gridSize; j++) {
+      placedStones[i][j] = -1;
+    }
   }
   initWhiteStoneImages();
   trackTheMouse();
@@ -241,7 +244,7 @@ function drawBoard() {
   for (let i = 0; i < placedStones.length; i++) {
     // col
     for (let j = 0; j < placedStones[i].length; j++) {
-      if (placedStones[i][j] == null) {
+      if (placedStones[i][j] == -1) {
         continue;
       }
       if (placedStones[i][j] == 0) {
@@ -370,7 +373,7 @@ function draw13x13Stars(ctx, stoneSpacing) {
 }
 
 function occupied(x, y) {
-  return placedStones[x][y] != null;
+  return placedStones[x][y] != -1;
 }
 
 function canvasToPieceIndex(x, board) {

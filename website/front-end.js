@@ -1,16 +1,14 @@
 // Request
 function getSGF() {
-  assert(placedStones);
   console.log(placedStones);
   const fetchOptions = {
     method: "post",
     body: JSON.stringify(placedStones),
   };
-  fetch("https://b.nabgo.us/sgf", fetchOptions)
+  fetch("http://localhost:8888/sgf", fetchOptions)
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
-      drawPredictions(json);
     })
     .catch((err) => {
       return err;

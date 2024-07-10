@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -109,7 +110,12 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 	_, err := w.Write([]byte("hi"))
 	fatalErrCheck(err)
 	var buf bytes.Buffer
-	_, err = buf.ReadFrom(req.Body)
+	var v [][]int
+	jsonBody := json.NewDecoder(req.Body)
+	err = jsonBody.Decode(&v)
+	fatalErrCheck(err)
+	fmt.Printf("v: %v\n", v)
+	_, err = buf.ReadFrom(jsonBody.Buffered())
 	fatalErrCheck(err)
 	fmt.Printf("buf: %v\n", buf)
 }
