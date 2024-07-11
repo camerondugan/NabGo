@@ -1,14 +1,14 @@
 // Request
 function getSGF() {
-  console.log(placedStones);
   const fetchOptions = {
     method: "post",
     body: JSON.stringify(placedStones),
   };
-  fetch("http://localhost:8888/sgf", fetchOptions)
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json);
+  // fetch("http://localhost:8888/sgf", fetchOptions)
+  fetch("https://b.nabgo.us/sgf", fetchOptions)
+    .then((response) => response.text())
+    .then((text) => {
+      console.log(text);
     })
     .catch((err) => {
       return err;
@@ -30,6 +30,7 @@ function loadImage(event) {
       body: formData,
     };
 
+    // fetch("http://localhost:8888/predict", fetchOptions)
     fetch("https://b.nabgo.us/predict", fetchOptions)
       .then((response) => response.json())
       .then((json) => {

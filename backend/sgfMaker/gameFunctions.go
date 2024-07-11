@@ -2,34 +2,40 @@ package sgfTools
 
 import (
 	"fmt"
+
 	//"log"
 	"github.com/rooklift/sgf"
 )
 
 type SgfMaker struct {
-	board sgf.Node
+	node sgf.Node
 }
 
-func (self SgfMaker) PlayBlackPiece(x int, y int) {
-	self.board.AddValue("AB", sgf.Point(x, y))
+func (self *SgfMaker) PlaceBlackPiece(x int, y int) {
+	self.node.AddValue("AB", sgf.Point(x, y))
 }
 
-func (self SgfMaker) PlayWhitePiece(x int, y int) {
-	self.board.AddValue("AW", sgf.Point(x, y))
+func (self *SgfMaker) PlaceWhitePiece(x int, y int) {
+	self.node.AddValue("AW", sgf.Point(x, y))
 }
 
 func (self SgfMaker) PassTurn() {
-	self.board.Pass()
+	self.node.Pass()
 }
 
-func (self SgfMaker) ResetBoard() {
-	self.board = *sgf.NewTree(self.board.Board().Size)
+func (self *SgfMaker) NewBoard(size int) {
+	self.node = *sgf.NewTree(size)
 }
 
 func (self SgfMaker) Print() {
-	fmt.Println(self.board.SGF())
+	fmt.Println(self.node.SGF())
 }
 
-func (self SgfMaker) Save() {
-	self.board.Save("board.sgf")
+func (self SgfMaker) String() string {
+	return self.node.SGF()
+}
+
+func (self SgfMaker) Save(name string) error {
+	self.node.MakeMainLine()
+	return self.node.Save(name)
 }

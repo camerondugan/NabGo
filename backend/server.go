@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	sgfTools "nabgo-backend/sgfMaker"
 	"net/http"
 	"net/url"
 	"os"
@@ -107,17 +108,25 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 
 func handleSgf(w http.ResponseWriter, req *http.Request) {
 	enableCors(&w)
-	_, err := w.Write([]byte("hi"))
+	var v [][]int // value from req
+	err := json.NewDecoder(req.Body).Decode(&v)
 	fatalErrCheck(err)
-	var buf bytes.Buffer
-	var v [][]int
-	jsonBody := json.NewDecoder(req.Body)
-	err = jsonBody.Decode(&v)
+	// Generate SGF File
+	sgfMaker := sgfTools.SgfMaker{}
+	sgfMaker.NewBoard(len(v))
+	for x := range v {
+		for y, stone := range v[x] {
+			if stone == -1 { //null
+				continue
+			} else if stone == 0 { //black
+				sgfMaker.PlaceBlackPiece(x, y)
+			} else { // white
+				sgfMaker.PlaceWhitePiece(x, y)
+			}
+		}
+	}
+	_, err = w.Write([]byte(sgfMaker.String()))
 	fatalErrCheck(err)
-	fmt.Printf("v: %v\n", v)
-	_, err = buf.ReadFrom(jsonBody.Buffered())
-	fatalErrCheck(err)
-	fmt.Printf("buf: %v\n", buf)
 }
 
 func runServer() {
