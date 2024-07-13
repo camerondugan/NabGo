@@ -47,6 +47,7 @@ function initWhiteStoneImages() {
 // relative to canvas
 function trackTheMouse() {
   const board = document.getElementById("go-game");
+  let color = 0;
   if (board == null || !board.getContext) {
     // avoid crash
     return;
@@ -83,7 +84,7 @@ function trackTheMouse() {
         return;
       }
       // transparent stone
-      if (numStonesPlaced % 2 == 0) {
+      if (color == 0) {
         placeBlackStone(ctx, mi, mj, board, 0.5);
       } else {
         placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
@@ -91,18 +92,50 @@ function trackTheMouse() {
     }
   });
   document.addEventListener("mouseup", (e) => {
+    if(e.button == 0) {
+      let m = mouseToCanvas(e.clientX, e.clientY, board);
+      let mi = m[0];
+      let mj = m[1];
+      if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+        if (occupied(mi, mj)) {
+          return;
+        }
+        if (numStonesPlaced < 0) numStonesPlaced = 0;
+        //let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
+        //let newStone = (numStonesPlaced % 2) * randStone;
+        placedStones[mi][mj] = color;
+        numStonesPlaced++;
+        drawBoard();
+
+        if(color == 0) {
+          color = 1;
+        }
+        else {
+          color = 0;
+        }
+      }
+    } 
+  });
+  document.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
     let m = mouseToCanvas(e.clientX, e.clientY, board);
     let mi = m[0];
     let mj = m[1];
-    if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
-      if (occupied(mi, mj)) {
-        return;
-      }
-      let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
-      let newStone = (numStonesPlaced % 2) * randStone;
-      placedStones[mi][mj] = newStone;
-      numStonesPlaced++;
+    console.log(m);
+    if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize && occupied(mi, mj)) {
+      placedStones[mi][mj] = -1;
+      numStonesPlaced--;
       drawBoard();
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if(e.key == " ") {
+      if(color == 0) {
+        color = 1;
+      }
+      else {
+        color = 0;
+      }
     }
   });
 }
