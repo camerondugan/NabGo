@@ -6,10 +6,10 @@ import (
 	"os/exec"
 )
 
-func predict(fName string) {
+func analyze(initial string, moves string) []byte {
 	cmd := exec.Command(
-		"../machine-learning/env/bin/python3", "../machine-learning/server-predict.py",
-		fName,
+		"../machine-learning/env/bin/python3", "../machine-learning/analyze.py",
+		initial, moves,
 	)
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
@@ -18,4 +18,8 @@ func predict(fName string) {
 		log.Println(stderr.String())
 		fatalErrCheck(err)
 	}
+
+	out, err := cmd.Output()
+	fatalErrCheck(err)
+	return out
 }

@@ -129,6 +129,18 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 	fatalErrCheck(err)
 }
 
+func handleAnalyze(w http.ResponseWriter, req *http.Request) {
+	enableCors(&w)
+
+	var v []string
+	err := json.NewDecoder(req.Body).Decode(&v)
+	fatalErrCheck(err)
+	out := analyze(v[0], v[1])
+	// etc write header
+	_, err = w.Write([]byte(out))
+	fatalErrCheck(err)
+}
+
 func runServer() {
 	// set things to respond to
 	//http.HandleFunc("/headers", headers)
@@ -136,6 +148,7 @@ func runServer() {
 	http.HandleFunc("/ui/signup", handleUiSignUp)
 	http.HandleFunc("/predict", handlePredict)
 	http.HandleFunc("/sgf", handleSgf)
+	http.HandleFunc("/analyze", handleAnalyze)
 
 	// define a server and what address it listens to
 	server := &http.Server{
