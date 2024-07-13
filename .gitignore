@@ -14,3 +14,7 @@ devenv.local.nix
 .pre-commit-config.yaml
 machine-learning/env
 runs/detect
+machine-learning/analysis_logs/*.log
+machine-learning/KataGo/*
+machine-learning/katago.json
+machine-learning/analysis_example.cfg

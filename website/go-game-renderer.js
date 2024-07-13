@@ -15,6 +15,12 @@ let numStonesPlaced = 0;
 let placedStones = [];
 let lastMousePosX = null;
 let lastMousePosY = null;
+let playing = false;
+let moves = [];
+
+function play() {
+  playing = true;
+}
 
 function init_board() {
   let firstTime = board == null;
@@ -107,6 +113,10 @@ function trackTheMouse() {
         numStonesPlaced++;
         drawBoard();
 
+        if(playing) {
+          moves.push([(color==0) ? "b" : "w",[mi, mj]]);
+        }
+
         if(color == 0) {
           color = 1;
         }
@@ -117,6 +127,9 @@ function trackTheMouse() {
     } 
   });
   document.addEventListener("contextmenu", (e) => {
+    if (playing) {
+      return;
+    }
     e.preventDefault();
     let m = mouseToCanvas(e.clientX, e.clientY, board);
     let mi = m[0];
@@ -129,6 +142,7 @@ function trackTheMouse() {
     }
   });
   document.addEventListener("keydown", (e) => {
+    e.preventDefault();
     if(e.key == " ") {
       if(color == 0) {
         color = 1;
@@ -137,6 +151,7 @@ function trackTheMouse() {
         color = 0;
       }
     }
+    //drawBoard();
   });
 }
 

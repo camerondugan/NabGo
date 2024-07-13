@@ -62,11 +62,11 @@ class KataGo:
 
         query["moves"] = [(color,sgfmill_to_str(move)) for color, move in moves]
         query["initialStones"] = initial_stones
-        for y in range(initial_board.side):
+        """for y in range(initial_board.side):
             for x in range(initial_board.side):
                 color = initial_board.get(y,x)
                 if color:
-                    query["initialStones"].append((color,sgfmill_to_str((y,x))))
+                    query["initialStones"].append((color,sgfmill_to_str((y,x))))"""
         query["rules"] = "Chinese"
         query["komi"] = komi
         query["boardXSize"] = initial_board.side
@@ -121,12 +121,13 @@ if __name__ == "__main__":
     initial_stones = json.loads(args.initial_stones)
     moves = json.loads(args.moves)
 
+    for i in range(len(initial_stones)):
+        initial_stones[i] = tuple(map(str, initial_stones[i]))
+
+    print(initial_stones[0])
+    print(type(initial_stones[0]))
+
     moves = [(move[0], tuple(map(int, move[1].split(',')))) if isinstance(move[1], str) else move for move in moves]
-    
-    for move in moves:
-        print(type(move))
-        print(type(move[0]))
-        print(type(move[1]))
 
     displayboard = board.copy()
     for color, move in moves:
@@ -137,6 +138,11 @@ if __name__ == "__main__":
     print(sgfmill.ascii_boards.render_board(displayboard))
 
     print("Query result: ")
-    print(katago.query(board, initial_stones, moves, komi))
+    out = katago.query(board, initial_stones, moves, komi)
+    print(out)
+
+
+    with open("katago.json", "w") as f:
+        f.write(json.dumps(out))
 
     katago.close()
