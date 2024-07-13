@@ -9,6 +9,8 @@ function getSGF() {
     .then((response) => response.text())
     .then((text) => {
       console.log(text);
+      navigator.clipboard.writeText(text);
+      return text;
     })
     .catch((err) => {
       return err;
