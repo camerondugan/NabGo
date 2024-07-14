@@ -2,7 +2,7 @@
 <script src="perspective-transform.min.js"></script>
 <script src="go-game-renderer.js"></script>
 <script src="front-end.js"></script>
-<!-- <meta http-equiv="refresh" content="0; url=https://camerondugan.com/"/> WILDERWILDERWILDER-->
+<!-- <meta http-equiv="refresh" content="0; url=https://camerondugan.com/"/>-->
 <head>
 	<title>NabGo.us</title>
 	<!-- for speed when loaded soon after start? -->
@@ -24,6 +24,7 @@
 	<link rel="preload" href="assets/w13.png" as="image" />
 	<link rel="preload" href="assets/w14.png" as="image" />
 	<link rel="preload" href="assets/w15.png" as="image" />
+	<link rel="preload" href="assets/blackBox.png" as="image" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -81,9 +82,51 @@
 				style="display: none"
 			  />
 			  <label for="file" style="cursor: pointer; text-decoration: underline">Upload</label>
-</form>
+	</form>
 			<img src="#" id="output" alt="Uploaded Game Board" width="100%" />
 		</div>
+
+		<script type = "text/javascript">
+		function updateMove(increment)
+		{
+			var input = document.getElementById("HTMLmove");
+			var inputValue = input.value;
+			inputValue = parseInt(inputValue);
+			inputValue += increment;
+
+			if(inputValue < 0)
+			{
+				inputValue = 0;
+			}
+
+			document.getElementById("HTMLmove").value = inputValue;
+		}
+		</script>
+
+		<div style= "float: right ; margin-right: 50px ; font-size: 20px">
+			<div style= "text-align: center">
+
+			<h2>Analysis</h2>
+			Move History
+
+			<br><br>
+
+			<button onclick = "updateMove(-1)" style = "font-size : 30px;"> < </button>
+
+			<input type = "text" id = "HTMLmove" value = "0" onchange = "updateMove(0)" style = "font-size : 30px ; text-align: center ; width: 10% ;"/>
+
+			<button onclick = "updateMove(1)" style = "font-size : 30px;"> > </button>
+
+			<br><br>
+
+			<button onclick = "updateMove(0)"> Predict Previous Moves </button>
+
+			<br><br>
+
+			<img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
+			</div>
+		</div>
+
 		<canvas
 			id="go-game"
 			style="max-width: 100%; max-height: 100%; object-fit: contain"
