@@ -56,20 +56,20 @@
 	<div style="position: absolute; top: 10px; right: 10px">
 		<!-- dist to edge will be fixed with CSS variable -->
 		<details>
-			<summary style="cursor: pointer; display: block">Settings</summary>
+			<summary style="cursor: pointer; display: block; background-color : transparent;">Settings</summary>
 			<p>Settings go here!!</p>
 		</details>
 	</div>
 
-	<div style="text-align: left">
-		<button onclick="window.location.href = 'https://camerondugan.com'">
+	<div style="text-align: left; margin-left: 20px; margin-top: 20px;">
+		<button onclick="window.location.href = 'https://camerondugan.com'" style = "background-color : transparent; font-size: medium;">
 			<!--stand in page-->
 			Log in or sign up
 		</button>
 	</div>
 
 	<div class="main">
-		<div style="text-align: center">
+		<div style="text-align: center; background-color : transparent;">
 			<h1>NabGo.us</h1>
 			<h3>Click button below to upload board image</h3>
 <form method="post" enctype="multipart/form-data">
@@ -111,15 +111,15 @@
 
 			<br><br>
 
-			<button onclick = "updateMove(-1)" style = "font-size : 30px;"> < </button>
+			<button onclick = "updateMove(-1)" style = "font-size : 30px; background-color : transparent;"> < </button> <!--The red < is not an error, that's the button text-->
 
-			<input type = "text" id = "HTMLmove" value = "0" onchange = "updateMove(0)" style = "font-size : 30px ; text-align: center ; width: 10% ;"/>
+			<input type = "text" id = "HTMLmove" value = "0" onchange = "updateMove(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
 
-			<button onclick = "updateMove(1)" style = "font-size : 30px;"> > </button>
+			<button onclick = "updateMove(1)" style = "font-size : 30px; background-color : transparent;"> > </button>
 
 			<br><br>
 
-			<button onclick = "updateMove(0)"> Predict Previous Moves </button>
+			<button onclick = "updateMove(0)" style = "background-color : transparent; height : 30px; width: 190px; font-size: medium;" class = "backgroundImageButton"> Predict Previous Moves </button>
 
 			<br><br>
 
@@ -127,7 +127,7 @@
 
 			<br><br>
 			
-			<button onclick = "window.location.href = 'file:///C:/Users/Wilde/NabGo-2/website/analysis.html'"> Analyze! </button>
+			<button onclick = "window.location.href = 'file:///C:/Users/Wilde/NabGo-2/website/analysis.html'" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
 
 			<!--link will need to changed to actual website destination once it's live, not, my own file-->
 			</div>
