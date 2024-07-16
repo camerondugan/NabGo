@@ -22,26 +22,25 @@ function analyzeCurrentBoard() {
   // placedStones but not the last one
   let prevBoard = [];
 
-  for(let i = 0; i < placedStones.length; i++) {
-    for(let j = 0; j < placedStones[i].length; j++) {
-      if(placedStones[i][j] == -1) {
+  for (let i = 0; i < placedStones.length; i++) {
+    for (let j = 0; j < placedStones[i].length; j++) {
+      if (placedStones[i][j] == -1) {
         continue;
       }
-      prevBoard.push([(placedStones[i][j] == 0) ? "b" : "w",[i, j]]);
+      prevBoard.push([placedStones[i][j] == 0 ? "b" : "w", [i, j]]);
     }
-  } 
-
+  }
 
   let arg1 = JSON.stringify(prevBoard);
   console.log(prevBoard);
   // moves but only the last one
-  if(!playing || moves.length == 0) {
+  if (!playing || moves.length == 0) {
     return;
   }
   let arg2 = JSON.stringify(moves[moves.length - 1]);
   const fetchOptions = {
     method: "post",
-    body: JSON.stringify([arg1,arg2]),
+    body: JSON.stringify([arg1, arg2]),
   };
   fetch("https://b.nabgo.us/analyze", fetchOptions)
     .then((response) => response.text())

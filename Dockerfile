@@ -17,10 +17,17 @@ ENV PATH="./env/bin:$PATH"
 
 RUN ./env/bin/python3 -m pip install -r requirements.txt
 
-FROM gcr.io/distroless/static-debian12:latest AS final-stage
-WORKDIR /
+FROM python:3.11-slim AS final-stage
+WORKDIR /backend
 
-COPY --from=venv-stage env ./
+COPY runs/detect/train2/weights/best.onnx ../runs/detect/train2/weights/best.onnx
+COPY machine-learning/server-predict.py ../machine-learning/server-predict.py
+COPY --from=venv-stage env ../machine-learning/env
 COPY --from=build-stage nabgo-backend ./
 
-CMD ["/nabgo-backend"]
+EXPOSE 8888/tcp
+EXPOSE 8888/udp
+
+RUN apt-get update && apt-get install libgl1 libglib2.0-0 -y
+
+CMD ["./nabgo-backend"]
