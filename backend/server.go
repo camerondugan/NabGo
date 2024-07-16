@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	sgfTools "nabgo-backend/sgfMaker"
 	"net/http"
 	"net/url"
 	"os"
@@ -112,7 +111,7 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 	err := json.NewDecoder(req.Body).Decode(&v)
 	fatalErrCheck(err)
 	// Generate SGF File
-	sgfMaker := sgfTools.SgfMaker{}
+	sgfMaker := SgfMaker{}
 	sgfMaker.NewBoard(len(v))
 	for x := range v {
 		for y, stone := range v[x] {

@@ -3,12 +3,12 @@
     let
       version = "1.0.5";
 system = "x86_64-linux";
-devenv_root = "/home/admin/manifests/NabGo/machine-learning";
+devenv_root = "/home/cam/Code/NabGo/machine-learning";
 devenv_dotfile = ./.devenv;
 devenv_dotfile_string = ".devenv";
 container_name = null;
 devenv_tmpdir = "/run/user/1000";
-devenv_runtime = "/run/user/1000/devenv-f99e978";
+devenv_runtime = "/run/user/1000/devenv-25e6950";
 
         in {
         pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
@@ -23,12 +23,12 @@ devenv_runtime = "/run/user/1000/devenv-f99e978";
         let
           version = "1.0.5";
 system = "x86_64-linux";
-devenv_root = "/home/admin/manifests/NabGo/machine-learning";
+devenv_root = "/home/cam/Code/NabGo/machine-learning";
 devenv_dotfile = ./.devenv;
 devenv_dotfile_string = ".devenv";
 container_name = null;
 devenv_tmpdir = "/run/user/1000";
-devenv_runtime = "/run/user/1000/devenv-f99e978";
+devenv_runtime = "/run/user/1000/devenv-25e6950";
 
             devenv =
             if builtins.pathExists (devenv_dotfile + "/devenv.json")
