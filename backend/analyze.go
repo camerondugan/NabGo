@@ -24,5 +24,6 @@ func analyze(initial string, moves string) []byte {
 
 	out, err := cmd.Output()
 	fatalErrCheck(err)
+	fmt.Printf("out: %v\n", out)
 	return out
 }

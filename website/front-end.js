@@ -27,7 +27,10 @@ function analyzeCurrentBoard() {
       if (placedStones[i][j] == -1) {
         continue;
       }
-      prevBoard.push([placedStones[i][j] == 0 ? "b" : "w", [i, j]]);
+      prevBoard.push([
+        placedStones[i][j] == 0 ? "b" : "w",
+        i.toString() + "," + j.toString(),
+      ]);
     }
   }
 
@@ -36,6 +39,9 @@ function analyzeCurrentBoard() {
   // moves but only the last one
   if (!playing || moves.length == 0) {
     return;
+  }
+  for (let i = 0; i < moves.length; i++) {
+    moves[i] = moves[i][0].toString() + "," + moves[i][1].toString();
   }
   let arg2 = JSON.stringify(moves[moves.length - 1]);
   const fetchOptions = {
@@ -48,6 +54,7 @@ function analyzeCurrentBoard() {
       console.log(text);
     })
     .catch((err) => {
+      console.log(err);
       return err;
     });
 }

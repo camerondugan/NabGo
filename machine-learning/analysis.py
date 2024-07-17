@@ -140,12 +140,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args)
 
-    katago = KataGo(
-        "../../Katago/katago",
-        "../../Katago/analysis_example.cfg",
-        "../../Katago/kata1-b28c512nbt-s7168446720-d4316919285.bin.gz",
-    )
-
     board = sgfmill.boards.Board(19)
     komi = 6.5
     initial_stones = json.loads(args.initial_stones)
@@ -175,6 +169,11 @@ if __name__ == "__main__":
     print(sgfmill.ascii_boards.render_board(displayboard))
 
     print("Query result: ")
+    katago = KataGo(
+        "../../Katago/katago",
+        "../../Katago/analysis_example.cfg",
+        "../../Katago/kata1-b28c512nbt-s7168446720-d4316919285.bin.gz",
+    )
     out = katago.query(board, initial_stones, moves, komi)
     print(out)
 
@@ -182,4 +181,3 @@ if __name__ == "__main__":
         f.write(json.dumps(out))
 
     katago.close()
-
