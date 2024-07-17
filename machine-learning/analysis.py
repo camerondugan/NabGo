@@ -152,16 +152,24 @@ if __name__ == "__main__":
     print(initial_stones[0])
     print(type(initial_stones[0]))
 
-    moves = [
-        (
-            (move[0], tuple(map(int, move[1].split(","))))
-            if isinstance(move[1], str)
-            else move
-        )
-        for move in moves
-    ]
+    for i in range(len(moves)):
+        moves[i] = tuple(map(str, moves[i]))
+
+    # moves = [
+    #     (
+    #         (move[0], tuple(map(int, move[1].split(","))))
+    #         if isinstance(move[1], str)
+    #         else move
+    #     )
+    #     for move in moves
+    # ]
 
     displayboard = board.copy()
+    for color, move in initial_stones:
+        if move != "pass":
+            print(move)
+            row, col = move
+            displayboard.play(row, col, color)
     for color, move in moves:
         if move != "pass":
             print(move)
