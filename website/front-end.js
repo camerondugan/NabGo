@@ -41,7 +41,7 @@ function analyzeCurrentBoard() {
     return;
   }
   for (let i = 0; i < moves.length; i++) {
-    moves[i] = moves[i][0].toString() + "," + moves[i][1].toString();
+    moves[i][1] = moves[i][1].toString();
   }
   let arg2 = JSON.stringify(moves[moves.length - 1]);
   const fetchOptions = {
