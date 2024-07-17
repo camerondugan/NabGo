@@ -5,7 +5,7 @@ function getSGF(b) {
     body: JSON.stringify(b),
   };
   // fetch("http://localhost:8888/sgf", fetchOptions)
-  fetch("https://b.nabgo.us/sgf", fetchOptions)
+  fetch("https://bl.nabgo.us/sgf", fetchOptions)
     .then((response) => response.text())
     .then((text) => {
       console.log(text);
@@ -42,7 +42,7 @@ function analyzeCurrentBoard() {
     method: "post",
     body: JSON.stringify([arg1, arg2]),
   };
-  fetch("https://b.nabgo.us/analyze", fetchOptions)
+  fetch("https://bl.nabgo.us/analyze", fetchOptions)
     .then((response) => response.text())
     .then((text) => {
       console.log(text);
@@ -68,7 +68,7 @@ function loadImage(event) {
     };
 
     // fetch("http://localhost:8888/predict", fetchOptions)
-    fetch("https://b.nabgo.us/predict", fetchOptions)
+    fetch("https://bl.nabgo.us/predict", fetchOptions)
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
