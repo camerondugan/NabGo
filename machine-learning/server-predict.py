@@ -3,7 +3,6 @@ import sys
 from typing import List
 
 import torch
-import ultralytics
 from ultralytics import YOLO
 
 FOLDER = "train2"
