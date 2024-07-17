@@ -93,7 +93,7 @@ class KataGo:
                 color = initial_board.get(y,x)
                 if color:
                     query["initialStones"].append((color,sgfmill_to_str((y,x))))"""
-        query["rules"] = "Chinese"
+        query["rules"] = "tromp-taylor"
         query["komi"] = komi
         query["boardXSize"] = initial_board.side
         query["boardYSize"] = initial_board.side

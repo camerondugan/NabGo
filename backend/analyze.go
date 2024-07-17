@@ -17,7 +17,7 @@ func analyze(initial string, moves string) []byte {
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
 	out, err := cmd.Output()
-	fmt.Println(out)
+	fmt.Println(string(out))
 	if err != nil {
 		log.Println(stderr.String())
 		fatalErrCheck(err)

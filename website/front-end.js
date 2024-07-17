@@ -40,14 +40,16 @@ function analyzeCurrentBoard() {
   if (!playing || moves.length == 0) {
     return;
   }
+  let ourMoves = [];
   for (let i = 0; i < moves.length; i++) {
     if (moves[i][1].length == 2) {
       // moves[i][1][1] = 19 - moves[i][1][1];
-      moves[i][1] =
-        alphabet[moves[i][1][0]].toString() + (moves[i][1][1] + 1).toString();
+      ourMoves.push(
+        alphabet[moves[i][1][0]].toString() + (moves[i][1][1] + 1).toString(),
+      );
     }
   }
-  let arg2 = JSON.stringify([moves[moves.length - 1]]);
+  let arg2 = JSON.stringify([ourMoves[ourMoves.length - 1]]);
   const fetchOptions = {
     method: "post",
     body: JSON.stringify([arg1, arg2]),
