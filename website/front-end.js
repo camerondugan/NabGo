@@ -43,7 +43,7 @@ function analyzeCurrentBoard() {
   for (let i = 0; i < moves.length; i++) {
     moves[i][1] = moves[i][1].toString();
   }
-  let arg2 = JSON.stringify(moves[moves.length - 1]);
+  let arg2 = JSON.stringify([moves[moves.length - 1]]);
   const fetchOptions = {
     method: "post",
     body: JSON.stringify([arg1, arg2]),
