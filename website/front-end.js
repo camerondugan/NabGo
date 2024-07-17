@@ -44,9 +44,10 @@ function analyzeCurrentBoard() {
   for (let i = 0; i < moves.length; i++) {
     if (moves[i][1].length == 2) {
       // moves[i][1][1] = 19 - moves[i][1][1];
-      ourMoves.push(
+      ourMoves.push([
+        moves[i][0],
         alphabet[moves[i][1][0]].toString() + (moves[i][1][1] + 1).toString(),
-      );
+      ]);
     }
   }
   let arg2 = JSON.stringify([ourMoves[ourMoves.length - 1]]);

@@ -23,7 +23,7 @@ function play() {
 }
 
 function init_board() {
-  let firstTime = board == null;
+  // let firstTime = board == null;
   board = document.getElementById("go-game");
   for (let i = 0; i < gridSize; i++) {
     placedStones[i] = new Array(gridSize);
@@ -34,9 +34,9 @@ function init_board() {
   initWhiteStoneImages();
   trackTheMouse();
   drawBoard();
-  if (firstTime) {
-    placeExampleStones();
-  }
+  // if (firstTime) {
+  //   placeExampleStones();
+  // }
 }
 
 function initWhiteStoneImages() {
@@ -98,7 +98,7 @@ function trackTheMouse() {
     }
   });
   document.addEventListener("mouseup", (e) => {
-    if(e.button == 0) {
+    if (e.button == 0) {
       let m = mouseToCanvas(e.clientX, e.clientY, board);
       let mi = m[0];
       let mj = m[1];
@@ -113,18 +113,17 @@ function trackTheMouse() {
         numStonesPlaced++;
         drawBoard();
 
-        if(playing) {
-          moves.push([(color==0) ? "b" : "w",[mi, mj]]);
+        if (playing) {
+          moves.push([color == 0 ? "b" : "w", [mi, mj]]);
         }
 
-        if(color == 0) {
+        if (color == 0) {
           color = 1;
-        }
-        else {
+        } else {
           color = 0;
         }
       }
-    } 
+    }
   });
   document.addEventListener("contextmenu", (e) => {
     if (playing) {
@@ -135,7 +134,13 @@ function trackTheMouse() {
     let mi = m[0];
     let mj = m[1];
     console.log(m);
-    if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize && occupied(mi, mj)) {
+    if (
+      mi >= 0 &&
+      mi < gridSize &&
+      mj >= 0 &&
+      mj < gridSize &&
+      occupied(mi, mj)
+    ) {
       placedStones[mi][mj] = -1;
       numStonesPlaced--;
       drawBoard();
@@ -143,11 +148,10 @@ function trackTheMouse() {
   });
   document.addEventListener("keydown", (e) => {
     e.preventDefault();
-    if(e.key == " ") {
-      if(color == 0) {
+    if (e.key == " ") {
+      if (color == 0) {
         color = 1;
-      }
-      else {
+      } else {
         color = 0;
       }
     }
