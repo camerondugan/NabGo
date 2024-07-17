@@ -164,18 +164,18 @@ if __name__ == "__main__":
     #     for move in moves
     # ]
 
-    displayboard = board.copy()
-    for color, move in initial_stones:
-        if move != "pass":
-            print(move)
-            row, col = move
-            displayboard.play(row, col, color)
-    for color, move in moves:
-        if move != "pass":
-            print(move)
-            row, col = move
-            displayboard.play(row, col, color)
-    print(sgfmill.ascii_boards.render_board(displayboard))
+    # displayboard = board.copy()
+    # for color, move in initial_stones:
+    #     if move != "pass":
+    #         print(move)
+    #         row, col = move
+    #         displayboard.play(row, col, color)
+    # for color, move in moves:
+    #     if move != "pass":
+    #         print(move)
+    #         row, col = move
+    #         displayboard.play(row, col, color)
+    # print(sgfmill.ascii_boards.render_board(displayboard))
 
     print("Query result: ")
     katago = KataGo(
