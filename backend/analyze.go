@@ -11,12 +11,8 @@ func analyze(initial string, moves string) []byte {
 	fmt.Println(initial)
 	fmt.Println(moves)
 	cmd := exec.Command(
-		"/home/lambda8/Nabgo.us/NabGo/machine-learning/env/bin/python3",
-		"../machine-learning/analyze.py",
-		"--initial-stones",
-		initial,
-		"--moves",
-		moves,
+		"../machine-learning/env/bin/python3", "../machine-learning/analysis.py",
+		"--initial-stones", initial, "--moves", moves,
 	)
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
