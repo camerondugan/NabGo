@@ -85,7 +85,8 @@ class KataGo:
         query["id"] = str(self.query_counter)
         self.query_counter += 1
 
-        query["moves"] = [(color, sgfmill_to_str(move)) for color, move in moves]
+        # query["moves"] = [(color, sgfmill_to_str(move)) for color, move in moves]
+        query["moves"] = moves
         query["initialStones"] = initial_stones
         """for y in range(initial_board.side):
             for x in range(initial_board.side):

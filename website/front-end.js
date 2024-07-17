@@ -29,7 +29,7 @@ function analyzeCurrentBoard() {
       }
       prevBoard.push([
         placedStones[i][j] == 0 ? "b" : "w",
-        alphabet[i].toString() + (j + 1).toString(),
+        i.toString() + "," + j.toString(),
       ]);
     }
   }
