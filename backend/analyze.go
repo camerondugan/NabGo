@@ -16,14 +16,10 @@ func analyze(initial string, moves string) []byte {
 	)
 	var stderr bytes.Buffer
 	cmd.Stderr = &stderr
-	err := cmd.Run()
+	out, err := cmd.Output()
 	if err != nil {
 		log.Println(stderr.String())
 		fatalErrCheck(err)
 	}
-
-	out, err := cmd.Output()
-	fatalErrCheck(err)
-	fmt.Printf("out: %v\n", out)
 	return out
 }
