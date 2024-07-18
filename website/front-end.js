@@ -71,10 +71,27 @@ function analyzeCurrentBoard() {
   fetch("https://bl.nabgo.us/analyze", fetchOptions)
     .then((response) => response.json())
     .then((json) => {
+      // this flips analysis info
+      for (let i = 0; i < json.moveInfos.length; i++) {
+        let m = json.moveInfos[i].move;
+        let l = m[0];
+        m = m.slice(1, m.length);
+        m = gridSize + 1 - Number(m);
+        json.moveInfos[i].move = l + m.toString();
+        for (let j = 0; j < json.moveInfos[i].pv.length; j++) {
+          let m = json.moveInfos[i].pv[j];
+          let l = m[0];
+          m = m.slice(1, m.length);
+          m = gridSize + 1 - Number(m);
+          json.moveInfos[i].pv[j] = l + m.toString();
+        }
+      }
+      // use analysis info on front-end
       console.log(json);
-      console.log(json.winRate);
-      console.log(json.scoreLead);
-      console.log(json.pv);
+      console.log(json.rootInfo.winrate);
+      console.log(json.rootInfo.scoreLead);
+      console.log(json.rootInfo.currentPlayer);
+      console.log(json.rootInfo.utility);
     })
     .catch((err) => {
       console.log(err);
