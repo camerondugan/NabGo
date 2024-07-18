@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"strings"
 )
 
 func analyze(initial string, moves string) []byte {
@@ -20,6 +21,13 @@ func analyze(initial string, moves string) []byte {
 	if err != nil {
 		log.Println(stderr.String())
 		fatalErrCheck(err)
+	}
+
+	// filtering
+
+	stringOut := strings.Split(string(out), "\n")
+	for _, line := range stringOut {
+		fmt.Println("Line: " + line)
 	}
 	return out
 }
