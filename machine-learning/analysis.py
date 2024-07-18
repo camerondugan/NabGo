@@ -85,12 +85,12 @@ class KataGo:
         query["id"] = str(self.query_counter)
         self.query_counter += 1
 
-        query["moves"] = [(color, sgfmill_to_str(move)) for color, move in moves]
-        query["initialStones"] = [
-            (color, sgfmill_to_str(move)) for color, move in initial_stones
-        ]
-        # query["moves"] = moves
-        # query["initialStones"] = initial_stones
+        # query["moves"] = [(color, sgfmill_to_str(move)) for color, move in moves]
+        # query["initialStones"] = [
+        #     (color, sgfmill_to_str(move)) for color, move in initial_stones
+        # ]
+        query["moves"] = moves
+        query["initialStones"] = initial_stones
         """for y in range(initial_board.side):
             for x in range(initial_board.side):
                 color = initial_board.get(y,x)
@@ -149,31 +149,31 @@ if __name__ == "__main__":
     initial_stones = json.loads(args.initial_stones)
     moves = json.loads(args.moves)
 
-    # for i in range(len(initial_stones)):
-    #     initial_stones[i] = tuple(map(str, initial_stones[i]))
-    #
-    # for i in range(len(moves)):
-    #     moves[i] = tuple(map(str, moves[i]))
+    for i in range(len(initial_stones)):
+        initial_stones[i] = tuple(map(str, initial_stones[i]))
 
-    print(initial_stones[0])
-    print(type(initial_stones[0]))
+    for i in range(len(moves)):
+        moves[i] = tuple(map(str, moves[i]))
 
-    moves = [
-        (
-            (move[0], tuple(map(int, move[1].split(","))))
-            if isinstance(move[1], str)
-            else move
-        )
-        for move in moves
-    ]
-    initial_stones = [
-        (
-            (move[0], tuple(map(int, move[1].split(","))))
-            if isinstance(move[1], str)
-            else move
-        )
-        for move in initial_stones
-    ]
+    # print(initial_stones[0])
+    # print(type(initial_stones[0]))
+
+    # moves = [
+    #     (
+    #         (move[0], tuple(map(int, move[1].split(","))))
+    #         if isinstance(move[1], str)
+    #         else move
+    #     )
+    #     for move in moves
+    # ]
+    # initial_stones = [
+    #     (
+    #         (move[0], tuple(map(int, move[1].split(","))))
+    #         if isinstance(move[1], str)
+    #         else move
+    #     )
+    #     for move in initial_stones
+    # ]
 
     # displayboard = board.copy()
     # for color, move in initial_stones:
