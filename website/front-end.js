@@ -34,7 +34,6 @@ function analyzeCurrentBoard() {
     }
   }
 
-  let arg1 = JSON.stringify(prevBoard);
   console.log(prevBoard);
   // moves but only the last one
   if (!playing || moves.length == 0) {
@@ -50,7 +49,14 @@ function analyzeCurrentBoard() {
       ]);
     }
   }
-  let arg2 = JSON.stringify([ourMoves[ourMoves.length - 1]]);
+
+  // remove played
+  let lastMove = ourMoves[ourMoves.length - 1];
+  let moveIndex = prevBoard.indexOf(lastMove);
+  prevBoard.splice(moveIndex, 1);
+
+  let arg1 = JSON.stringify(prevBoard);
+  let arg2 = JSON.stringify([lastMove]);
   const fetchOptions = {
     method: "post",
     body: JSON.stringify([arg1, arg2]),
