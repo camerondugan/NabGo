@@ -69,9 +69,12 @@ function analyzeCurrentBoard() {
     body: JSON.stringify([arg1, arg2]),
   };
   fetch("https://bl.nabgo.us/analyze", fetchOptions)
-    .then((response) => response.text())
-    .then((text) => {
-      console.log(text);
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+      console.log(json.winRate);
+      console.log(json.scoreLead);
+      console.log(json.pv);
     })
     .catch((err) => {
       console.log(err);

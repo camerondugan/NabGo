@@ -184,9 +184,6 @@ if __name__ == "__main__":
         "../../Katago/kata1-b28c512nbt-s7168446720-d4316919285.bin.gz",
     )
     out = katago.query(board, initial_stones, moves, komi)
-    print(out)
-
-    with open("katago.json", "w") as f:
-        f.write(json.dumps(out))
+    print(json.dumps(out))
 
     katago.close()

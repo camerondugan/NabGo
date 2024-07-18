@@ -24,13 +24,13 @@ func analyze(initial string, moves string) []byte {
 	}
 
 	// filtering
-
 	stringOut := strings.Split(string(out), "\n")
 	for _, line := range stringOut {
 		if line[0] == '{' {
 			return []byte(line)
 		}
 	}
+
 	var noBytes []byte
 	return noBytes
 }
