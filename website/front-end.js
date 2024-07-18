@@ -36,9 +36,9 @@ function analyzeCurrentBoard() {
 
   console.log(prevBoard);
   // moves but only the last one
-  if (!playing || moves.length == 0) {
-    return;
-  }
+  // if (!playing || moves.length == 0) {
+  //   return;
+  // }
   let ourMoves = [];
   for (let i = 0; i < moves.length; i++) {
     if (moves[i][1].length == 2) {
@@ -52,7 +52,14 @@ function analyzeCurrentBoard() {
 
   // remove played
   let lastMove = ourMoves[ourMoves.length - 1];
-  let moveIndex = prevBoard.indexOf(lastMove);
+  let moveIndex = -1;
+  for (let i = 0; i < prevBoard.length; i++) {
+    let x = prevBoard[i];
+    if (lastMove[0] === x[0] && lastMove[1] === x[1]) {
+      moveIndex = i;
+      break;
+    }
+  }
   prevBoard.splice(moveIndex, 1);
 
   let arg1 = JSON.stringify(prevBoard);
