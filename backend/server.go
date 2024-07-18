@@ -118,9 +118,9 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 			if stone == -1 { //null
 				continue
 			} else if stone == 0 { //black
-				sgfMaker.PlaceBlackPiece(x, 19-y)
+				sgfMaker.PlaceBlackPiece(x, 18-y)
 			} else { // white
-				sgfMaker.PlaceWhitePiece(x, 19-y)
+				sgfMaker.PlaceWhitePiece(x, 18-y)
 			}
 		}
 	}
