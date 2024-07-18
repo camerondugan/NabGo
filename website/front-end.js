@@ -19,6 +19,12 @@ function getSGF(b) {
 
 // Analyze current board state
 function analyzeCurrentBoard() {
+  // clear analysis Stones
+  for (let i = 0; i < analysisStones.length; i++) {
+    for (let j = 0; j < analysisStones.length; j++) {
+      analysisStones[i][j] = -1;
+    }
+  }
   // placedStones but not the last one
   let prevBoard = [];
 
@@ -29,7 +35,7 @@ function analyzeCurrentBoard() {
       }
       prevBoard.push([
         placedStones[i][j] == 0 ? "b" : "w",
-        alphabet[i].toString() + (j + 1).toString(),
+        (i + 1).toString() + "," + (j + 1).toString(),
       ]);
     }
   }
@@ -45,7 +51,7 @@ function analyzeCurrentBoard() {
       // moves[i][1][1] = 19 - moves[i][1][1];
       ourMoves.push([
         moves[i][0],
-        alphabet[moves[i][1][0]].toString() + (moves[i][1][1] + 1).toString(),
+        (moves[i][1][0] + 1).toString() + (moves[i][1][1] + 1).toString(),
       ]);
     }
   }
@@ -71,6 +77,10 @@ function analyzeCurrentBoard() {
   fetch("https://bl.nabgo.us/analyze", fetchOptions)
     .then((response) => response.json())
     .then((json) => {
+      if (json.moveInfos == null) {
+        console.log(json);
+        return;
+      }
       // this flips analysis info
       for (let i = 0; i < json.moveInfos.length; i++) {
         let m = json.moveInfos[i].move;
@@ -82,16 +92,24 @@ function analyzeCurrentBoard() {
           let m = json.moveInfos[i].pv[j];
           let l = m[0];
           m = m.slice(1, m.length);
-          m = gridSize + 1 - Number(m);
-          json.moveInfos[i].pv[j] = l + m.toString();
+          json.moveInfos[i].pv[j] = l + m;
         }
       }
       // use analysis info on front-end
       console.log(json);
       console.log(json.rootInfo.winrate);
       console.log(json.rootInfo.scoreLead);
-      console.log(json.rootInfo.currentPlayer);
       console.log(json.rootInfo.utility);
+      if (json.moveInfos.length < 3) {
+        return;
+      }
+      for (let i = 0; i < 3; i++) {
+        let m = json.moveInfos[i].move;
+        let x = alphabet.indexOf(m[0]);
+        let y = Number(m.slice(1, m.length)) - 1;
+        analysisStones[x][y] = json.rootInfo.currentPlayer == "W" ? 0 : 1;
+      }
+      drawBoard();
     })
     .catch((err) => {
       console.log(err);

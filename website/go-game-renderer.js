@@ -13,6 +13,7 @@ const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 let board = null;
 let numStonesPlaced = 0;
 let placedStones = [];
+let analysisStones = [];
 let lastMousePosX = null;
 let lastMousePosY = null;
 let playing = false;
@@ -27,8 +28,10 @@ function init_board() {
   board = document.getElementById("go-game");
   for (let i = 0; i < gridSize; i++) {
     placedStones[i] = new Array(gridSize);
+    analysisStones[i] = new Array(gridSize);
     for (let j = 0; j < gridSize; j++) {
       placedStones[i][j] = -1;
+      analysisStones[i][j] = -1;
     }
   }
   initWhiteStoneImages();
@@ -73,7 +76,7 @@ function trackTheMouse() {
     // find mouse position as canvas coordinates
     let m = mouseToCanvas(e.clientX, e.clientY, board, boardBoundingBox);
     let mi = m[0];
-    let mj = m[1];
+    let mj = gridSize - 1 - m[1];
     // don't redraw if not needed
     if (mi == lastMousePosX && mj == lastMousePosY) {
       lastMousePosX = mi;
@@ -101,7 +104,7 @@ function trackTheMouse() {
     if (e.button == 0) {
       let m = mouseToCanvas(e.clientX, e.clientY, board);
       let mi = m[0];
-      let mj = m[1];
+      let mj = gridSize - 1 - m[1];
       if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
         if (occupied(mi, mj)) {
           return;
@@ -115,6 +118,7 @@ function trackTheMouse() {
 
         if (playing) {
           moves.push([color == 0 ? "b" : "w", [mi, mj]]);
+          analyzeCurrentBoard();
         }
 
         if (color == 0) {
@@ -306,6 +310,19 @@ function drawBoard() {
       }
     }
   }
+  for (let i = 0; i < analysisStones.length; i++) {
+    // col
+    for (let j = 0; j < analysisStones[i].length; j++) {
+      if (analysisStones[i][j] == -1) {
+        continue;
+      }
+      if (analysisStones[i][j] == 0) {
+        placeBlackStone(ctx, i, j, board, 0.5);
+      } else {
+        placeWhiteStone(ctx, i, j, board, analysisStones[i][j], 0.5);
+      }
+    }
+  }
 }
 
 function placeWhiteStone(ctx, x, y, board, variant = null, alpha = 1) {
@@ -318,7 +335,7 @@ function placeWhiteStone(ctx, x, y, board, variant = null, alpha = 1) {
   ctx.drawImage(
     whiteStone,
     pieceIndexToCanvas(x, stoneWidth) - stoneWidth / 2,
-    pieceIndexToCanvas(y, stoneWidth) - stoneWidth / 2,
+    pieceIndexToCanvas(gridSize - 1 - y, stoneWidth) - stoneWidth / 2,
     stoneWidth,
     stoneWidth,
   );
@@ -331,7 +348,7 @@ function placeBlackStone(ctx, x, y, board, alpha = 1) {
   ctx.drawImage(
     blackStone,
     pieceIndexToCanvas(x, stoneWidth) - stoneWidth / 2,
-    pieceIndexToCanvas(y, stoneWidth) - stoneWidth / 2,
+    pieceIndexToCanvas(gridSize - 1 - y, stoneWidth) - stoneWidth / 2,
     stoneWidth,
     stoneWidth,
   );
