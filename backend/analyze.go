@@ -27,7 +27,10 @@ func analyze(initial string, moves string) []byte {
 
 	stringOut := strings.Split(string(out), "\n")
 	for _, line := range stringOut {
-		fmt.Println("Line: " + line)
+		if line[0] == '{' {
+			return []byte(line)
+		}
 	}
-	return out
+	var noBytes []byte
+	return noBytes
 }
