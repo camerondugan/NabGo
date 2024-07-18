@@ -108,7 +108,7 @@ function analyzeCurrentBoard() {
         let m = json.moveInfos[i].move;
         let x = alphabet.indexOf(m[0]);
         let y = Number(m.slice(1, m.length)) - 1;
-        analysisStones[x][y] = json.rootInfo.currentPlayer == "W" ? 0 : 1;
+        analysisStones[x][y] = json.rootInfo.currentPlayer == "W" ? 1 : 0;
       }
       drawBoard();
     })
@@ -260,6 +260,7 @@ function drawPredictions(json) {
     const box = boxes[b];
     let x = parseInt(box[0] * boardSize, 10);
     let y = parseInt(box[1] * boardSize, 10);
+    y = 18 - y;
     //console.log(x, y);
     if (x < 0 || y < 0 || x >= boardSize || y >= boardSize) {
       continue;
