@@ -20,6 +20,8 @@ import sgfmill.boards
 Color = Union[Literal["b"], Literal["w"]]
 Move = Union[None, Literal["pass"], Tuple[int, int]]
 
+Alphabet = "ABCDEFGHJKLMNOPQRSTUVWXYZ"
+
 
 def sgfmill_to_str(move: Move) -> str:
     if move is None:
@@ -27,7 +29,13 @@ def sgfmill_to_str(move: Move) -> str:
     if move == "pass":
         return "pass"
     (y, x) = move
-    return "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x] + str(y + 1)
+    return Alphabet[x] + str(y + 1)
+
+
+def convert(move: str) -> Tuple:
+    x = Alphabet.find(move[0])
+    y = int(move[1:])
+    return (x, y)
 
 
 class KataGo:
@@ -150,9 +158,11 @@ if __name__ == "__main__":
     moves = json.loads(args.moves)
 
     for i in range(len(initial_stones)):
+        initial_stones[i][1] = convert(initial_stones[i][1])
         initial_stones[i] = tuple(map(str, initial_stones[i]))
 
     for i in range(len(moves)):
+        moves[i][1] = convert(moves[i][1])
         moves[i] = tuple(map(str, moves[i]))
 
     # print(initial_stones[0])
