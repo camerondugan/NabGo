@@ -34,8 +34,7 @@ def sgfmill_to_str(move: Move) -> str:
 
 def convert(move: str) -> Tuple:
     x = Alphabet.index(move[0].upper())
-    y = int(move[1:])
-    print(x, y)
+    y = int(move[1:]) - 1
     return (x, y)
 
 
