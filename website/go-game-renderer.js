@@ -8,7 +8,7 @@ const starSize = 4;
 const blackStone = new Image();
 blackStone.src = "/assets/b.png";
 const whiteStones = [];
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+const alphabet = "ABCDEFGHJKLMNOPQRSTUVWXYZ".split("");
 // globals
 let board = null;
 let numStonesPlaced = 0;
