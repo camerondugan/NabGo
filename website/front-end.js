@@ -35,7 +35,7 @@ function analyzeCurrentBoard() {
       }
       prevBoard.push([
         placedStones[i][j] == 0 ? "b" : "w",
-        (i + 1).toString() + "," + (j + 1).toString(),
+        alphabet[i].toString().toLowerCase() + (j + 1).toString(),
       ]);
     }
   }
@@ -51,7 +51,8 @@ function analyzeCurrentBoard() {
       // moves[i][1][1] = 19 - moves[i][1][1];
       ourMoves.push([
         moves[i][0],
-        (moves[i][1][0] + 1).toString() + (moves[i][1][1] + 1).toString(),
+        alphabet[moves[i][1][0]].toString().toLowerCase() +
+          (moves[i][1][1] + 1).toString(),
       ]);
     }
   }
