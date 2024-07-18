@@ -36,9 +36,9 @@ function analyzeCurrentBoard() {
 
   console.log(prevBoard);
   // moves but only the last one
-  // if (!playing || moves.length == 0) {
-  //   return;
-  // }
+  if (!playing || moves.length == 0) {
+    return;
+  }
   let ourMoves = [];
   for (let i = 0; i < moves.length; i++) {
     if (moves[i][1].length == 2) {
