@@ -31,7 +31,7 @@ function init_board() {
     analysisStones[i] = new Array(gridSize);
     for (let j = 0; j < gridSize; j++) {
       placedStones[i][j] = -1;
-      analysisStones[i][j] = -1;
+      analysisStones[i][j] = [-1, -1];
     }
   }
   initWhiteStoneImages();
@@ -136,7 +136,7 @@ function trackTheMouse() {
     e.preventDefault();
     let m = mouseToCanvas(e.clientX, e.clientY, board);
     let mi = m[0];
-    let mj = m[1];
+    let mj = gridSize - 1 - m[1];
     console.log(m);
     if (
       mi >= 0 &&
@@ -313,14 +313,19 @@ function drawBoard() {
   for (let i = 0; i < analysisStones.length; i++) {
     // col
     for (let j = 0; j < analysisStones[i].length; j++) {
-      if (analysisStones[i][j] == -1) {
+      if (analysisStones[i][j][0] == -1) {
         continue;
       }
-      if (analysisStones[i][j] == 0) {
+      if (analysisStones[i][j][0] == 0) {
         placeBlackStone(ctx, i, j, board, 0.5);
       } else {
-        placeWhiteStone(ctx, i, j, board, analysisStones[i][j], 0.5);
+        placeWhiteStone(ctx, i, j, board, analysisStones[i][j][0], 0.5);
       }
+      ctx.fillText(
+        String(analysisStones[i][j][1]),
+        pieceIndexToCanvas(i, stoneSpacing) - 0.5 * stoneSpacing,
+        pieceIndexToCanvas(gridSize - 1 - j, stoneSpacing) - 0.5 * stoneSpacing,
+      );
     }
   }
 }

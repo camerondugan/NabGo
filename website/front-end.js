@@ -19,12 +19,6 @@ function getSGF(b) {
 
 // Analyze current board state
 function analyzeCurrentBoard() {
-  // clear analysis Stones
-  for (let i = 0; i < analysisStones.length; i++) {
-    for (let j = 0; j < analysisStones.length; j++) {
-      analysisStones[i][j] = -1;
-    }
-  }
   // placedStones but not the last one
   let prevBoard = [];
 
@@ -101,6 +95,12 @@ function analyzeCurrentBoard() {
       console.log(json.rootInfo.winrate);
       console.log(json.rootInfo.scoreLead);
       console.log(json.rootInfo.utility);
+      // clear analysis Stones
+      for (let i = 0; i < analysisStones.length; i++) {
+        for (let j = 0; j < analysisStones.length; j++) {
+          analysisStones[i][j] = [-1, -1];
+        }
+      }
       if (json.moveInfos.length < 3) {
         return;
       }
@@ -108,7 +108,9 @@ function analyzeCurrentBoard() {
         let m = json.moveInfos[i].move;
         let x = alphabet.indexOf(m[0]);
         let y = Number(m.slice(1, m.length)) - 1;
-        analysisStones[x][y] = json.rootInfo.currentPlayer == "W" ? 1 : 0;
+        let rank = i + 1;
+        analysisStones[x][y] =
+          json.rootInfo.currentPlayer == "W" ? [1, rank] : [0, rank];
       }
       drawBoard();
     })
@@ -260,7 +262,7 @@ function drawPredictions(json) {
     const box = boxes[b];
     let x = parseInt(box[0] * boardSize, 10);
     let y = parseInt(box[1] * boardSize, 10);
-    y = 18 - y;
+    y = gridSize - 1 - y;
     //console.log(x, y);
     if (x < 0 || y < 0 || x >= boardSize || y >= boardSize) {
       continue;
