@@ -298,3 +298,8 @@ function clearAnalysisStones() {
     }
   }
 }
+
+function unloadImage() {
+  let image = document.getElementById("output");
+  image.src = "";
+}
