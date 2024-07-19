@@ -310,5 +310,7 @@ function drawWinrateBar(winrate) {
   let whiteWPercent = 100 - blackWPercent;
 
   const bar = document.getElementById("winrate-bar");
-  bar.style.width = `linear-gradient(to right, black ${blackWPercent}%, white ${whiteWPercent}%)`;
+  bar.style.background = `linear-gradient(to right, black ${blackWPercent}%, white ${whiteWPercent}%)`;
+
+  document.getElementById("analysis-stats").innerHTML = `Black Win Probability: ${blackWPercent}%`;
 }
