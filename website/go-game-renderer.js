@@ -110,14 +110,15 @@ function trackTheMouse() {
           return;
         }
         if (numStonesPlaced < 0) numStonesPlaced = 0;
-        //let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
-        //let newStone = (numStonesPlaced % 2) * randStone;
-        placedStones[mi][mj] = color;
+        let randStone =
+          Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
+        placedStones[mi][mj] = color * randStone;
         numStonesPlaced++;
         drawBoard();
 
         if (playing) {
           moves.push([color == 0 ? "b" : "w", [mi, mj]]);
+          removeCapturedStones();
           analyzeCurrentBoard();
         }
 

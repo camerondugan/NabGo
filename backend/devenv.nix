@@ -2,7 +2,6 @@
 
 {
   enterShell = ''
-    edgedb ui
   '';
 
   packages = [

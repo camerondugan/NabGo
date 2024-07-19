@@ -140,6 +140,23 @@ func handleAnalyze(w http.ResponseWriter, req *http.Request) {
 	fatalErrCheck(err)
 }
 
+type removeStoneJson struct {
+	LastMove []int
+	Stones   [][]Stone
+}
+
+func handleRemoveStones(w http.ResponseWriter, req *http.Request) {
+	enableCors(&w)
+
+	var v removeStoneJson
+	err := json.NewDecoder(req.Body).Decode(&v)
+	fatalErrCheck(err)
+
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(removeStones(v.LastMove, v.Stones))
+	fatalErrCheck(err)
+}
+
 func runServer() {
 	// set things to respond to
 	//http.HandleFunc("/headers", headers)
@@ -148,6 +165,7 @@ func runServer() {
 	http.HandleFunc("/predict", handlePredict)
 	http.HandleFunc("/sgf", handleSgf)
 	http.HandleFunc("/analyze", handleAnalyze)
+	http.HandleFunc("/removeStones", handleRemoveStones)
 
 	// define a server and what address it listens to
 	server := &http.Server{

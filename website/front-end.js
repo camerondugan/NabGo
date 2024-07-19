@@ -19,6 +19,7 @@ function getSGF(b) {
 
 // Analyze current board state
 function analyzeCurrentBoard() {
+  clearAnalysisStones();
   // placedStones but not the last one
   let prevBoard = [];
 
@@ -95,12 +96,7 @@ function analyzeCurrentBoard() {
       console.log(json.rootInfo.winrate);
       console.log(json.rootInfo.scoreLead);
       console.log(json.rootInfo.utility);
-      // clear analysis Stones
-      for (let i = 0; i < analysisStones.length; i++) {
-        for (let j = 0; j < analysisStones.length; j++) {
-          analysisStones[i][j] = [-1, -1];
-        }
-      }
+      clearAnalysisStones();
       if (json.moveInfos.length < 3) {
         return;
       }
@@ -194,17 +190,34 @@ function estimateCorners(boxes, classes) {
   ];
 }
 
-// function estimateBoardSize(midpoints) {
-//   let unique = [[], []]; // first array is x, second is y
-//   // for every midpoint
-//   for (let i = 0; i < midpoints.length; i++) {
-//     // for x and y
-//     for (let k = 0; k < 2; k++) {
-//       unique[k].push(midpoints[i][k]);
-//     }
-//   }
-//   return [unique[0].length, unique[1].length];
-// }
+function removeCapturedStones() {
+  if (!playing || moves.length == 0) {
+    return;
+  }
+  var lm = moves[moves.length - 1][1];
+  var o = {
+    LastMove: lm,
+    Stones: placedStones,
+  };
+  const fetchOptions = {
+    method: "post",
+    body: JSON.stringify(o),
+  };
+  // fetch("http://localhost:8888/removeStones", fetchOptions)
+  fetch("https://bl.nabgo.us/removeStones", fetchOptions)
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+      for (let i = 0; i < json.length; i++) {
+        let pos = json[i];
+        placedStones[pos[0]][pos[1]] = -1;
+      }
+      drawBoard();
+    })
+    .catch((err) => {
+      return err;
+    });
+}
 
 function drawPredictions(json) {
   init_board(); // ignore undeclared error
@@ -274,6 +287,14 @@ function drawPredictions(json) {
       let randStone = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
       placeWhiteStone(ctx, x, y, board, randStone);
       placedStones[x][y] = randStone;
+    }
+  }
+}
+
+function clearAnalysisStones() {
+  for (let i = 0; i < analysisStones.length; i++) {
+    for (let j = 0; j < analysisStones.length; j++) {
+      analysisStones[i][j] = [-1, -1];
     }
   }
 }
