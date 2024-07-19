@@ -31,7 +31,14 @@
 	<link rel="manifest" href="/site.webmanifest" />
 	<link rel="stylesheet" type="text/css" href="minimal.css" />
 </head>
-<body onload="init_board()">
+<style>
+body
+{
+	background-image:  url("assets/goPicture4.png");
+	background-size: cover;
+}
+</style>
+<body onload = init_board()>
 	<div style="display: none">
 		<img id="board-bg" alt="board-bg" src="assets/boardBG.jpg" />
 		<img id="black-stone" alt="black-stone" src="assets/b.png" />
@@ -62,10 +69,8 @@
 	</div>
 
 	<div style="text-align: left; margin-left: 20px; margin-top: 20px;">
-		<button onclick="window.location.href = 'https://camerondugan.com'" style = "background-color : transparent; font-size: medium;">
-			<!--stand in page-->
-			Log in or sign up
-		</button>
+		<!--<button onclick="window.location.href = 'https://camerondugan.com'" style = "background-color : transparent; font-size: medium;">-->
+		<button onclick = "window.location.href = 'https://camerondugan.com'" style = "font-size : medium ; background-color : transparent;"> Log in or sign up</button>
 	</div>
 
 	<div class="main">
@@ -81,7 +86,7 @@
 				onchange="loadImage(event)"
 				style="display: none"
 			  />
-			  <label for="file" style="cursor: pointer; text-decoration: underline">Upload</label>
+			  <label for="file" style="cursor: pointer; background-color : transparent;">Upload</label>
 	</form>
 			<img src="#" id="output" alt="Uploaded Game Board" width="100%" />
 		</div>
@@ -132,8 +137,6 @@
 			<!--link will need to changed to actual website destination once it's live, not, my own file-->
 			</div>
 		</div>
-
-		
 
 		<canvas
 			id="go-game"
