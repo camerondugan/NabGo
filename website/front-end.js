@@ -109,6 +109,7 @@ function analyzeCurrentBoard() {
           json.rootInfo.currentPlayer == "W" ? [1, rank] : [0, rank];
       }
       drawBoard();
+      drawWinrateBar(json.rootInfo.winrate);
     })
     .catch((err) => {
       console.log(err);
@@ -302,4 +303,12 @@ function clearAnalysisStones() {
 function unloadImage() {
   let image = document.getElementById("output");
   image.src = "";
+}
+
+function drawWinrateBar(winrate) {
+  let blackWPercent = (winrate + 1) * 50;
+  let whiteWPercent = 100 - blackWPercent;
+
+  const bar = document.getElementById("winrate-bar");
+  bar.style.width = `linear-gradient(to right, black ${blackWPercent}%, white ${whiteWPercent}%)`;
 }
