@@ -100,12 +100,12 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// BUG:
-	err = req2.Write(w)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
+	// // BUG:
+	// err = req2.Write(w)
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// 	return
+	// }
 
 	var aj AuthJson
 	err = json.NewDecoder(req.Body).Decode(&aj)
