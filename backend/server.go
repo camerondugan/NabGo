@@ -109,6 +109,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err.Error())
 	}
 	fmt.Printf("req2: %v\n", req2.Body)
+	fmt.Printf("aj: %v\n", aj)
 }
 
 // func headers(w http.ResponseWriter, req *http.Request) {
