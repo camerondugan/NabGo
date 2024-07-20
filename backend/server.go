@@ -73,6 +73,7 @@ func isLoggedIn(req *http.Request) bool {
 	// 	fmt.Println("Cookie isn't what we set")
 	// 	return false
 	// }
+	return true
 }
 
 func handleUiVerify(w http.ResponseWriter, req *http.Request) {
