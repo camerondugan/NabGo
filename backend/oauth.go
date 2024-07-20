@@ -12,8 +12,8 @@ func generatePKCE() (string, string) {
 	// create verifier
 	token := make([]byte, 32)
 	_, err := rand.Read(token)
-	log.Println(err.Error())
 	if err != nil {
+		log.Println(err.Error())
 		return "", "" //avoid crashing
 	}
 	verifier := base64.URLEncoding.EncodeToString(token)
@@ -26,6 +26,7 @@ func generatePKCE() (string, string) {
 	hasher := sha256.New()
 	_, err = hasher.Write([]byte(verifier))
 	if err != nil {
+		log.Println(err.Error())
 		return verifier, "" //avoid crashing
 	}
 	challenge := base64.URLEncoding.EncodeToString(hasher.Sum(nil))
