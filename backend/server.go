@@ -77,10 +77,10 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-	exchangeURL.Query().Add("code", code)
-	exchangeURL.Query().Add("verifier", verifier)
-	print(exchangeURL.String())
-	fmt.Printf("exchangeURL: %v\n", exchangeURL)
+	query := exchangeURL.Query()
+	query.Add("code", code)
+	query.Add("verifier", verifier)
+	print(exchangeURL.String() + query.Encode())
 	req2, err := http.Get(exchangeURL.String())
 	if err != nil {
 		fmt.Println(err)
