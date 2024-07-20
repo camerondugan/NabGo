@@ -70,7 +70,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-	exchangeStr := "https://auth.nabgo.us/db/main/ext/auth/callback/"
+	exchangeStr := "https://auth.nabgo.us/db/main/ext/auth/callback/token"
 	exchangeURL, err := url.Parse(exchangeStr)
 	if err != nil {
 		fmt.Println(err)
@@ -82,12 +82,12 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	req2, err := http.Get(exchangeURL.String())
 	if err != nil {
 		fmt.Println(err)
-		w.WriteHeader(http.StatusForbidden)
+		w.WriteHeader(http.StatusNotFound)
 		return
 	}
 	if req2.StatusCode != http.StatusOK {
-		w.WriteHeader(http.StatusTeapot)
-		w.Write([]byte("Auth from server error"))
+		w.WriteHeader(http.StatusNotAcceptable)
+		w.Write([]byte("Auth from server error\n"))
 		req2.Write(w)
 		return
 	}
