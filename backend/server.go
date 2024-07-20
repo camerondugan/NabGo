@@ -80,6 +80,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	exchangeURL.Query().Add("code", code)
 	exchangeURL.Query().Add("verifier", verifier)
 	print(exchangeURL.String())
+	fmt.Printf("exchangeURL: %v\n", exchangeURL)
 	req2, err := http.Get(exchangeURL.String())
 	if err != nil {
 		fmt.Println(err)
