@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -63,8 +62,8 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	cookies := req.Cookies()
 	verifier := ""
 	for _, cookie := range cookies {
-		if strings.HasPrefix("edgedb-pkce-verifier=", cookie.Name) {
-			verifier = strings.Split(cookie.Name, "=")[1]
+		if cookie.Name == "edgedb-pkce-verifier=" {
+			verifier = cookie.Value
 		}
 	}
 	if verifier == "" {
