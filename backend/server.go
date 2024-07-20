@@ -100,21 +100,15 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Println("Parsing json")
-
 	var aj AuthJson
 	err = json.NewDecoder(req2.Body).Decode(&aj)
 	if err != nil {
 		fmt.Println(err.Error())
-		err = req2.Write(w)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
 		return
 	}
 	fmt.Printf("req2: %v\n", req2.Body)
 	fmt.Printf("aj: %v\n", aj)
+	fmt.Printf("aj.Auth_token: %v\n", aj.Auth_token)
 }
 
 // func headers(w http.ResponseWriter, req *http.Request) {
