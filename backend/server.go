@@ -106,9 +106,23 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err.Error())
 		return
 	}
-	fmt.Printf("req2: %v\n", req2.Body)
-	fmt.Printf("aj: %v\n", aj)
-	fmt.Printf("aj.Auth_token: %v\n", aj.Auth_token)
+	cookie := http.Cookie{
+		Name:     "edgedb-auth-token",
+		Value:    aj.Auth_token,
+		Expires:  time.Now().Add(time.Hour * 24 * 5),
+		Path:     "/",
+		Secure:   true,
+		SameSite: http.SameSiteStrictMode,
+	}
+	http.SetCookie(w, &cookie)
+
+	// head on back to main site
+	http.Redirect(
+		w,
+		req,
+		"https://nabgo.us",
+		http.StatusOK,
+	)
 }
 
 // func headers(w http.ResponseWriter, req *http.Request) {
