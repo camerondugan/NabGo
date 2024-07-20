@@ -12,6 +12,13 @@ import (
 	"time"
 )
 
+type authJson struct {
+	auth_token             string
+	identity_id            string
+	provider_token         string
+	provider_refresh_token string
+}
+
 func enableCors(w *http.ResponseWriter) {
 	//(*w).Header().Set("Access-Control-Allow-Origin", "https://b.nabgo.us/predict")
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
@@ -96,10 +103,11 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	// BUG:
 	req2.Write(w)
 
-	// err = json.NewDecoder(req.Body).Decode()
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// }
+	var aj authJson
+	err = json.NewDecoder(req.Body).Decode(aj)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 	fmt.Printf("req2: %v\n", req2.Body)
 }
 
