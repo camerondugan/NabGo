@@ -24,7 +24,7 @@ func generatePKCE() (string, string) {
 
 	// create challenge hash
 	hasher := sha256.New()
-	_, err = hasher.Write([]byte(verifier))
+	_, err = hasher.Write([]byte(token))
 	if err != nil {
 		log.Println(err.Error())
 		return verifier, "" //avoid crashing
