@@ -43,11 +43,11 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 }
 
 func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
-	handleAuth(w, req, "http://localhost:10702/db/main/ext/auth/ui/signin")
+	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signin")
 }
 
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
-	handleAuth(w, req, "http://localhost:10702/db/main/ext/auth/ui/signup")
+	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
 }
 
 // func headers(w http.ResponseWriter, req *http.Request) {
