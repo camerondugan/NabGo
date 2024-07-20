@@ -121,7 +121,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		w,
 		req,
 		"https://nabgo.us",
-		http.StatusOK,
+		http.StatusSeeOther,
 	)
 }
 
