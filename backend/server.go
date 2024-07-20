@@ -88,6 +88,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	if req2.StatusCode != http.StatusOK {
 		w.WriteHeader(http.StatusTeapot)
 		w.Write([]byte("Auth from server error"))
+		req2.Write(w)
 		return
 	}
 
