@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
-	"fmt"
 	"log"
 )
 
@@ -18,9 +17,9 @@ func generatePKCE() (string, string) {
 	}
 	verifier := base64.RawURLEncoding.EncodeToString(token)
 
-	// debug
-	fmt.Println(verifier)
-	fmt.Println(len(verifier))
+	// // debug
+	// fmt.Println(verifier)
+	// fmt.Println(len(verifier))
 
 	// create challenge hash
 	hasher := sha256.New()

@@ -57,6 +57,19 @@ func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
 }
 
+func isLoggedIn(req *http.Request) bool {
+	auth, err := req.Cookie("edgedb-auth-token")
+	if err != nil {
+		fmt.Println(err.Error())
+		return false
+	}
+	// if we didn't set this cookie
+	if !auth.Secure || auth.SameSite != http.SameSiteStrictMode {
+		return false
+	}
+	return true
+}
+
 func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	url := req.URL
 	code := url.Query().Get("code")
@@ -93,6 +106,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
+
 	if req2.StatusCode != http.StatusOK {
 		w.WriteHeader(http.StatusNotAcceptable)
 		w.Write([]byte("Auth from server error\n"))
@@ -134,6 +148,10 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 // }
 
 func handlePredict(w http.ResponseWriter, r *http.Request) {
+	if !isLoggedIn(r) {
+		w.WriteHeader(http.StatusForbidden)
+		return
+	}
 	enableCors(&w)
 	tempFile, err := os.CreateTemp("", "predictionImage-*.jpg")
 	defer tempFile.Close()
@@ -203,6 +221,10 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleSgf(w http.ResponseWriter, req *http.Request) {
+	if !isLoggedIn(req) {
+		w.WriteHeader(http.StatusForbidden)
+		return
+	}
 	enableCors(&w)
 	var v [][]int // value from req
 	err := json.NewDecoder(req.Body).Decode(&v)
@@ -232,6 +254,10 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 }
 
 func handleAnalyze(w http.ResponseWriter, req *http.Request) {
+	if !isLoggedIn(req) {
+		w.WriteHeader(http.StatusForbidden)
+		return
+	}
 	enableCors(&w)
 
 	var v []string
@@ -255,6 +281,10 @@ type removeStoneJson struct {
 }
 
 func handleRemoveStones(w http.ResponseWriter, req *http.Request) {
+	if !isLoggedIn(req) {
+		w.WriteHeader(http.StatusForbidden)
+		return
+	}
 	enableCors(&w)
 
 	var v removeStoneJson
