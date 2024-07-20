@@ -65,6 +65,7 @@ func isLoggedIn(req *http.Request) bool {
 	}
 	// if we didn't set this cookie
 	if !auth.Secure || auth.SameSite != http.SameSiteStrictMode {
+		fmt.Println("Cookie isn't what we set")
 		return false
 	}
 	return true
@@ -137,6 +138,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		"https://nabgo.us",
 		http.StatusSeeOther,
 	)
+	http.SetCookie(w, &cookie)
 }
 
 // func headers(w http.ResponseWriter, req *http.Request) {
