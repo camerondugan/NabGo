@@ -107,7 +107,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	// 	return
 	// }
 
-	var aj AuthJson
+	var aj []string
 	err = json.NewDecoder(req.Body).Decode(&aj)
 	if err != nil {
 		fmt.Println(err.Error())
