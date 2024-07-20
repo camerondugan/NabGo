@@ -109,6 +109,7 @@ function analyzeCurrentBoard() {
           json.rootInfo.currentPlayer == "W" ? [1, rank] : [0, rank];
       }
       drawBoard();
+      drawWinrateBar(json.rootInfo.winrate);
     })
     .catch((err) => {
       console.log(err);
@@ -297,4 +298,19 @@ function clearAnalysisStones() {
       analysisStones[i][j] = [-1, -1];
     }
   }
+}
+
+function unloadImage() {
+  let image = document.getElementById("output");
+  image.src = "";
+}
+
+function drawWinrateBar(winrate) {
+  let blackWPercent = (winrate + 1) * 50;
+  let whiteWPercent = 100 - blackWPercent;
+
+  const bar = document.getElementById("winrate-bar");
+  bar.style.background = `linear-gradient(to right, black ${blackWPercent}%, white ${whiteWPercent}%)`;
+
+  document.getElementById("analysis-stats").innerHTML = `Black Win Probability: ${blackWPercent}%`;
 }
