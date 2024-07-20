@@ -58,6 +58,9 @@ func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 }
 
 func isLoggedIn(req *http.Request) bool {
+	for cookie := range req.Cookies() {
+		fmt.Printf("cookie: %v\n", cookie)
+	}
 	auth, err := req.Cookie("edgedb-auth-token")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -138,7 +141,6 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		"https://nabgo.us",
 		http.StatusSeeOther,
 	)
-	http.SetCookie(w, &cookie)
 }
 
 // func headers(w http.ResponseWriter, req *http.Request) {
