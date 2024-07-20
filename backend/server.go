@@ -102,7 +102,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Println("Parsing json")
 
-	var aj []string
+	var aj AuthJson
 	err = json.NewDecoder(req2.Body).Decode(&aj)
 	if err != nil {
 		fmt.Println(err.Error())
