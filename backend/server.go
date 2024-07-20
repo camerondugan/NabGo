@@ -100,19 +100,17 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// BUG:
-	err = req2.Write(w)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-
 	fmt.Println("Parsing json")
 
 	var aj []string
 	err = json.NewDecoder(req.Body).Decode(&aj)
 	if err != nil {
 		fmt.Println(err.Error())
+		err = req2.Write(w)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
 		return
 	}
 	fmt.Printf("req2: %v\n", req2.Body)
