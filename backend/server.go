@@ -73,7 +73,6 @@ func isLoggedIn(req *http.Request) bool {
 	// 	fmt.Println("Cookie isn't what we set")
 	// 	return false
 	// }
-	return true
 }
 
 func handleUiVerify(w http.ResponseWriter, req *http.Request) {
@@ -127,11 +126,13 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	cookie := http.Cookie{
-		Name:    "edgedb-auth-token",
-		Value:   aj.Auth_token,
-		Expires: time.Now().Add(time.Hour * 24 * 5),
-		Path:    "/",
-		Domain:  ".nabgo.us",
+		Name:     "edgedb-auth-token",
+		Value:    aj.Auth_token,
+		Expires:  time.Now().Add(time.Hour * 24 * 5),
+		Path:     "/",
+		Secure:   true,
+		SameSite: http.SameSiteStrictMode,
+		Domain:   ".nabgo.us",
 	}
 	http.SetCookie(w, &cookie)
 
