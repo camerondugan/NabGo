@@ -131,6 +131,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		Path:     "/",
 		Secure:   true,
 		SameSite: http.SameSiteStrictMode,
+		Domain:   ".nabgo.us",
 	}
 	http.SetCookie(w, &cookie)
 
