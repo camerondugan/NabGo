@@ -247,6 +247,7 @@ func runServer() {
 	//http.HandleFunc("/headers", headers)
 	http.HandleFunc("/ui/signin", handleUiSignIn)
 	http.HandleFunc("/ui/signup", handleUiSignUp)
+	http.HandleFunc("/ui/verify", handleUiVerify)
 	http.HandleFunc("/predict", handlePredict)
 	http.HandleFunc("/sgf", handleSgf)
 	http.HandleFunc("/analyze", handleAnalyze)
