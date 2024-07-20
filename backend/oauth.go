@@ -5,13 +5,17 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"log"
 )
 
 func generatePKCE() (string, string) {
 	// create verifier
 	token := make([]byte, 32)
 	_, err := rand.Read(token)
-	fatalErrCheck(err)
+	log.Println(err.Error())
+	if err != nil {
+		return "", "" //avoid crashing
+	}
 	verifier := base64.URLEncoding.EncodeToString(token)
 
 	// debug

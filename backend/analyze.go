@@ -20,7 +20,8 @@ func analyze(initial string, moves string) []byte {
 	out, err := cmd.Output()
 	if err != nil {
 		log.Println(stderr.String())
-		fatalErrCheck(err)
+		log.Println(err.Error())
+		return []byte{}
 	}
 
 	// filtering

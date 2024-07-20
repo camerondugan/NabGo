@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -60,9 +61,11 @@ func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 func handlePredict(w http.ResponseWriter, r *http.Request) {
 	enableCors(&w)
 	tempFile, err := os.CreateTemp("", "predictionImage-*.jpg")
-	fatalErrCheck(err)
 	defer tempFile.Close()
 	defer os.Remove(tempFile.Name())
+	if err != nil {
+		log.Println(err.Error())
+	}
 	fmt.Println(tempFile.Name())
 	//fill jpg file with image converted to jpg
 
@@ -70,13 +73,17 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	var buf bytes.Buffer
 	// in your case file would be fileupload
 	file, _, err := r.FormFile("file")
-	if err != nil {
-		panic(err)
-	}
 	defer file.Close()
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	// Copy the file data to my buffer
 	_, err = io.Copy(&buf, file)
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	// do something with the contents...
 	// I normally have a struct defined and unmarshal into a struct, but this will
 	// work as an example
@@ -84,24 +91,39 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(contents)
 
 	_, err = tempFile.Write(buf.Bytes())
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	// Our main piece of code:
 	predict(tempFile.Name())
 	// etc write header
 	json, err := os.Open(tempFile.Name() + ".json")
-	fatalErrCheck(err)
 	defer tempFile.Close()
 	defer os.Remove(tempFile.Name())
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	if err == nil {
 		buf.Reset()
 		_, err := io.Copy(&buf, json)
-		fatalErrCheck(err)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
 		fmt.Println(json.Name())
 		_, err = w.Write(buf.Bytes())
-		fatalErrCheck(err)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
 	} else {
 		_, err = w.Write([]byte("python json error"))
-		fatalErrCheck(err)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
 	}
 }
 
@@ -109,7 +131,10 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 	enableCors(&w)
 	var v [][]int // value from req
 	err := json.NewDecoder(req.Body).Decode(&v)
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	// Generate SGF File
 	sgfMaker := SgfMaker{}
 	sgfMaker.NewBoard(len(v))
@@ -125,7 +150,10 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 	_, err = w.Write([]byte(sgfMaker.String()))
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 }
 
 func handleAnalyze(w http.ResponseWriter, req *http.Request) {
@@ -133,11 +161,17 @@ func handleAnalyze(w http.ResponseWriter, req *http.Request) {
 
 	var v []string
 	err := json.NewDecoder(req.Body).Decode(&v)
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	out := analyze(v[0], v[1])
 	// etc write header
 	_, err = w.Write([]byte(out))
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 }
 
 type removeStoneJson struct {
@@ -150,11 +184,17 @@ func handleRemoveStones(w http.ResponseWriter, req *http.Request) {
 
 	var v removeStoneJson
 	err := json.NewDecoder(req.Body).Decode(&v)
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(removeStones(v.LastMove, v.Stones))
-	fatalErrCheck(err)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 }
 
 func runServer() {
@@ -175,6 +215,10 @@ func runServer() {
 	}
 
 	fmt.Println("starting public server")
-	err := server.ListenAndServe()
-	fatalErrCheck(err)
+	for { // attempt to continue even if exit
+		err := server.ListenAndServe()
+		if err != nil {
+			log.Println(err.Error())
+		}
+	}
 }

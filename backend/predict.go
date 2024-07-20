@@ -16,6 +16,6 @@ func predict(fName string) {
 	err := cmd.Run()
 	if err != nil {
 		log.Println(stderr.String())
-		fatalErrCheck(err)
+		log.Println(err.Error())
 	}
 }
