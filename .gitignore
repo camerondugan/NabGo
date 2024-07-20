@@ -18,3 +18,4 @@ machine-learning/analysis_logs/*.log
 machine-learning/KataGo/*
 machine-learning/katago.json
 machine-learning/analysis_example.cfg
+backend/nabgo-backend

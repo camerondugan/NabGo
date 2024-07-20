@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -48,6 +49,50 @@ func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
 
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
+}
+
+func handleUiVerify(w http.ResponseWriter, req *http.Request) {
+	url := req.URL
+	code := url.Query().Get("code")
+	if code == "" {
+		fmt.Println(url.Query().Get("error"))
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	cookies := req.Cookies()
+	verifier := ""
+	for _, cookie := range cookies {
+		if strings.HasPrefix("edgedb-pkce-verifier=", cookie.Name) {
+			verifier = strings.Split(cookie.Name, "=")[1]
+		}
+	}
+	if verifier == "" {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	exchangeStr := "https://auth.nabgo.us/db/main/ext/auth/callback/"
+	exchangeURL, err := url.Parse(exchangeStr)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	exchangeURL.Query().Add("code", code)
+	exchangeURL.Query().Add("verifier", verifier)
+	req2, err := http.Get(exchangeURL.String())
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusForbidden)
+		return
+	}
+	if req2.StatusCode != http.StatusOK {
+		w.WriteHeader(http.StatusTeapot)
+		w.Write([]byte("Auth from server error"))
+		return
+	}
+
+	fmt.Printf("req2: %v\n", req2.Body)
 }
 
 // func headers(w http.ResponseWriter, req *http.Request) {
