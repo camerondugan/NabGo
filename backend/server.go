@@ -93,6 +93,13 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	// BUG:
+	req2.Write(w)
+
+	// err = json.NewDecoder(req.Body).Decode()
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// }
 	fmt.Printf("req2: %v\n", req2.Body)
 }
 

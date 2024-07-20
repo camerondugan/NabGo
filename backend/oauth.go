@@ -31,9 +31,9 @@ func generatePKCE() (string, string) {
 	}
 	challenge := base64.RawURLEncoding.EncodeToString(hasher.Sum(nil))
 
-	// debug
-	fmt.Println(challenge)
-	fmt.Println(len(challenge))
+	// // debug
+	// fmt.Println(challenge)
+	// fmt.Println(len(challenge))
 
 	return verifier, challenge
 }
