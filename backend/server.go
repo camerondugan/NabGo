@@ -58,19 +58,21 @@ func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 }
 
 func isLoggedIn(req *http.Request) bool {
-	for cookie := range req.Cookies() {
-		fmt.Printf("cookie: %v\n", cookie)
-	}
-	auth, err := req.Cookie("edgedb-auth-token")
-	if err != nil {
-		fmt.Println(err.Error())
-		return false
-	}
-	// if we didn't set this cookie
-	if !auth.Secure || auth.SameSite != http.SameSiteStrictMode {
-		fmt.Println("Cookie isn't what we set")
-		return false
-	}
+	// FIXME: Not working server cannot read browser cookes :(
+
+	// for cookie := range req.Cookies() {
+	// 	fmt.Printf("cookie: %v\n", cookie)
+	// }
+	// auth, err := req.Cookie("edgedb-auth-token")
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// 	return false
+	// }
+	// // if we didn't set this cookie
+	// if !auth.Secure || auth.SameSite != http.SameSiteStrictMode {
+	// 	fmt.Println("Cookie isn't what we set")
+	// 	return false
+	// }
 	return true
 }
 
