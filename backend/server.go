@@ -12,11 +12,11 @@ import (
 	"time"
 )
 
-type authJson struct {
-	auth_token             string
-	identity_id            string
-	provider_token         string
-	provider_refresh_token string
+type AuthJson struct {
+	Auth_token             string
+	Identity_id            string
+	Provider_token         string
+	Provider_refresh_token string
 }
 
 func enableCors(w *http.ResponseWriter) {
@@ -101,12 +101,17 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// BUG:
-	req2.Write(w)
-
-	var aj authJson
-	err = json.NewDecoder(req.Body).Decode(aj)
+	err = req2.Write(w)
 	if err != nil {
 		fmt.Println(err.Error())
+		return
+	}
+
+	var aj AuthJson
+	err = json.NewDecoder(req.Body).Decode(&aj)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
 	}
 	fmt.Printf("req2: %v\n", req2.Body)
 	fmt.Printf("aj: %v\n", aj)
