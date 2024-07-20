@@ -70,7 +70,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-	exchangeStr := "https://auth.nabgo.us/db/main/ext/auth/callback/token"
+	exchangeStr := "https://auth.nabgo.us/db/main/ext/auth/token"
 	exchangeURL, err := url.Parse(exchangeStr)
 	if err != nil {
 		fmt.Println(err)
