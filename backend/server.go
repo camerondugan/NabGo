@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -10,6 +11,8 @@ import (
 	"net/url"
 	"os"
 	"time"
+
+	"github.com/edgedb/edgedb-go"
 )
 
 type AuthJson struct {
@@ -52,7 +55,6 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signin")
 }
-
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
 }
@@ -126,6 +128,31 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		fmt.Println(err.Error())
 		return
 	}
+
+	isSignUp := req.URL.Query().Has("isSignUp")
+	if isSignUp {
+		ctx := context.Background()
+		client, err := edgedb.CreateClient(ctx, edgedb.Options{})
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		defer client.Close()
+
+		var result string
+		err = client.WithGlobals(map[string]interface{}{"ext::auth::client_token": aj.Auth_token}).
+			QuerySingle(ctx, `
+			insert User {
+				identity := (global ext::auth::ClientTokenIdentity)
+			};
+		`, &result)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		fmt.Println(result)
+	}
+
 	cookie := http.Cookie{
 		Name:     "edgedb-auth-token",
 		Value:    aj.Auth_token,
