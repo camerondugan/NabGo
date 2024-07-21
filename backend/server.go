@@ -144,7 +144,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		}
 		defer client.Close()
 
-		var result string
+		var result struct{}
 		err = client.WithGlobals(map[string]interface{}{"ext::auth::client_token": aj.Auth_token}).
 			QuerySingle(ctx, `
 			insert User {

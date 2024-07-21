@@ -2,8 +2,8 @@ github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d h1:S2NE3iHSwP0XV
 github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d/go.mod h1:sGbDF6GwGcLpkNXPUTkMRoywsNa/ol15pxFe6ERfguA=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/edgedb/edgedb-go v0.17.2 h1:qp+HgwmLrT8d3agg4zZrjTJyVmoAuRvRPuGR6rwZ0ho=
-github.com/edgedb/edgedb-go v0.17.2/go.mod h1:J+llluepGAi/rIPNcUgIFEedCCISLKFG+VUEWnBhIqE=
+github.com/edgedb/edgedb-go v0.15.0 h1:ICU8lsLVl59eBCadqpM/YPHtvEosQQsdq9dMoWkpdGc=
+github.com/edgedb/edgedb-go v0.15.0/go.mod h1:J+llluepGAi/rIPNcUgIFEedCCISLKFG+VUEWnBhIqE=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rooklift/sgf v0.0.0-20230511200928-fc09b7bd0bfe h1:d9oKy6cd0TK4pmkkd0roK9latPGsPJVDiT7wi/oTyk8=

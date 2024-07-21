@@ -3,7 +3,7 @@ module nabgo-backend
 go 1.21.9
 
 require (
-	github.com/edgedb/edgedb-go v0.17.2
+	github.com/edgedb/edgedb-go v0.15.0
 	github.com/rooklift/sgf v0.0.0-20230511200928-fc09b7bd0bfe
 )
 
