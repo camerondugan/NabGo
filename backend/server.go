@@ -53,10 +53,10 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 }
 
 func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
-	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/callback")
+	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signin")
 }
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
-	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/callback?isSignUp=true")
+	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
 }
 
 func isLoggedIn(req *http.Request) bool {
@@ -132,7 +132,8 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	isSignUp := req.URL.Query().Has("isSignUp")
+	// isSignUp := req.URL.Query().Has("isSignUp")
+	isSignUp := true
 	fmt.Println(req.URL.String() + "?" + req.URL.Query().Encode())
 	if isSignUp {
 		ctx := context.Background()
