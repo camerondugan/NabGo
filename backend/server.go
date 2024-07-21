@@ -79,8 +79,8 @@ func isLoggedIn(req *http.Request) bool {
 }
 
 type EdgedbUser struct {
-	id       string
-	name     string
+	id       edgedb.OptionalUUID
+	name     edgedb.OptionalStr
 	identity string
 }
 
