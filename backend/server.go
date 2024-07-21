@@ -78,6 +78,12 @@ func isLoggedIn(req *http.Request) bool {
 	return true
 }
 
+type EdgedbUser struct {
+	id       string
+	name     string
+	identity string
+}
+
 func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	url := req.URL
 	code := url.Query().Get("code")
@@ -144,7 +150,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		}
 		defer client.Close()
 
-		var result struct{}
+		var result EdgedbUser
 		err = client.WithGlobals(map[string]interface{}{"ext::auth::client_token": aj.Auth_token}).
 			QuerySingle(ctx, `
 			insert User {
