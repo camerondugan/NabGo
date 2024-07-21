@@ -87,7 +87,8 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	cookies := req.Cookies() verifier := ""
+	cookies := req.Cookies()
+	verifier := ""
 	for _, cookie := range cookies {
 		if cookie.Name == "edgedb-pkce-verifier" {
 			verifier = cookie.Value
