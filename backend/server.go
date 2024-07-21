@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/edgedb/edgedb-go"
@@ -44,9 +43,6 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 	// setup validation url
 	vals := url.Values{}
 	vals.Set("challenge", challenge)
-	if strings.Contains(redirect, "signup") {
-		vals.Set("isSignUp", "true")
-	}
 	// activate it
 	http.Redirect(
 		w,
@@ -57,10 +53,10 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 }
 
 func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
-	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signin")
+	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/callback")
 }
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
-	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
+	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/callback?isSignUp=true")
 }
 
 func isLoggedIn(req *http.Request) bool {
