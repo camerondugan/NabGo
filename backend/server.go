@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/edgedb/edgedb-go"
@@ -43,6 +44,9 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 	// setup validation url
 	vals := url.Values{}
 	vals.Set("challenge", challenge)
+	if strings.Contains(redirect, "signup") {
+		vals.Set("isSignUp", "true")
+	}
 	// activate it
 	http.Redirect(
 		w,
