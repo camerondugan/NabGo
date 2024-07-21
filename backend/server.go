@@ -87,8 +87,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	cookies := req.Cookies()
-	verifier := ""
+	cookies := req.Cookies() verifier := ""
 	for _, cookie := range cookies {
 		if cookie.Name == "edgedb-pkce-verifier" {
 			verifier = cookie.Value
@@ -133,6 +132,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	}
 
 	isSignUp := req.URL.Query().Has("isSignUp")
+	fmt.Println(req.URL.String() + "?" + req.URL.Query().Encode())
 	if isSignUp {
 		ctx := context.Background()
 		client, err := edgedb.CreateClient(ctx, edgedb.Options{})
