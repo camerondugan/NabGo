@@ -95,6 +95,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 	if verifier == "" {
+		fmt.Println("Verifier was empty")
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -112,6 +113,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusNotFound)
+		fmt.Println("Can't make web request")
 		return
 	}
 
@@ -119,6 +121,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusNotAcceptable)
 		w.Write([]byte("Auth from server error\n"))
 		req2.Write(w)
+		fmt.Println("Status wasn't ok")
 		return
 	}
 
