@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/edgedb/edgedb-go"
@@ -57,6 +58,33 @@ func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
 }
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
+}
+
+func handleOllama(w http.ResponseWriter, req *http.Request) {
+	enableCors(&w)
+	b, err := io.ReadAll(req.Body)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	body := string(b)
+
+	cmd := exec.Command(
+		"ollama", "run", "gollama", body,
+	)
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+	out, err := cmd.Output()
+	if err != nil {
+		log.Println(stderr.String())
+		log.Println(err.Error())
+		return
+	}
+	_, err = w.Write(out)
+	if err != nil {
+		log.Println(stderr.String())
+		log.Println(err.Error())
+	}
 }
 
 func isLoggedIn(req *http.Request) bool {
@@ -357,6 +385,7 @@ func runServer() {
 	http.HandleFunc("/sgf", handleSgf)
 	http.HandleFunc("/analyze", handleAnalyze)
 	http.HandleFunc("/removeStones", handleRemoveStones)
+	http.HandleFunc("/ollama", handleOllama)
 
 	// define a server and what address it listens to
 	server := &http.Server{
