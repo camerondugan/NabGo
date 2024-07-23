@@ -1,10 +1,20 @@
 body 
 {
 	caret-color: transparent; /* remove text cursor */
+	background-image:  url("assets/goPicture4.png");
+	background-size: cover;
 }
 
 .backgroundImageButton
 {	
 	/*background-image: "assets/blackSquareWhiteBorderBlackBorder.png";
 	background-size: 8000px 4000px;*/
+}
+
+button 
+{
+	background-color : transparent ; 
+	height : 30px ; 
+	width: 190px ;
+	font-size: medium ;
 }

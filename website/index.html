@@ -31,13 +31,7 @@
 	<link rel="manifest" href="/site.webmanifest" />
 	<link rel="stylesheet" type="text/css" href="minimal.css" />
 </head>
-<style>
-body
-{
-	background-image:  url("assets/goPicture4.png");
-	background-size: cover;
-}
-</style>
+
 <body onload = init_board()>
 	<div style="display: none">
 		<img id="board-bg" alt="board-bg" src="assets/boardBG.jpg" />
@@ -92,11 +86,11 @@ body
   </div>
 
   <div style="text-align: left">
-    <button onclick="window.location.href = 'https://b.nabgo.us/ui/signin'">
+    <button onclick="window.location.href = 'https://b.nabgo.us/ui/signin'" style = "background-color : transparent; height : 30px; width: 100px; font-size: medium;">
       <!--stand in page-->
       Log in
     </button>
-    <button onclick="window.location.href = 'https://b.nabgo.us/ui/signup'">
+    <button onclick="window.location.href = 'https://b.nabgo.us/ui/signup'" style = "background-color : transparent; height : 30px; width: 100px; font-size: medium;">
       <!--stand in page-->
       Sign up
     </button>
@@ -138,25 +132,28 @@ body
 
 			<br><br>
 
-			<button onclick = "updateMove(-1)" style = "font-size : 30px; background-color : transparent;"> < </button> <!--The red < is not an error, that's the button text-->
+			<button onclick = "updateMove(-1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> < </button> <!--The red < is not an error, that's the button text-->
 
 			<input type = "text" id = "HTMLmove" value = "0" onchange = "updateMove(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
 
-			<button onclick = "updateMove(1)" style = "font-size : 30px; background-color : transparent;"> > </button>
+			<button onclick = "updateMove(1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> > </button>
 
 			<br><br>
-      <!--
-			<button onclick = "updateMove(0)" style = "background-color : transparent; height : 30px; width: 190px; font-size: medium;" class = "backgroundImageButton"> Predict Previous Moves </button>
 
-			<br><br>
-      -->
 			<img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
 
 			<br><br>
 			
 			<button onclick = "analyzeCurrentBoard()" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
 
-			<!--link will need to changed to actual website destination once it's live, not, my own file-->
+      		<br><br>
+	  
+			<p id = "chatOut" style = "cursor : pointer; background-color : transparent ; max-width : 500px ; word-wrap : break-word ;">Ask Gollama for Help: </p>
+
+			<input type = "text" id = "chat" name = "chat" style = "width : 400px ; height : 25px ;"/>
+
+			<button onclick = "llamaTalk(document.getElementById('chat').value)" style = "width: 80px;">Submit</button>
+
 			</div>
 		</div>
 
@@ -168,7 +165,6 @@ body
     </div>
     <p id="analysis-stats"></p>
   </div>
-  <button onclick="getSGF(placedStones)" style = "background-color : transparent; height : 30px; width: 190px; font-size: medium;">Copy SGF </button>
-  <button onclick="play() ; unloadImage()" style = "background-color : transparent; height : 30px; width: 190px; font-size: medium;">I'm Done Editing</button>
-  <button onclick="analyzeCurrentBoard()" style = "background-color : transparent; height : 30px; width: 190px; font-size: medium;">Test Analysis</button>
+  <button onclick = "getSGF(placedStones)">Copy SGF </button>
+  <button onclick = "play() ; unloadImage()">I'm Done Editing</button>
 </body>

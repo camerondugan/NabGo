@@ -18,6 +18,7 @@ let lastMousePosX = null;
 let lastMousePosY = null;
 let playing = false;
 let moves = [];
+let mouseOverBoard = false;
 
 function play() {
   playing = true;
@@ -71,8 +72,10 @@ function trackTheMouse() {
       e.clientY < boardBoundingBox.top ||
       e.clientX < boardBoundingBox.left
     ) {
+      mouseOverBoard = false;
       return;
     }
+    mouseOverBoard = true;
     // find mouse position as canvas coordinates
     let m = mouseToCanvas(e.clientX, e.clientY, board, boardBoundingBox);
     let mi = m[0];
@@ -130,8 +133,10 @@ function trackTheMouse() {
       }
     }
   });
-  document.addEventListener("contextmenu", (e) => {
-    if (playing) {
+  document.addEventListener("contextmenu", (e) => 
+  {
+    if(playing || !mouseOverBoard)
+    {
       return;
     }
     e.preventDefault();
@@ -152,8 +157,8 @@ function trackTheMouse() {
     }
   });
   document.addEventListener("keydown", (e) => {
-    e.preventDefault();
-    if (e.key == " ") {
+    if (e.key == " " && mouseOverBoard) {
+      e.preventDefault();
       if (color == 0) {
         color = 1;
       } else {
