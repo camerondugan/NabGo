@@ -12,6 +12,7 @@ function getSGF(b) {
   if (login == null) {
     return;
   }
+
   // fetch("http://localhost:8888/sgf", fetchOptions)
   fetch("https://bl.nabgo.us/sgf", fetchOptions)
     .then((response) => response.text())
@@ -21,6 +22,40 @@ function getSGF(b) {
       return text;
     })
     .catch((err) => {
+      return err;
+    });
+}
+
+// FUNCTION TO BE
+function llamaTalk(b) 
+{
+  const fetchOptions = 
+  {
+    method: "post",
+    body: b,
+  };
+/*
+  //https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists
+  let login = document.cookie.match
+  (
+    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
+  );
+
+  if (login == null) 
+  {
+    return;
+  }
+*/
+  // fetch("http://localhost:8888/sgf", fetchOptions)
+  fetch("https://bl.nabgo.us/ollama", fetchOptions)
+    .then((response) => response.text())
+    .then((text) => 
+    {
+      console.log(text);
+      return text;
+    })
+    .catch((err) => 
+    {
       return err;
     });
 }
