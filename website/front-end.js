@@ -4,6 +4,14 @@ function getSGF(b) {
     method: "post",
     body: JSON.stringify(b),
   };
+
+  //https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists
+  let login = document.cookie.match(
+    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
+  );
+  if (login == null) {
+    return;
+  }
   // fetch("http://localhost:8888/sgf", fetchOptions)
   fetch("https://bl.nabgo.us/sgf", fetchOptions)
     .then((response) => response.text())
@@ -19,6 +27,12 @@ function getSGF(b) {
 
 // Analyze current board state
 function analyzeCurrentBoard() {
+  let login = document.cookie.match(
+    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
+  );
+  if (login == null) {
+    return;
+  }
   clearAnalysisStones();
   // placedStones but not the last one
   let prevBoard = [];
@@ -119,6 +133,12 @@ function analyzeCurrentBoard() {
 
 // Load given image, display, and ask for prediction
 function loadImage(event) {
+  let login = document.cookie.match(
+    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
+  );
+  if (login == null) {
+    return;
+  }
   let form = document.querySelector("form");
   let image = document.getElementById("output");
   let file = event.target.files[0];
@@ -312,5 +332,7 @@ function drawWinrateBar(winrate) {
   const bar = document.getElementById("winrate-bar");
   bar.style.background = `linear-gradient(to right, black ${blackWPercent}%, white ${whiteWPercent}%)`;
 
-  document.getElementById("analysis-stats").innerHTML = `Black Win Probability: ${blackWPercent}%`;
+  document.getElementById("analysis-stats").innerHTML =
+    `Black Win Probability: ${blackWPercent}%`;
 }
+

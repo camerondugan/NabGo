@@ -3,6 +3,7 @@
 <script src="go-game-renderer.js"></script>
 <script src="front-end.js"></script>
 <!-- <meta http-equiv="refresh" content="0; url=https://camerondugan.com/"/> -->
+
 <head>
   <title>NabGo.us</title>
   <!-- for speed when loaded soon after start? -->
@@ -30,6 +31,7 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="stylesheet" type="text/css" href="minimal.css" />
 </head>
+
 <body onload="init_board()">
   <div style="display: none">
     <img id="board-bg" alt="board-bg" src="assets/boardBG.jpg" />
@@ -61,9 +63,13 @@
   </div>
 
   <div style="text-align: left">
-    <button onclick="window.location.href = 'https://camerondugan.com'">
+    <button onclick="window.location.href = 'https://b.nabgo.us/ui/signin'">
       <!--stand in page-->
-      Log in or sign up
+      Log in
+    </button>
+    <button onclick="window.location.href = 'https://b.nabgo.us/ui/signup'">
+      <!--stand in page-->
+      Sign up
     </button>
   </div>
 
@@ -72,26 +78,18 @@
       <h1>NabGo.us</h1>
       <h3>Click button below to upload board image</h3>
       <form method="post" enctype="multipart/form-data">
-        <input
-          type="file"
-          id="file"
-          name="file"
-          accept="image/*"
-          onchange="loadImage(event)"
-          style="display: none"
-        />
+        <input type="file" id="file" name="file" accept="image/*" onchange="loadImage(event)" style="display: none" />
         <label for="file" style="cursor: pointer; text-decoration: underline">Upload</label>
       </form>
       <img src="#" id="output" alt="Uploaded Game Board" width="100%" />
     </div>
-    <canvas
-      id="go-game"
-      style="max-width: 100%; max-height: 100%; object-fit: contain"
-    ></canvas>
+    <canvas id="go-game" style="max-width: 100%; max-height: 100%; object-fit: contain"></canvas>
   </div>
   <div class="analysis">
-	<div id="winrate-bar" style="align-items: right; width: 25%; height: 20px; border-style: solid; border-width: 5px; border-color: gray;"></div>
-  <p id="analysis-stats"></p>
+    <div id="winrate-bar"
+      style="align-items: right; width: 25%; height: 20px; border-style: solid; border-width: 5px; border-color: gray;">
+    </div>
+    <p id="analysis-stats"></p>
   </div>
   <button onclick="getSGF(placedStones)">Copy SGF</button>
   <button onclick="play(); unloadImage()">I'm Done Editing</button>
