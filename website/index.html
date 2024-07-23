@@ -68,10 +68,6 @@ body
 		</details>
 	</div>
 -->
-	<div style="text-align: left; margin-left: 20px; margin-top: 20px;">
-		<!--<button onclick="window.location.href = 'https://camerondugan.com'" style = "background-color : transparent; font-size: medium;">-->
-		<button onclick = "window.location.href = 'https://camerondugan.com'" style = "font-size : medium ; background-color : transparent;"> Log in or sign up</button>
-	</div>
 
 <body onload="init_board()">
   <div style="display: none">
@@ -93,14 +89,6 @@ body
     <img id="white-stone13" alt="white-stone13" src="assets/w13.png" />
     <img id="white-stone14" alt="white-stone14" src="assets/w14.png" />
     <img id="white-stone15" alt="white-stone15" src="assets/w15.png" />
-  </div>
-
-  <div style="position: absolute; top: 10px; right: 10px">
-    <!-- dist to edge will be fixed with CSS variable -->
-    <details>
-      <summary style="cursor: pointer; display: block">Settings</summary>
-      <p>Settings go here!!</p>
-    </details>
   </div>
 
   <div style="text-align: left">
@@ -157,16 +145,16 @@ body
 			<button onclick = "updateMove(1)" style = "font-size : 30px; background-color : transparent;"> > </button>
 
 			<br><br>
-
+      <!--
 			<button onclick = "updateMove(0)" style = "background-color : transparent; height : 30px; width: 190px; font-size: medium;" class = "backgroundImageButton"> Predict Previous Moves </button>
 
 			<br><br>
-
+      -->
 			<img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
 
 			<br><br>
 			
-			<button onclick = "window.location.href = 'file:///C:/Users/Wilde/NabGo-2/website/analysis.html'" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
+			<button onclick = "analyzeCurrentBoard()" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
 
 			<!--link will need to changed to actual website destination once it's live, not, my own file-->
 			</div>

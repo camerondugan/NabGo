@@ -34,7 +34,7 @@ function llamaTalk(b)
     method: "post",
     body: b,
   };
-/*
+
   //https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists
   let login = document.cookie.match
   (
@@ -45,7 +45,7 @@ function llamaTalk(b)
   {
     return;
   }
-*/
+
   // fetch("http://localhost:8888/sgf", fetchOptions)
   fetch("https://bl.nabgo.us/ollama", fetchOptions)
     .then((response) => response.text())
