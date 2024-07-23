@@ -1,0 +1,52 @@
+<!doctype html>
+<head>
+	<title>NabGoAnalysis.us</title>
+</head>
+
+<body>
+    <script type = "text/javascript">
+		function updateMove(increment)
+		{
+			var input = document.getElementById("HTMLmove");
+			var inputValue = input.value;
+			inputValue = parseInt(inputValue);
+			inputValue += increment;
+
+			if(inputValue < 0)
+			{
+				inputValue = 0;
+			}
+
+			document.getElementById("HTMLmove").value = inputValue;
+		}
+	</script>
+
+    <div style= "float: right ; margin-right: 50px ; font-size: 20px">
+        <div style= "text-align: center">
+
+        <h2>Analysis</h2>
+        Move History
+
+        <br><br>
+
+        <button onclick = "updateMove(-1)" style = "font-size : 30px;"> < </button>
+
+        <input type = "text" id = "HTMLmove" value = "0" onchange = "updateMove(0)" style = "font-size : 30px ; text-align: center ; width: 10% ;"/>
+
+        <button onclick = "updateMove(1)" style = "font-size : 30px;"> > </button>
+
+        <br><br>
+
+        <button onclick = "updateMove(0)"> Predict Previous Moves </button>
+
+        <br><br>
+
+        <button id = "backgroundImageButton" onclick = "updateMove(0)"> Predict Previous Moves </button>
+
+        <br><br>
+
+        <img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
+        </div>
+    </div>
+
+</body>
