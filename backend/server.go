@@ -187,7 +187,6 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 		`, &result)
 		if err != nil {
 			fmt.Println(err.Error())
-			return
 		}
 		fmt.Println(result)
 	}

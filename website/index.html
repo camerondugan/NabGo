@@ -2,6 +2,7 @@
 <script src="perspective-transform.min.js"></script>
 <script src="go-game-renderer.js"></script>
 <script src="front-end.js"></script>
+<script src="analysis.js"></script>
 <!-- <meta http-equiv="refresh" content="0; url=https://camerondugan.com/"/>-->
 <head>
 	<title>NabGo.us</title>
@@ -74,23 +75,6 @@
       <img src="#" id="output" alt="Uploaded Game Board" width="100%" />
     </div>
 
-		<script type = "text/javascript">
-		function updateMove(increment)
-		{
-			var input = document.getElementById("HTMLmove");
-			var inputValue = input.value;
-			inputValue = parseInt(inputValue);
-			inputValue += increment;
-
-			if(inputValue < 0)
-			{
-				inputValue = 0;
-			}
-
-			document.getElementById("HTMLmove").value = inputValue;
-		}
-		</script>
-
 		<div style= "float: right ; margin-right: 50px ; font-size: 20px">
 			<div style= "text-align: center">
 
@@ -99,25 +83,25 @@
 
 			<br><br>
 
-			<button onclick = "updateMove(-1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> < </button> <!--The red < is not an error, that's the button text-->
+			<button onclick = "updateNumMoves(-1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> < </button> <!--The red < is not an error, that's the button text-->
 
-			<input type = "text" id = "HTMLmove" value = "0" onchange = "updateMove(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
+			<input type = "string" id = "HTMLmove" onchange = "updateNumMoves(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
 
-			<button onclick = "updateMove(1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> > </button>
+			<button onclick = "updateNumMoves(1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> > </button>
 
 			<br><br>
 
 			<img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
 
 			<br><br>
-			
+
 			<button onclick = "analyzeCurrentBoard()" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
 
       		<br><br>
-	  
+
 			<p id = "chatOut" style = "cursor : pointer; background-color : transparent ; max-width : 500px ; word-wrap : break-word ;">Ask Gollama for Help: </p>
 
-			<input type = "text" id = "chat" name = "chat" style = "width : 400px ; height : 25px ;"/>
+			<input onchange="llamaTalk(document.getElementById('chat').value)" type = "text" id = "chat" name = "chat" style = "width : 400px ; height : 25px ;"/>
 
 			<button onclick = "llamaTalk(document.getElementById('chat').value)" style = "width: 80px;">Submit</button>
 
