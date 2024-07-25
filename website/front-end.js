@@ -172,9 +172,9 @@ function loadImage(event) {
   let login = document.cookie.match(
     /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
   );
-  if (login == null) {
+  /*if (login == null) {
     return;
-  }
+  }*/
   let form = document.querySelector("form");
   let image = document.getElementById("output");
   let file = event.target.files[0];
@@ -372,3 +372,8 @@ function drawWinrateBar(winrate) {
     `Black Win Probability: ${blackWPercent}%`;
 }
 
+function switchRightContent() {
+  document.getElementById('upload-cell').style.display = 'none';
+  document.getElementById('analysis-cell').style.display = 'table-cell';
+  document.getElementById('edit').style.display = 'none';
+}
