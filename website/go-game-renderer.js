@@ -18,10 +18,15 @@ let lastMousePosX = null;
 let lastMousePosY = null;
 let playing = false;
 let moves = [];
+let boardAtMove = [];
 let mouseOverBoard = false;
 
 function play() {
-  playing = true;
+  if (!playing) {
+    playing = true;
+    boardAtMove = [];
+    boardAtMove.push(JSON.stringify(placedStones));
+  }
 }
 
 function init_board() {
@@ -37,6 +42,7 @@ function init_board() {
   }
   initWhiteStoneImages();
   trackTheMouse();
+  updateNumMoves(-999);
   drawBoard();
   // if (firstTime) {
   //   placeExampleStones();
@@ -112,11 +118,12 @@ function trackTheMouse() {
         if (occupied(mi, mj)) {
           return;
         }
-        if (numStonesPlaced < 0) numStonesPlaced = 0;
         let randStone =
           Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
         placedStones[mi][mj] = color * randStone;
-        numStonesPlaced++;
+        if (playing) {
+          updateNumMoves(1, true);
+        }
         drawBoard();
 
         if (playing) {
@@ -133,10 +140,8 @@ function trackTheMouse() {
       }
     }
   });
-  document.addEventListener("contextmenu", (e) => 
-  {
-    if(playing || !mouseOverBoard)
-    {
+  document.addEventListener("contextmenu", (e) => {
+    if (playing || !mouseOverBoard) {
       return;
     }
     e.preventDefault();
@@ -152,7 +157,7 @@ function trackTheMouse() {
       occupied(mi, mj)
     ) {
       placedStones[mi][mj] = -1;
-      numStonesPlaced--;
+      updateNumMoves(-1);
       drawBoard();
     }
   });
