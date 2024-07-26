@@ -172,13 +172,14 @@ function loadImage(event) {
   let login = document.cookie.match(
     /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
   );
-  /*if (login == null) {
+  if (login == null) {
     return;
-  }*/
+  }
   let form = document.querySelector("form");
   let image = document.getElementById("output");
   let file = event.target.files[0];
   image.src = URL.createObjectURL(file);
+  image.classList.remove("hidden");
 
   const formData = new FormData(form);
 
@@ -361,7 +362,7 @@ function unloadImage() {
   image.src = "";
 }
 
-function drawWinrateBar(winrate) {
+function drawWinrateBar(winrate, scorelead) {
   let blackWPercent = (winrate + 1) * 50;
   let whiteWPercent = 100 - blackWPercent;
 
@@ -369,7 +370,7 @@ function drawWinrateBar(winrate) {
   bar.style.background = `linear-gradient(to right, black ${blackWPercent}%, white ${whiteWPercent}%)`;
 
   document.getElementById("analysis-stats").innerHTML =
-    `Black Win Probability: ${blackWPercent}%`;
+    `Black Win Probability: ${blackWPercent}%<br>Black Score Lead: ${scorelead}`;
 }
 
 function switchRightContent() {

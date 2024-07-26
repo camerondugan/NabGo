@@ -70,7 +70,9 @@
     </button>
   </div>
 
-  <h1 style="text-align: center;">NabGo.us</h1>
+  <h1>NabGo.us</h1>
+
+  <h3>To access our features, please ensure that you are logged in.</h3>
 
   <table>
     <tr>
@@ -79,6 +81,9 @@
           id="go-game"
           style="max-width: 100%; max-height: 100%; object-fit: contain"
         ></canvas>
+        <br><br>
+        <button onclick="getSGF(placedStones)">Copy SGF</button>
+        <button id="edit" onclick="play() ; unloadImage(); switchRightContent();">I'm Done Editing</button>
       </td>
       <td id="upload-cell">
         <h3>Click button below to upload board image</h3>
@@ -86,49 +91,43 @@
           <input type="file" id="file" name="file" accept="image/*" onchange="loadImage(event)" style="display: none" />
           <label for="file" style="cursor: pointer; background-color: transparent">Upload</label>
         </form>
-        <img src="#" id="output" width="100%" />
+        <img src="#" class="output hidden" id="output" />
       </td>
-	  <td id="analysis-cell" style="display: none;">
-		<div style= "text-align: center">
+      <td id="analysis-cell" style="display: none;">
+        <div style= "text-align: center">
 
-			<h2>Analysis</h2>
-			Move History
+          <h2>Analysis</h2>
+          Move History
 
-			<br><br>
+          <br><br>
 
-			<button onclick = "updateNumMoves(-1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> < </button>
+          <button onclick = "updateNumMoves(-1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> < </button>
 
-  			<input type = "string" id = "HTMLmove" onchange = "updateNumMoves(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
+            <input type = "string" id = "HTMLmove" onchange = "updateNumMoves(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
 
-			<button onclick = "updateNumMoves(1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> > </button>
+          <button onclick = "updateNumMoves(1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> > </button>
 
-			<br><br>
+          <br><br>
 
-			<img src = "assets/blackBox.png" alt = "a black box" width = 333px height = 500px>
+          <button onclick = "analyzeCurrentBoard()" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
 
-			<br><br>
+          <br><br>
 
-			<button onclick = "analyzeCurrentBoard()" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
+          <div id="winrate-bar" style="align-items: right; height: 20px; border-style: solid; border-width: 5px; border-color: gray;">
 
-			<br><br>
+        </div>
+          <p id="analysis-stats"></p>
 
-			<div id="winrate-bar" style="align-items: right; height: 20px; border-style: solid; border-width: 5px; border-color: gray;">
+              <br><br>
 
-		</div>
-    	<p id="analysis-stats"></p>
+          <p id = "chatOut" style = "text-align: center; cursor : pointer; background-color : transparent ; word-wrap : break-word ;">Ask Gollama for Help: </p>
 
-      		<br><br>
+          <input onchange="llamaTalk(document.getElementById('chat').value)" type = "text" id = "chat" name = "chat" style = "width : 400px ; height : 25px ;"/>
 
-			<p id = "chatOut" style = "cursor : pointer; background-color : transparent ; max-width : 500px ; word-wrap : break-word ;">Ask Gollama for Help: </p>
+          <button onclick = "llamaTalk(document.getElementById('chat').value)" style = "width: 80px;">Submit</button>
 
-			<input onchange="llamaTalk(document.getElementById('chat').value)" type = "text" id = "chat" name = "chat" style = "width : 400px ; height : 25px ;"/>
-
-			<button onclick = "llamaTalk(document.getElementById('chat').value)" style = "width: 80px;">Submit</button>
-
-		</div>
-	  </td>
+        </div>
+      </td>
     </tr>
   </table>
-  <button onclick="getSGF(placedStones)">Copy SGF</button>
-  <button id="edit" onclick="play() ; unloadImage(); switchRightContent();">I'm Done Editing</button>
 </body>
