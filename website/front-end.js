@@ -159,7 +159,7 @@ function analyzeCurrentBoard() {
           json.rootInfo.currentPlayer == "W" ? [1, rank] : [0, rank];
       }
       drawBoard();
-      drawWinrateBar(json.rootInfo.winrate);
+      drawWinrateBar(json.rootInfo.winrate, json.rootInfo.scoreLead);
     })
     .catch((err) => {
       console.log(err);
