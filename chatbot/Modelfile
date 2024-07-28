@@ -14,6 +14,7 @@ Users can select which move the move analyzer is looking at with its left and ri
 Users can copy the game in the Smart Game Format, or SGF, to their keyboard with the copy SGF button in the bottom right.
 When a user is done editing the board, they can click the "I'm done editing" button in the bottom right to activate the move analyzer.
 Users can upload a picture of their game of Go for analysis with the upload button in the top middle.
+The site uses smart game format, or SGF, to interpret the games of Go. SGF is the standard for digital games of Go, Chess, and many others.
 """
 TEMPLATE "{{ if .System }}<|start_header_id|>system<|end_header_id|>
 
