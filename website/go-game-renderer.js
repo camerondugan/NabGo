@@ -129,7 +129,7 @@ function trackTheMouse() {
         if (playing) {
           moves.push([color == 0 ? "b" : "w", [mi, mj]]);
           removeCapturedStones();
-          analyzeCurrentBoard();
+          //analyzeCurrentBoard();
         }
 
         if (color == 0) {
