@@ -1,3 +1,16 @@
+// login check
+function isLoggedin() {
+  //https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists
+  let login = document.cookie.match(
+    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
+  );
+  if (login == null) {
+    alert("Please login to access this feature");
+    return false;
+  }
+  return true;
+}
+
 // Request
 function getSGF(b) {
   const fetchOptions = {
@@ -5,11 +18,7 @@ function getSGF(b) {
     body: JSON.stringify(b),
   };
 
-  //https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists
-  let login = document.cookie.match(
-    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
-  );
-  if (login == null) {
+  if (!isLoggedin()) {
     return;
   }
 
@@ -27,46 +36,32 @@ function getSGF(b) {
 }
 
 // FUNCTION TO BE
-function llamaTalk(b) 
-{
-  const fetchOptions = 
-  {
+function llamaTalk(b) {
+  const fetchOptions = {
     method: "post",
     body: b,
   };
 
-  //https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists
-  let login = document.cookie.match
-  (
-    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
-  );
-
-  if (login == null) 
-  {
+  if (!isLoggedin()) {
     return;
   }
 
   // fetch("http://localhost:8888/sgf", fetchOptions)
   fetch("https://bl.nabgo.us/ollama", fetchOptions)
     .then((response) => response.text())
-    .then((text) => 
-    {
+    .then((text) => {
       console.log(text);
-      document.getElementById('chatOut').innerText = text;
+      document.getElementById("chatOut").innerText = text;
       return text;
     })
-    .catch((err) => 
-    {
+    .catch((err) => {
       return err;
     });
 }
 
 // Analyze current board state
 function analyzeCurrentBoard() {
-  let login = document.cookie.match(
-    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
-  );
-  if (login == null) {
+  if (!isLoggedin()) {
     return;
   }
   clearAnalysisStones();
@@ -169,10 +164,7 @@ function analyzeCurrentBoard() {
 
 // Load given image, display, and ask for prediction
 function loadImage(event) {
-  let login = document.cookie.match(
-    /^(.*;)?\s*edgedb-auth-token\s*=\s*[^;]+(.*)?$/,
-  );
-  if (login == null) {
+  if (!isLoggedin()) {
     return;
   }
   let form = document.querySelector("form");
@@ -363,7 +355,7 @@ function unloadImage() {
 }
 
 function drawWinrateBar(winrate, scorelead) {
-  console.log(scorelead)
+  console.log(scorelead);
   let blackWPercent = (winrate + 1) * 50;
   let whiteWPercent = 100 - blackWPercent;
 
@@ -375,7 +367,7 @@ function drawWinrateBar(winrate, scorelead) {
 }
 
 function switchRightContent() {
-  document.getElementById('upload-cell').style.display = 'none';
-  document.getElementById('analysis-cell').style.display = 'table-cell';
-  document.getElementById('edit').style.display = 'none';
+  document.getElementById("upload-cell").style.display = "none";
+  document.getElementById("analysis-cell").style.display = "table-cell";
+  document.getElementById("edit").style.display = "none";
 }
