@@ -81,7 +81,7 @@ function trackTheMouse() {
           dragging = true;
           draggedStone = { mi, mj, color: placedStones[mi][mj] };
           initialPosition = { mi, mj };
-          placedStones[mi][mj] = -1; // Temporarily remove the stone from the board
+          placedStones[mi][mj] = -1;
           drawBoard();
         }
       }
@@ -89,15 +89,15 @@ function trackTheMouse() {
   });
   // TODO: only redraw if transparent stone needs to move
   document.addEventListener("mousemove", (e) => {
-    if (dragging) {
+    /*if (dragging) {
       let m = mouseToCanvas(e.clientX, e.clientY, board);
       let mi = m[0];
       let mj = gridSize - 1 - m[1];
       if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
         drawBoard();
       }
-    }
-    else {
+    //}*/
+    //else {
       let boardBoundingBox = board.getBoundingClientRect();
       // if mouse not on board, skip math
       if (
@@ -131,12 +131,24 @@ function trackTheMouse() {
         }
         // transparent stone
         if (color == 0) {
-          placeBlackStone(ctx, mi, mj, board, 0.5);
+          if(dragging) {
+            placeWhiteStone(ctx, mi, mj, board, 1);
+          }
+          else {
+            placeBlackStone(ctx, mi, mj, board, 0.5);
+          }
+          
         } else {
-          placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
+          if(dragging) {
+            placeBlackStone(ctx, mi, mj, board, 1);
+          }
+          else {
+            placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
+          }
+          
         }
       }
-    }
+    //}
   });
   document.addEventListener("mouseup", (e) => {
     if (e.button == 0) {
