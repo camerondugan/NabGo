@@ -20,6 +20,9 @@ let playing = false;
 let moves = [];
 let boardAtMove = [];
 let mouseOverBoard = false;
+let dragging = false;
+let draggedStone = null;
+let initialPosition = null;
 
 function play() {
   if (!playing) {
@@ -68,77 +71,137 @@ function trackTheMouse() {
     // avoid crash
     return;
   }
-  // TODO: only redraw if transparent stone needs to move
-  document.addEventListener("mousemove", (e) => {
-    let boardBoundingBox = board.getBoundingClientRect();
-    // if mouse not on board, skip math
-    if (
-      e.clientX > boardBoundingBox.right ||
-      e.clientY > boardBoundingBox.bottom ||
-      e.clientY < boardBoundingBox.top ||
-      e.clientX < boardBoundingBox.left
-    ) {
-      mouseOverBoard = false;
-      return;
-    }
-    mouseOverBoard = true;
-    // find mouse position as canvas coordinates
-    let m = mouseToCanvas(e.clientX, e.clientY, board, boardBoundingBox);
-    let mi = m[0];
-    let mj = gridSize - 1 - m[1];
-    // don't redraw if not needed
-    if (mi == lastMousePosX && mj == lastMousePosY) {
-      lastMousePosX = mi;
-      lastMousePosY = mj;
-      return;
-    }
-    lastMousePosX = mi;
-    lastMousePosY = mj;
-
-    drawBoard();
-    if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
-      let ctx = board.getContext("2d");
-      if (occupied(mi, mj)) {
-        return;
-      }
-      // transparent stone
-      if (color == 0) {
-        placeBlackStone(ctx, mi, mj, board, 0.5);
-      } else {
-        placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
-      }
-    }
-  });
-  document.addEventListener("mouseup", (e) => {
-    if (e.button == 0) {
+  document.addEventListener("mousedown", (e) => {
+    if (e.button == 0 && !playing) {
       let m = mouseToCanvas(e.clientX, e.clientY, board);
       let mi = m[0];
       let mj = gridSize - 1 - m[1];
       if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
         if (occupied(mi, mj)) {
-          return;
-        }
-        let randStone =
-          Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
-        placedStones[mi][mj] = color * randStone;
-        if (playing) {
-          updateNumMoves(1, true);
-        }
-        drawBoard();
-
-        if (playing) {
-          moves.push([color == 0 ? "b" : "w", [mi, mj]]);
-          removeCapturedStones();
-          //analyzeCurrentBoard();
-        }
-
-        if (color == 0) {
-          color = 1;
-        } else {
-          color = 0;
+          dragging = true;
+          draggedStone = { mi, mj, color: placedStones[mi][mj] };
+          initialPosition = { mi, mj };
+          placedStones[mi][mj] = -1; // Temporarily remove the stone from the board
+          drawBoard();
         }
       }
     }
+  });
+  // TODO: only redraw if transparent stone needs to move
+  document.addEventListener("mousemove", (e) => {
+    if (dragging) {
+      let m = mouseToCanvas(e.clientX, e.clientY, board);
+      let mi = m[0];
+      let mj = gridSize - 1 - m[1];
+      if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+        drawBoard();
+      }
+    }
+    else {
+      let boardBoundingBox = board.getBoundingClientRect();
+      // if mouse not on board, skip math
+      if (
+        e.clientX > boardBoundingBox.right ||
+        e.clientY > boardBoundingBox.bottom ||
+        e.clientY < boardBoundingBox.top ||
+        e.clientX < boardBoundingBox.left
+      ) {
+        mouseOverBoard = false;
+        return;
+      }
+      mouseOverBoard = true;
+      // find mouse position as canvas coordinates
+      let m = mouseToCanvas(e.clientX, e.clientY, board, boardBoundingBox);
+      let mi = m[0];
+      let mj = gridSize - 1 - m[1];
+      // don't redraw if not needed
+      if (mi == lastMousePosX && mj == lastMousePosY) {
+        lastMousePosX = mi;
+        lastMousePosY = mj;
+        return;
+      }
+      lastMousePosX = mi;
+      lastMousePosY = mj;
+  
+      drawBoard();
+      if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+        let ctx = board.getContext("2d");
+        if (occupied(mi, mj)) {
+          return;
+        }
+        // transparent stone
+        if (color == 0) {
+          placeBlackStone(ctx, mi, mj, board, 0.5);
+        } else {
+          placeWhiteStone(ctx, mi, mj, board, 1, 0.5);
+        }
+      }
+    }
+  });
+  document.addEventListener("mouseup", (e) => {
+    if (e.button == 0) {
+      if(dragging) {
+        dragging = false;
+        let m = mouseToCanvas(e.clientX, e.clientY, board);
+        let mi = m[0];
+        let mj = gridSize - 1 - m[1];
+        if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+          if (!occupied(mi, mj)) {
+            placedStones[mi][mj] = draggedStone.color;
+            if (playing) {
+              updateNumMoves(1, true);
+              moves.push([draggedStone.color == 0 ? "b" : "w", [mi, mj]]);
+              removeCapturedStones();
+            }
+            drawBoard();
+            if (draggedStone.color == 0) {
+              color = 1;
+            } else {
+              color = 0;
+            }
+          } else {
+            // If the new position is occupied, return the stone to its initial position
+            placedStones[initialPosition.mi][initialPosition.mj] = draggedStone.color;
+            drawBoard();
+          }
+        } else {
+          // If the new position is out of bounds, return the stone to its initial position
+          placedStones[initialPosition.mi][initialPosition.mj] = draggedStone.color;
+          drawBoard();
+        }
+        draggedStone = null;
+        initialPosition = null;
+      }  
+      else {
+        let m = mouseToCanvas(e.clientX, e.clientY, board);
+        let mi = m[0];
+        let mj = gridSize - 1 - m[1];
+        if (mi >= 0 && mi < gridSize && mj >= 0 && mj < gridSize) {
+          if (occupied(mi, mj)) {
+            return;
+          }
+          let randStone =
+            Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
+          placedStones[mi][mj] = color * randStone;
+          if (playing) {
+            updateNumMoves(1, true);
+          }
+          drawBoard();
+  
+          if (playing) {
+            moves.push([color == 0 ? "b" : "w", [mi, mj]]);
+            removeCapturedStones();
+            //analyzeCurrentBoard();
+          }
+  
+          if (color == 0) {
+            color = 1;
+          } else {
+            color = 0;
+          }
+        }
+      }
+      }
   });
   document.addEventListener("contextmenu", (e) => {
     if (playing || !mouseOverBoard) {
