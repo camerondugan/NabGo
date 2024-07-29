@@ -211,10 +211,9 @@ function estimateCorners(boxes, classes) {
   let bottomRight = boxes[0];
   let topLeft = boxes[0];
   let topRight = boxes[0];
-  // let startingBox = boxes[0]; // attempt for better accuracy
-  // let minDistMax = 999999999; // fails at diff resolutions
-  // let minDist = minDistMax; // supposed to take those into account but fails
-  // somehow
+  let startingBox = boxes[0];
+  let minDistMax = 999999999;
+  let minDist = minDistMax;
 
   for (let b = 0; b < boxes.length; b++) {
     if (classes[b] == ModelClasses.board) {
@@ -223,16 +222,16 @@ function estimateCorners(boxes, classes) {
     let box = boxes[b];
     box[0] += 0.5 * box[2];
     box[1] += 0.5 * box[3];
-    // if (b != 0) {
-    //   // distance is smaller than minDist
-    //   let dist = Math.sqrt(
-    //     Math.pow(box[0] - startingBox[0], 2) +
-    //       Math.pow(box[1] - startingBox[1], 2),
-    //   );
-    //   if (dist < minDist) {
-    //     minDist = dist;
-    //   }
-    // }
+    if (b != 0) {
+      // distance is smaller than minDist
+      let dist = Math.sqrt(
+        Math.pow(box[0] - startingBox[0], 2) +
+          Math.pow(box[1] - startingBox[1], 2),
+      );
+      if (dist < minDist) {
+        minDist = dist;
+      }
+    }
     if (box[0] <= bottomLeft[0] && box[1] <= bottomLeft[1]) {
       bottomLeft = box;
     }
@@ -250,17 +249,17 @@ function estimateCorners(boxes, classes) {
   bottomRight = bottomRight.slice(0, 2);
   topLeft = topLeft.slice(0, 2);
   topRight = topRight.slice(0, 2);
-  // let rightShift = minDist * 5;
-  // let upShift = -minDist * 2;
-  // let pieceSpacingToBoardCornerFactor = 1;
-  // bottomLeft[0] -= minDist * pieceSpacingToBoardCornerFactor - rightShift;
-  // bottomLeft[1] -= minDist * pieceSpacingToBoardCornerFactor - upShift;
-  // bottomRight[0] += minDist * pieceSpacingToBoardCornerFactor + rightShift;
-  // bottomRight[1] -= minDist * pieceSpacingToBoardCornerFactor - upShift;
-  // topLeft[0] -= minDist * pieceSpacingToBoardCornerFactor - rightShift;
-  // topLeft[1] += minDist * pieceSpacingToBoardCornerFactor + upShift;
-  // topRight[0] += minDist * pieceSpacingToBoardCornerFactor + rightShift;
-  // topRight[1] += minDist * pieceSpacingToBoardCornerFactor + upShift;
+  let rightShift = minDist * 5;
+  let upShift = -minDist * 2;
+  let pieceSpacingToBoardCornerFactor = 1;
+  bottomLeft[0] -= minDist * pieceSpacingToBoardCornerFactor - rightShift;
+  bottomLeft[1] -= minDist * pieceSpacingToBoardCornerFactor - upShift;
+  bottomRight[0] += minDist * pieceSpacingToBoardCornerFactor + rightShift;
+  bottomRight[1] -= minDist * pieceSpacingToBoardCornerFactor - upShift;
+  topLeft[0] -= minDist * pieceSpacingToBoardCornerFactor - rightShift;
+  topLeft[1] += minDist * pieceSpacingToBoardCornerFactor + upShift;
+  topRight[0] += minDist * pieceSpacingToBoardCornerFactor + rightShift;
+  topRight[1] += minDist * pieceSpacingToBoardCornerFactor + upShift;
   return [bottomLeft, bottomRight, topLeft, topRight];
 }
 
