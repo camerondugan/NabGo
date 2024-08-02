@@ -1,4 +1,7 @@
-// login check
+/**
+ * Checks if user is logged in
+ * @returns Whether user is logged in
+ */
 function isLoggedin() {
   //https://stackoverflow.com/questions/5968196/how-do-i-check-if-a-cookie-exists
   let login = document.cookie.match(
@@ -11,7 +14,11 @@ function isLoggedin() {
   return true;
 }
 
-// Request
+/**
+ * Get SGF format for current board state
+ * @param b Current board 
+ * @returns SGF for board
+ */
 function getSGF(b) {
   const fetchOptions = {
     method: "post",
@@ -35,7 +42,11 @@ function getSGF(b) {
     });
 }
 
-// FUNCTION TO BE
+/**
+ * Send user input to Gollama and send back response
+ * @param {string} b User query
+ * @returns Gollama response
+ */
 function llamaTalk(b) {
   const fetchOptions = {
     method: "post",
@@ -59,7 +70,10 @@ function llamaTalk(b) {
     });
 }
 
-// Analyze current board state
+/**
+ * Analyze current board
+ * @returns Any errors that occur
+ */
 function analyzeCurrentBoard() {
   if (!isLoggedin()) {
     return;
@@ -162,7 +176,11 @@ function analyzeCurrentBoard() {
     });
 }
 
-// Load given image, display, and ask for prediction
+/**
+ * Load image and ask for prediction
+ * @param event User uploaded image of game board 
+ * @returns Any errors that occur
+ */
 function loadImage(event) {
   if (!isLoggedin()) {
     return;
@@ -205,6 +223,12 @@ const ModelClasses = {
   whiteStone: 6,
 };
 
+/**
+ * Estimate board corners from prediction with bounding boxes
+ * @param boxes Boxes from prediction
+ * @param classes Classes for boxes (ex: black stone)
+ * @returns Any errors that occur
+ */
 function estimateCorners(boxes, classes) {
   console.log("Estimating Corners, model found too few.");
   let bottomLeft = boxes[0];
@@ -264,6 +288,10 @@ function estimateCorners(boxes, classes) {
   return [bottomLeft, bottomRight, topLeft, topRight];
 }
 
+/**
+ * Remove captured stones from board
+ * @returns Any errors that occur
+ */
 function removeCapturedStones() {
   if (!playing || moves.length == 0) {
     return;
@@ -293,6 +321,11 @@ function removeCapturedStones() {
     });
 }
 
+/**
+ * Draw digital game board from prediction
+ * @param json Prediction with bounding boxes
+ * @returns Any errors that occur
+ */
 function drawPredictions(json) {
   init_board(); // ignore undeclared error
   const classes = json.classes;
@@ -363,6 +396,9 @@ function drawPredictions(json) {
   }
 }
 
+/**
+ * Clear suggested moves
+ */
 function clearAnalysisStones() {
   for (let i = 0; i < analysisStones.length; i++) {
     for (let j = 0; j < analysisStones.length; j++) {
@@ -371,11 +407,17 @@ function clearAnalysisStones() {
   }
 }
 
+/**
+ * Unload uploaded image from screen
+ */
 function unloadImage() {
   let image = document.getElementById("output");
   image.src = "";
 }
 
+/** 
+ * Draw bar representing win probability
+ */
 function drawWinrateBar(winrate, scorelead) {
   console.log(scorelead);
   let blackWPercent = (winrate + 1) * 50;
@@ -388,6 +430,9 @@ function drawWinrateBar(winrate, scorelead) {
     `Black Win Probability: ${blackWPercent}%<br>Black Score Lead: ${scorelead}`;
 }
 
+/**
+ * Switch from upload panel to analysis panel
+ */
 function switchRightContent() {
   document.getElementById("upload-cell").style.display = "none";
   document.getElementById("analysis-cell").style.display = "table-cell";

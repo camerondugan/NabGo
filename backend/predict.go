@@ -6,6 +6,7 @@ import (
 	"os/exec"
 )
 
+// Execute Python script to predict image and write result
 func predict(fName string) {
 	cmd := exec.Command(
 		"../machine-learning/env/bin/python3", "../machine-learning/server-predict.py",

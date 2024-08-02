@@ -23,11 +23,13 @@ type AuthJson struct {
 	Provider_refresh_token string
 }
 
+// Enable CORS
 func enableCors(w *http.ResponseWriter) {
 	//(*w).Header().Set("Access-Control-Allow-Origin", "https://b.nabgo.us/predict")
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
+// Handle user authentication
 func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 	verifier, challenge := generatePKCE()
 
@@ -53,13 +55,17 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 	)
 }
 
+// Handle user sign in
 func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signin")
 }
+
+// Handle user sign up
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
 }
 
+// Send query to Gollama chat bot and write result back to user
 func handleOllama(w http.ResponseWriter, req *http.Request) {
 	enableCors(&w)
 	b, err := io.ReadAll(req.Body)
@@ -112,6 +118,7 @@ type EdgedbUser struct {
 	identity string
 }
 
+// Verify user and set cookie
 func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	url := req.URL
 	code := url.Query().Get("code")
@@ -219,6 +226,7 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 // 	}
 // }
 
+// Handle prediction request
 func handlePredict(w http.ResponseWriter, r *http.Request) {
 	if !isLoggedIn(r) {
 		w.WriteHeader(http.StatusForbidden)
@@ -292,6 +300,7 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Handle SGF request
 func handleSgf(w http.ResponseWriter, req *http.Request) {
 	if !isLoggedIn(req) {
 		w.WriteHeader(http.StatusForbidden)
@@ -325,6 +334,7 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+// Handle analysis request
 func handleAnalyze(w http.ResponseWriter, req *http.Request) {
 	if !isLoggedIn(req) {
 		w.WriteHeader(http.StatusForbidden)
@@ -374,6 +384,7 @@ func handleRemoveStones(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+// Run Go server
 func runServer() {
 	// set things to respond to
 	//http.HandleFunc("/headers", headers)

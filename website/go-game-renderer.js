@@ -24,6 +24,9 @@ let dragging = false;
 let draggedStone = null;
 let initialPosition = null;
 
+/**
+ * Change state to signal that player is done editing and ready to play
+ */
 function play() {
   if (!playing) {
     playing = true;
@@ -32,6 +35,9 @@ function play() {
   }
 }
 
+/**
+ * Initialize digital board
+ */
 function init_board() {
   // let firstTime = board == null;
   board = document.getElementById("go-game");
@@ -52,6 +58,9 @@ function init_board() {
   // }
 }
 
+/**
+ * Initialize white stone images
+ */
 function initWhiteStoneImages() {
   let whiteStone = new Image();
   whiteStone.src = "/assets/w.png";
@@ -63,7 +72,7 @@ function initWhiteStoneImages() {
   }
 }
 
-// relative to canvas
+// Track mouse movement and add functionality for different mouse events
 function trackTheMouse() {
   const board = document.getElementById("go-game");
   let color = 0;
@@ -71,6 +80,7 @@ function trackTheMouse() {
     // avoid crash
     return;
   }
+  // Allow stones to be dragged during editing phase
   document.addEventListener("mousedown", (e) => {
     if (e.button == 0 && !playing) {
       let m = mouseToCanvas(e.clientX, e.clientY, board);
@@ -87,7 +97,7 @@ function trackTheMouse() {
       }
     }
   });
-  // TODO: only redraw if transparent stone needs to move
+  // Draw transparent stone at mouse position
   document.addEventListener("mousemove", (e) => {
       let boardBoundingBox = board.getBoundingClientRect();
       // if mouse not on board, skip math
@@ -203,6 +213,7 @@ function trackTheMouse() {
       }
       }
   });
+  // Remove stone when right clicked
   document.addEventListener("contextmenu", (e) => {
     if (playing || !mouseOverBoard) {
       return;
@@ -224,6 +235,7 @@ function trackTheMouse() {
       drawBoard();
     }
   });
+  // Change color when spacebar is pressed
   document.addEventListener("keydown", (e) => {
     if (e.key == " " && mouseOverBoard && !playing) {
       e.preventDefault();
@@ -237,6 +249,14 @@ function trackTheMouse() {
   });
 }
 
+/**
+ * Translate mouse position to canvas position
+ * @param x x coord 
+ * @param y y coord
+ * @param board Game board
+ * @param boardBoundingBox Bounding box for game board
+ * @returns Translation to canvas position
+ */
 function mouseToCanvas(x, y, board, boardBoundingBox = null) {
   if (boardBoundingBox == null) {
     boardBoundingBox = board.getBoundingClientRect();
@@ -251,6 +271,9 @@ function mouseToCanvas(x, y, board, boardBoundingBox = null) {
   return [canvasToPieceIndex(x, board), canvasToPieceIndex(y, board)];
 }
 
+/**
+ * Place example stones when page is loaded (no longer used)
+ */
 function placeExampleStones() {
   const board = document.getElementById("go-game");
   if (board == null || !board.getContext) {
@@ -404,6 +427,7 @@ function drawBoard() {
   }
 }
 
+// Place white stone on board
 function placeWhiteStone(ctx, x, y, board, variant = null, alpha = 1) {
   if (variant == null || variant >= whiteStones.length) {
     variant = Math.floor(Math.random() * (whiteStones.length - 1)) + 1;
@@ -421,6 +445,7 @@ function placeWhiteStone(ctx, x, y, board, variant = null, alpha = 1) {
   ctx.globalAlpha = 1;
 }
 
+// Place black stone on board
 function placeBlackStone(ctx, x, y, board, alpha = 1) {
   let stoneWidth = boardStoneSpacing(board);
   ctx.globalAlpha = alpha;
@@ -447,6 +472,7 @@ function drawBoardLines(ctx, board, gridSize) {
   }
 }
 
+// Draw board line
 function drawLine(ctx, x, y, x2, y2) {
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -454,6 +480,7 @@ function drawLine(ctx, x, y, x2, y2) {
   ctx.stroke();
 }
 
+// Draw star on board
 function drawStar(ctx, x, y, w) {
   ctx.fillStyle = "#000000";
   ctx.beginPath();
@@ -520,10 +547,17 @@ function draw13x13Stars(ctx, stoneSpacing) {
   );
 }
 
+/**
+ * Determine if space is occupied
+ * @param x x coord
+ * @param y y coord
+ * @returns True if space is occupied
+ */
 function occupied(x, y) {
   return placedStones[x][y] != -1;
 }
 
+// Convert canvas position to piece index
 function canvasToPieceIndex(x, board) {
   return Math.floor(
     (x - edgePadding + boardStoneSpacing(board) / 2) / boardStoneSpacing(board),

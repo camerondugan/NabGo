@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Run python script to analyze current board and write result
 func analyze(initial string, moves string) []byte {
 	fmt.Println(initial)
 	fmt.Println(moves)

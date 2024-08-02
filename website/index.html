@@ -101,26 +101,26 @@
 
           <br><br>
 
-          <button onclick = "updateNumMoves(-1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> < </button>
+          <button class="update-moves" onclick = "updateNumMoves(-1)"> < </button>
 
             <input type = "string" id = "HTMLmove" onchange = "updateNumMoves(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
 
-          <button onclick = "updateNumMoves(1)" style = "width : 40px ; height : 40px ; font-size : 30px;"> > </button>
+          <button class="update-moves" onclick = "updateNumMoves(1)"> > </button>
 
           <br><br>
 
-          <button onclick = "analyzeCurrentBoard()" style = "background-color : transparent; height : 30px; width: 90px; font-size: medium;" class = "backgroundImageButton"> Analyze! </button>
+          <button onclick = "analyzeCurrentBoard()" class = "backgroundImageButton"> Analyze! </button>
 
           <br><br>
 
-          <div id="winrate-bar" style="align-items: right; height: 20px; border-style: solid; border-width: 5px; border-color: gray;">
+          <div class="winrate-bar" id="winrate-bar">
 
         </div>
-          <p id="analysis-stats"></p>
+          <p class="analysis-stats" id="analysis-stats"></p>
 
               <br><br>
 
-          <p id = "chatOut" style = "text-align: center; cursor : pointer; background-color : transparent ; word-wrap : break-word ;">Ask Gollama for Help: </p>
+          <p class="chat-out" id = "chatOut">Ask Gollama for Help: </p>
 
           <input onchange="llamaTalk(document.getElementById('chat').value)" type = "text" id = "chat" name = "chat" style = "width : 400px ; height : 25px ;"/>
 

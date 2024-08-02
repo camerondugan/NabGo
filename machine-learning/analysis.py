@@ -1,8 +1,7 @@
 """
-This is a simple python program that demonstrates how to run KataGo's
-analysis engine as a subprocess and send it a query. It queries the
-result of playing the 4-4 point on an empty board and prints out
-the json response.
+This Python script is used to run KataGo analysis engine and query it.
+This script is edited from the KataGo query_analysis_engine_example.py script located in the KataGo repository for our purpose.
+Source: https://github.com/lightvector/KataGo/blob/master/python/query_analysis_engine_example.py
 """
 
 import argparse
@@ -22,7 +21,7 @@ Move = Union[None, Literal["pass"], Tuple[int, int]]
 
 Alphabet = "ABCDEFGHJKLMNOPQRSTUVWXYZ"
 
-
+"""Conver SGF to String format (letter and number)"""
 def sgfmill_to_str(move: Move) -> str:
     if move is None:
         return "pass"
@@ -31,7 +30,7 @@ def sgfmill_to_str(move: Move) -> str:
     (y, x) = move
     return Alphabet[x] + str(y + 1)
 
-
+"""Convert string format to tuple format (x, y)"""
 def convert(move: str) -> Tuple:
     x = Alphabet.index(move[0].upper())
     y = int(move[1:]) - 1
@@ -80,6 +79,7 @@ class KataGo:
     def close(self):
         self.katago.stdin.close()
 
+    """Query the KataGo analysis engine"""
     def query(
         self,
         initial_board: sgfmill.boards.Board,
@@ -99,11 +99,6 @@ class KataGo:
         # ]
         query["moves"] = moves
         query["initialStones"] = initial_stones
-        """for y in range(initial_board.side):
-            for x in range(initial_board.side):
-                color = initial_board.get(y,x)
-                if color:
-                    query["initialStones"].append((color,sgfmill_to_str((y,x))))"""
         query["rules"] = "tromp-taylor"
         query["komi"] = komi
         query["boardXSize"] = initial_board.side
@@ -135,8 +130,10 @@ class KataGo:
 
 if __name__ == "__main__":
     description = """
-    Example script showing how to run KataGo analysis engine and query it from python.
+    Script for running KataGo analysis engine.
     """
+
+    """Command line arguments are current board state and moves since upload"""
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument(
         "--initial-stones",
@@ -157,6 +154,7 @@ if __name__ == "__main__":
     initial_stones = json.loads(args.initial_stones)
     moves = json.loads(args.moves)
 
+    """Convert positions of stones into tuple format (x, y)"""
     for i in range(len(initial_stones)):
         initial_stones[i][1] = convert(initial_stones[i][1])
         initial_stones[i] = tuple(map(str, initial_stones[i]))
@@ -198,6 +196,7 @@ if __name__ == "__main__":
     #         displayboard.play(row, col, color)
     # print(sgfmill.ascii_boards.render_board(displayboard))
 
+    """Run KataGo analysis, query it, and print the result"""
     print("Query result: ")
     katago = KataGo(
         "../../Katago/katago",
