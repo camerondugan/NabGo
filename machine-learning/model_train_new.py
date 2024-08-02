@@ -1,6 +1,7 @@
 import torch
 from ultralytics import YOLO
 
+"""Train YOLOv8n model"""
 model = YOLO("yolov8n.pt")
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

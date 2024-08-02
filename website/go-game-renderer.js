@@ -201,7 +201,6 @@ function trackTheMouse() {
           if (playing) {
             moves.push([color == 0 ? "b" : "w", [mi, mj]]);
             removeCapturedStones();
-            //analyzeCurrentBoard();
           }
   
           if (color == 0) {
@@ -245,7 +244,6 @@ function trackTheMouse() {
         color = 0;
       }
     }
-    //drawBoard();
   });
 }
 
@@ -564,6 +562,7 @@ function canvasToPieceIndex(x, board) {
   );
 }
 
+// Convert piece index to canvas position
 function pieceIndexToCanvas(i, stoneSpacing) {
   return i * stoneSpacing + edgePadding;
 }

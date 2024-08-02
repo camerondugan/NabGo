@@ -94,7 +94,7 @@ func handleOllama(w http.ResponseWriter, req *http.Request) {
 }
 
 func isLoggedIn(req *http.Request) bool {
-	// FIXME: Not working server cannot read browser cookes :(
+	// Login verification handled on front end
 
 	// for cookie := range req.Cookies() {
 	// 	fmt.Printf("cookie: %v\n", cookie)
@@ -240,28 +240,22 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 		log.Println(err.Error())
 	}
 	fmt.Println(tempFile.Name())
-	//fill jpg file with image converted to jpg
 
-	r.ParseMultipartForm(32 << 20) // limit your max input length!
+	r.ParseMultipartForm(32 << 20)
 	var buf bytes.Buffer
-	// in your case file would be fileupload
+
 	file, _, err := r.FormFile("file")
 	defer file.Close()
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
-	// Copy the file data to my buffer
+	// Copy the file data to buffer
 	_, err = io.Copy(&buf, file)
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
-	// do something with the contents...
-	// I normally have a struct defined and unmarshal into a struct, but this will
-	// work as an example
-	// contents := buf.String()
-	// fmt.Println(contents)
 
 	_, err = tempFile.Write(buf.Bytes())
 	if err != nil {
@@ -349,7 +343,7 @@ func handleAnalyze(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	out := analyze(v[0], v[1])
-	// etc write header
+
 	_, err = w.Write([]byte(out))
 	if err != nil {
 		log.Println(err.Error())
