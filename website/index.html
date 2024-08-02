@@ -3,10 +3,11 @@
 <script src="go-game-renderer.js"></script>
 <script src="front-end.js"></script>
 <script src="analysis.js"></script>
-<!-- <meta http-equiv="refresh" content="0; url=https://camerondugan.com/"/>-->
+
 <head>
   <title>NabGo.us</title>
-  <!-- for speed when loaded soon after start? -->
+
+  <!--Pictures-->
   <link rel="preload" href="assets/boardBG.jpg" as="image" />
   <link rel="preload" href="assets/b.png" as="image" />
   <link rel="preload" href="assets/w.png" as="image" />
@@ -29,6 +30,8 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+  <!--Imports-->
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="stylesheet" type="text/css" href="minimal.css" />
 </head>
@@ -56,56 +59,61 @@
   </div>
 
   <div style="text-align: left">
-    <button
-      onclick="window.location.href = 'https://b.nabgo.us/ui/signin'"
-      style="width: 100px"
-    >
-      Log in
-    </button>
-    <button
-      onclick="window.location.href = 'https://b.nabgo.us/ui/signup'"
-      style="width: 100px"
-    >
-      Sign up
-    </button>
+    <button onclick = "window.location.href = 'https://b.nabgo.us/ui/signin'" style = "width: 100px"> Log in </button>
+	
+    <button onclick = "window.location.href = 'https://b.nabgo.us/ui/signup'" style = "width: 100px"> Sign up </button>
   </div>
 
   <h1>NabGo.us</h1>
-
   <h3>To access our features, please ensure that you are logged in.</h3>
 
   <table>
     <tr>
-      <td>
-        <canvas
-          id="go-game"
-          style="max-width: 100%; max-height: 100%; object-fit: contain"
+      <td> <!--Virtual Gameboard-->
+        <canvas 
+          id = "go-game"
+          style = "max-width: 100%; max-height: 100%; object-fit: contain"
         ></canvas>
+
         <br><br>
-        <button onclick="getSGF(placedStones)">Copy SGF</button>
-        <button id="edit" onclick="play() ; unloadImage(); switchRightContent();">I'm Done Editing</button>
+        
+		<button onclick = "getSGF(placedStones)"> Copy SGF </button>
+
+        <button id = "edit" onclick = "play(); unloadImage(); switchRightContent();"> I'm Done Editing </button>
       </td>
-      <td id="upload-cell">
+
+      <td id = "upload-cell"> <!--Board Picture Upload-->
+
         <h3>Click button below to upload board image</h3>
-        <form method="post" enctype="multipart/form-data">
-          <input type="file" id="file" name="file" accept="image/*" onchange="loadImage(event)" style="display: none" />
-          <label for="file" style="cursor: pointer; background-color: transparent">Upload</label>
+
+        <form method = "post" enctype = "multipart/form-data">
+          <input type = "file" id = "file" name = "file" accept = "image/*" onchange = "loadImage(event)" style = "display: none"/>
+		  
+          <label for = "file" style = "cursor: pointer; background-color: transparent">Upload</label>
         </form>
-        <img src="#" class="output hidden" id="output" />
+
+        <img src = "#" class = "output hidden" id = "output" />
       </td>
+
       <td id="analysis-cell" style="display: none;">
+
         <div style= "text-align: center">
 
-          <h2>Analysis</h2>
+          <h2>Analysis</h2> <!--Analysis Box & Winrate Bar-->
           Move History
 
           <br><br>
 
-          <button class="update-moves" onclick = "updateNumMoves(-1)"> < </button>
+          <button class = "update-moves" onclick = "updateNumMoves(-1)"> < </button> <!--The red < is not an error, that's the button text-->
 
-            <input type = "string" id = "HTMLmove" onchange = "updateNumMoves(0)" style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"/>
+          <input 
+		  	type = "string" 
+			id = "HTMLmove" 
+			onchange = "updateNumMoves(0)" 
+		  	style = "font-size : 30px ; text-align: center ; width: 10% ; background-color : transparent;"
+		  />
 
-          <button class="update-moves" onclick = "updateNumMoves(1)"> > </button>
+          <button class = "update-moves" onclick = "updateNumMoves(1)"> > </button>
 
           <br><br>
 
@@ -113,22 +121,26 @@
 
           <br><br>
 
-          <div class="winrate-bar" id="winrate-bar">
-
-        </div>
+          <div class="winrate-bar" id="winrate-bar"> </div>
+          
           <p class="analysis-stats" id="analysis-stats"></p>
 
-              <br><br>
+          <br><br>
+
+		  <!--Gollama Chat Bot-->
 
           <p class="chat-out" id = "chatOut">Ask Gollama for Help: </p>
 
-          <input onchange="llamaTalk(document.getElementById('chat').value)" type = "text" id = "chat" name = "chat" style = "width : 400px ; height : 25px ;"/>
+          <input onchange = "llamaTalk(document.getElementById('chat').value)" 
+		  	type = "text" 
+			id = "chat" 
+			name = "chat" 
+			style = "width : 400px ; height : 25px ;"
+		  />
 
-          <button onclick = "llamaTalk(document.getElementById('chat').value)" style = "width: 80px;">Submit</button>
-
+          <button onclick = "llamaTalk(document.getElementById('chat').value)" style = "width: 80px;"> Submit </button>
         </div>
       </td>
     </tr>
   </table>
 </body>
-
