@@ -2,7 +2,7 @@
 
 [![Lint badge](https://github.com/camerondugan/NabGo/actions/workflows/super-linter.yml/badge.svg?branch=main)](https://github.com/camerondugan/NabGo/actions/workflows/super-linter.yml)
 
-NabGo is a web-based application to assist beginner-level players in enhancing their knowledge of the game of Go. Upon update, the main branch of this repository is automatically deployed to the domain nabgo.us via CloudFlare. 
+NabGo is a web-based application to assist beginner-level players in enhancing their knowledge of the game of Go. Upon update, the main branch of this repository is automatically deployed to the domain nabgo.us via CloudFlare. Our GitHub repository is accessible via the following link: https://github.com/camerondugan/NabGo.
 
 ## Abstract
 Go is one of the oldest board games in the world, with its history being traced back to ancient China. The goal is to capture as much territory on the board as possible by surrounding the opposing player’s stones. It is a game which has a fairly simple concept, but requires an immense amount of strategy to become a high level player. Because of this, it can be overwhelming for many beginners. For those who prefer playing on a physical board, it can be difficult to find the exact input they need for specific board states. With NabGo, we intend to provide a resource for these players to acquire the information they need to grow their knowledge and enjoyment of the game of Go.
