@@ -23,13 +23,21 @@ type AuthJson struct {
 	Provider_refresh_token string
 }
 
-// Enable CORS
+/**
+ * Enable CORS
+ * @param w Response writer
+ */
 func enableCors(w *http.ResponseWriter) {
 	//(*w).Header().Set("Access-Control-Allow-Origin", "https://b.nabgo.us/predict")
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
-// Handle user authentication
+/**
+ * Handle user authentication
+ * @param w Response writer
+ * @param req Request
+ * @param redirect Redirect URL
+ */
 func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 	verifier, challenge := generatePKCE()
 
@@ -55,17 +63,29 @@ func handleAuth(w http.ResponseWriter, req *http.Request, redirect string) {
 	)
 }
 
-// Handle user sign in
+/**
+ * Handle user sign in
+ * @param w Response writer
+ * @param req Request
+*/
 func handleUiSignIn(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signin")
 }
 
-// Handle user sign up
+/**
+ * Handle user sign in
+ * @param w Response writer
+ * @param req Request
+*/
 func handleUiSignUp(w http.ResponseWriter, req *http.Request) {
 	handleAuth(w, req, "https://auth.nabgo.us/db/main/ext/auth/ui/signup")
 }
 
-// Send query to Gollama chat bot and write result back to user
+/**
+ * Send query to Gollama chat bot and write request back to user
+ * @param w Response writer
+ * @param req Request
+*/
 func handleOllama(w http.ResponseWriter, req *http.Request) {
 	enableCors(&w)
 	b, err := io.ReadAll(req.Body)
@@ -93,6 +113,11 @@ func handleOllama(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+/**
+ * Check if user is logged in
+ * @param req Request
+ * @return Whether user is logged in
+ */
 func isLoggedIn(req *http.Request) bool {
 	// Login verification handled on front end
 
@@ -118,7 +143,11 @@ type EdgedbUser struct {
 	identity string
 }
 
-// Verify user and set cookie
+/**
+ * Verify user and set cookie
+ * @param w Response writer
+ * @param req Request
+ */
 func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 	url := req.URL
 	code := url.Query().Get("code")
@@ -226,7 +255,11 @@ func handleUiVerify(w http.ResponseWriter, req *http.Request) {
 // 	}
 // }
 
-// Handle prediction request
+/**
+ * Handle prediction request
+ * @param w Response writer
+ * @param r Request
+ */
 func handlePredict(w http.ResponseWriter, r *http.Request) {
 	if !isLoggedIn(r) {
 		w.WriteHeader(http.StatusForbidden)
@@ -264,7 +297,6 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	}
 	// Our main piece of code:
 	predict(tempFile.Name())
-	// etc write header
 	json, err := os.Open(tempFile.Name() + ".json")
 	defer tempFile.Close()
 	defer os.Remove(tempFile.Name())
@@ -294,7 +326,11 @@ func handlePredict(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Handle SGF request
+/**
+ * Handle SGF request
+ * @param w Response writer
+ * @param req Request
+ */
 func handleSgf(w http.ResponseWriter, req *http.Request) {
 	if !isLoggedIn(req) {
 		w.WriteHeader(http.StatusForbidden)
@@ -328,7 +364,11 @@ func handleSgf(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// Handle analysis request
+/**
+ * Handle analyze request
+ * @param w Response writer
+ * @param req Request
+ */
 func handleAnalyze(w http.ResponseWriter, req *http.Request) {
 	if !isLoggedIn(req) {
 		w.WriteHeader(http.StatusForbidden)
@@ -356,6 +396,11 @@ type removeStoneJson struct {
 	Stones   [][]Stone
 }
 
+/**
+ * Handle remove stones request
+ * @param w Response writer
+ * @param req Request
+ */
 func handleRemoveStones(w http.ResponseWriter, req *http.Request) {
 	if !isLoggedIn(req) {
 		w.WriteHeader(http.StatusForbidden)

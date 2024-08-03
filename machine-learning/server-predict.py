@@ -8,7 +8,14 @@ from ultralytics import YOLO
 FOLDER = "train2"
 
 
-"""Predict board state using best model"""
+"""
+Predict board state using best model
+
+@param target Image to predict
+
+@return Output including bounding boxes
+
+"""
 def predict(target) -> List:
     model = YOLO("../runs/detect/" + FOLDER + "/weights/best.onnx")
 

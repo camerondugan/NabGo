@@ -1,3 +1,8 @@
+/**
+ * Update number of moves made to given value
+ * @param increment How many moves to increment
+ * @param newPiece Whether a new piece has been added 
+ */
 function updateNumMoves(increment, newPiece = false) {
   // find increment if text box updates
   if (increment == 0) {

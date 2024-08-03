@@ -8,7 +8,12 @@ import (
 	"strings"
 )
 
-// Run python script to analyze current board and write result
+/**
+ * Execute Python script to analyze game and write result
+ * @param initial Initial stones
+ * @param moves Move(s) made
+ * @return Analysis data
+ */
 func analyze(initial string, moves string) []byte {
 	fmt.Println(initial)
 	fmt.Println(moves)
