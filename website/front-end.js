@@ -420,7 +420,8 @@ function unloadImage() {
  */
 function drawWinrateBar(winrate, scorelead) {
   console.log(scorelead);
-  let blackWPercent = (winrate + 1) * 50;
+  console.log(winrate);
+  let blackWPercent = winrate * 100;
   let whiteWPercent = 100 - blackWPercent;
 
   const bar = document.getElementById("winrate-bar");
