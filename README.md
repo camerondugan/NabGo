@@ -1,6 +1,6 @@
 # NabGo
 
-[![Lint badge](https://github.com/camerondugan/NabGo/actions/workflows/super-linter.yml/badge.svg?branch=main)](https://github.com/camerondugan/NabGo/actions/workflows/super-linter.yml)
+[Our Official Demo at NabGo.us](https://nabgo.us)
 
 NabGo is a web-based application to assist beginner-level players in enhancing their knowledge of the game of Go. Upon update, the main branch of this repository is automatically deployed to the domain nabgo.us via CloudFlare. Our GitHub repository is accessible via the following link: https://github.com/camerondugan/NabGo.
 
